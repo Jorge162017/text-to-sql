@@ -141,6 +141,16 @@ def limpiar_sql(texto):
     return candidato if es_consulta_lectura(candidato) else CONSULTA_NEUTRA
 
 
+def _revision_modelo(nombre):
+    """Commit del snapshot de Hugging Face usado, leído de la caché local (sin red)."""
+    try:
+        from huggingface_hub import try_to_load_from_cache
+        ruta = try_to_load_from_cache(nombre, 'config.json')
+        return Path(ruta).parent.name if isinstance(ruta, str) else None
+    except Exception:
+        return None
+
+
 def cargar(usar_adapter=None, ruta_config=RAIZ / 'config.json'):
     """Carga tokenizer y modelo una sola vez. usar_adapter=None respeta config.json."""
     import torch
@@ -176,7 +186,8 @@ def cargar(usar_adapter=None, ruta_config=RAIZ / 'config.json'):
     # repetition_penalty=1.1) para que generate() no complete valores con muestreo.
     modelo.generation_config = generacion
     _estado.update(config=config, tokenizer=tokenizer, modelo=modelo, dispositivo=dispositivo,
-                   generacion=generacion, adapter=str(ruta_adapter) if ruta_adapter else None)
+                   generacion=generacion, adapter=str(ruta_adapter) if ruta_adapter else None,
+                   revision_modelo=_revision_modelo(config['modelo_base']))
     return _estado
 
 

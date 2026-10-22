@@ -8,7 +8,7 @@ Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
 - [Enunciado oficial](Instrucciones/Proyecto_3_Texto_a_SQL.pdf) y [plan fijo de trabajo](Instrucciones/PLAN_DE_TRABAJO.md).
 - [Datos y procedencia](datos/README.md), [40 preguntas y referencias SQL](datos/validacion/PREGUNTAS.md).
-- [Notebook de datos](notebooks/01_datos.ipynb), [relevo a Angel](RELEVO_ANGEL.md).
+- [Notebook de datos](notebooks/01_datos.ipynb), [notebook de evaluación en T4](notebooks/02_evaluacion_t4.ipynb), [relevo a Angel](RELEVO_ANGEL.md).
 - [Bitácora](BITACORA.md) y [contribuciones](CONTRIBUCIONES.md).
 
 ## Preparar y comprobar los datos
@@ -75,6 +75,8 @@ python -m evaluacion.evaluar --nombre oraculo --oraculo --inicializar   # contro
 python -m evaluacion.evaluar --nombre baseline --adapter no             # modelo base
 python -m evaluacion.evaluar --nombre lora_a --adapter si               # con adapter
 ```
+
+En Colab T4, [`notebooks/02_evaluacion_t4.ipynb`](notebooks/02_evaluacion_t4.ipynb) instala MySQL 8.4.10 desde el binario oficial (sin Docker), corre el oráculo, el baseline y una repetición, y empaqueta la evidencia. `python -m evaluacion.congelar` escribe `resultados/configuracion_experimental.json` (prompt, generación, semilla, criterio y hashes de datos); cada `resumen.json` indica si su prompt coincide. `python -m evaluacion.determinismo baseline baseline_repeticion` exige SQL idéntico entre dos corridas.
 
 `--inicializar` solo importa las bases de validación que falten. El evaluador reproduce el arnés del enunciado: usuario temporal con `SELECT` sobre los esquemas `val_*`, transacciones `READ ONLY`, `MAX_EXECUTION_TIME` de 10 s y callback `ejecutar` con 10 filas y máximo 3 llamadas. Reejecuta cada referencia y aborta si ya no coincide con `datos/validacion/referencias_resultados.jsonl`. Guarda `resultados/evaluaciones/<nombre>/predicciones.jsonl` (SQL, categoría, latencia y llamadas por pregunta) y `resumen.json` (EX global, por nivel y por esquema, configuración, hash del prompt, entorno y commit).
 

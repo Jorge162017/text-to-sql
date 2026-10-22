@@ -11,7 +11,6 @@ Ejemplos:
 """
 import argparse
 from datetime import datetime, timezone
-import hashlib
 import json
 import os
 import platform
@@ -21,6 +20,7 @@ import subprocess
 import sys
 import time
 
+from evaluacion.congelar import RUTA as RUTA_CONGELADA, huella_prompt
 from evaluacion.comparar import categoria_error_mysql, comparar_resultados, rehidratar, resumir
 from scripts.comun import DATOS, ROOT, conectar, guardar_json, guardar_jsonl, leer_jsonl
 from scripts.validar_datos import cargar_particiones, comprobar_motor, importar, serializar
@@ -218,13 +218,15 @@ def main():
 
     latencias = [r['latencia_s'] for r in registros]
     config = cargado['config'] if cargado else solucion.leer_config()
-    prompt = json.dumps({'version': solucion.PROMPT_VERSION, 'instrucciones': solucion.INSTRUCCIONES,
-                         'max_tokens_nuevos': solucion.MAX_TOKENS_NUEVOS}, ensure_ascii=False, sort_keys=True)
+    huella = huella_prompt(solucion)
+    congelada = json.loads(RUTA_CONGELADA.read_text()) if RUTA_CONGELADA.exists() else None
     resumen = {
         'nombre': args.nombre, 'fecha_utc': datetime.now(timezone.utc).isoformat(),
         'modo': 'oraculo' if args.oraculo else 'modelo', 'completa': args.limite is None,
         'config': config, 'adapter_cargado': cargado['adapter'] if cargado else None,
-        'prompt_version': solucion.PROMPT_VERSION, 'prompt_sha256': hashlib.sha256(prompt.encode()).hexdigest(),
+        'prompt_version': solucion.PROMPT_VERSION, 'prompt_sha256': huella,
+        'coincide_configuracion_congelada': congelada['prompt']['sha256'] == huella if congelada else None,
+        'revision_modelo': cargado['revision_modelo'] if cargado else None,
         'generacion': cargado['generacion'].to_diff_dict() if cargado else None,
         'estrategia': 'directa, sin llamadas a ejecutar',
         'mysql': {'version': version, 'sql_mode': modo},
