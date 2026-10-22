@@ -1,0 +1,5 @@
+# Versiones instaladas en la validación local de datos (Python 3.13, macOS ARM64).
+PyMySQL==1.1.2
+cryptography==50.0.2
+cffi==2.1.1
+pycparser==3.11

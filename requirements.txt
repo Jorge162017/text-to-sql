@@ -1,0 +1,2 @@
+# Dependencias de la etapa de datos. Angel agregará las de entrenamiento.
+PyMySQL[rsa]==1.1.2
