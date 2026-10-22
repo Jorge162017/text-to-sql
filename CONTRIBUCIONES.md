@@ -11,6 +11,7 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | Dos esquemas reservados y casos límite de validación | Jorge Lopez, con asistencia de IA | `scripts/preparar_validacion.py`, `datos/esquemas/val_*/` | Semillas reforzadas; borradores IA redundantes eliminados |
 | Preguntas propias de validación recibidas por chat | Jorge Lopez (1–10 y 21–30) y Angel Herrarte (11–20 y 31–40), según lo indicado por Jorge | `datos/validacion/preguntas_propias.jsonl`, campo `pregunta_original` | 20 por integrante; Originales preservados; SQL y precisiones revisados con asistencia de IA a solicitud de Jorge |
 | Relevo y limpieza del primer turno | Jorge Lopez, con asistencia de IA | `RELEVO_ANGEL.md`, `README.md`, `datos/README.md` | Cierre técnico preparado; publicación autorizada por Jorge; evidencia en el historial de Git |
-| Evaluador, baseline y LoRA A | Angel Herrarte | Se registrará en su turno | No iniciado |
+| Contrato de inferencia y evaluador ponderado | Angel Herrarte, con asistencia de IA | `solucion.py`, `config.json`, `evaluacion/`, `tests/test_solucion.py`, `tests/test_evaluador*.py`, `resultados/evaluaciones/oraculo/` | Implementado; oráculo EX = 1.0 y 46 pruebas aprobadas; revisión de Angel pendiente |
+| Baseline y LoRA A | Angel Herrarte | Se registrará en su turno | Pendiente (requiere T4) |
 | LoRA B e inferencia | Jorge Lopez | Se registrará en su turno | No iniciado |
 | Auditoría final y entrega | Angel Herrarte | Se registrará en su turno | No iniciado |

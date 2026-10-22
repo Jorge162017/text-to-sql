@@ -1,2 +1,7 @@
-# Dependencias de la etapa de datos. Angel agregará las de entrenamiento.
+# Datos y evaluación por ejecución.
 PyMySQL[rsa]==1.1.2
+# Modelo e inferencia (solucion.py). torch NO se fija (transformers exige >= 2.6): se usa el preinstalado de
+# Colab con CUDA para la T4; reinstalarlo desde PyPI puede romper el soporte de GPU.
+transformers==5.20.2
+peft==0.21.2
+accelerate==1.15.0

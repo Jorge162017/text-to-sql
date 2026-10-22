@@ -2,7 +2,7 @@
 
 Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
-**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. No se ha iniciado el baseline ni entrenamiento del modelo. Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
+**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) en curso: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados; baseline en T4 y LoRA A pendientes. Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
 
 ## Documentación
 
@@ -13,7 +13,7 @@ Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
 ## Preparar y comprobar los datos
 
-Requisitos: Python 3.10 o superior, Docker y Compose v2. Entorno probado: Python 3.13 en macOS ARM64, imagen oficial `mysql:8.4.10`. El modelo en Colab T4 corresponde a los turnos siguientes.
+Requisitos: Python 3.10 o superior, Docker y Compose v2. Entorno probado: Python 3.13 en macOS ARM64, imagen oficial `mysql:8.4.10`. El contrato también se probó localmente con Python 3.14, torch 2.14.1 (MPS) y transformers 5.20.2. La verificación en Colab T4 es parte del baseline.
 
 Desde un checkout limpio, con Docker funcionando:
 
@@ -55,14 +55,30 @@ Evidencia: [certificación SQL](resultados/reporte_datos.json), [revisión semá
 
 ## Contrato y siguientes turnos
 
-Modelo base propuesto: `Qwen/Qwen2.5-Coder-1.5B-Instruct`. Angel implementará `solucion.py`, `config.json`, el evaluador y las dependencias del modelo, y hará baseline y LoRA A. La interfaz exigida es:
+Modelo base: `Qwen/Qwen2.5-Coder-1.5B-Instruct`. La interfaz exigida está en `solucion.py`:
 
 ```python
 def generar_sql(esquema: str, pregunta: str, ejecutar=None) -> str:
     ...
 ```
 
-Debe devolver una sola consulta SELECT o WITH ... SELECT, funcionar con/sin callback, admitir como máximo tres llamadas a este, ser determinista, cargar en cinco minutos y responder en treinta segundos. Base y adapter se compararán con el mismo prompt. No se permiten APIs externas al generar consultas durante la evaluación.
+- **Carga:** al importar `solucion` se lee `config.json` y se carga el modelo una sola vez (fp16 en CUDA/T4). Con `"usar_adapter": true` se aplica el adapter de `adapter/` y se fusiona; si falta, falla explícitamente en lugar de usar el base en silencio. `config.json` queda con `usar_adapter: false` hasta que exista el adapter entrenado.
+- **Prompt congelado (`PROMPT_VERSION = "v1"`):** mensaje de sistema con reglas y mensaje de usuario con el esquema compactado y la pregunta. `compactar_esquema` quita índices simples y opciones físicas (`ENGINE`, `CHARSET`, `COLLATE`) y conserva columnas, PK, UNIQUE, FK y todos los `COMMENT`. Base, adapter y entrenamiento usan la misma función `construir_mensajes`.
+- **Generación determinista:** greedy (`do_sample=False`, `num_beams=1`, `repetition_penalty=1.0`), máximo 320 tokens y `max_time=25 s` como red de seguridad. Reemplaza el `generation_config.json` de Qwen, que trae muestreo activado.
+- **Salida:** se extrae una sola sentencia (bloque Markdown o texto libre, corte en el primer `;` fuera de literales). Si no es una única consulta `SELECT`/`WITH` de solo lectura (escrituras, `WITH ... DELETE`, `INTO OUTFILE`, `FOR UPDATE`, `SLEEP`...), devuelve `SELECT 1`.
+- **Callback:** la estrategia actual es generación directa y no llama a `ejecutar` (0 de 3 llamadas). El experimento de corrección con `ejecutar` corresponde al turno 3.
+
+### Evaluador por ejecución
+
+```bash
+python -m evaluacion.evaluar --nombre oraculo --oraculo --inicializar   # control: EX = 1.0 (76/76)
+python -m evaluacion.evaluar --nombre baseline --adapter no             # modelo base
+python -m evaluacion.evaluar --nombre lora_a --adapter si               # con adapter
+```
+
+`--inicializar` solo importa las bases de validación que falten. El evaluador reproduce el arnés del enunciado: usuario temporal con `SELECT` sobre los esquemas `val_*`, transacciones `READ ONLY`, `MAX_EXECUTION_TIME` de 10 s y callback `ejecutar` con 10 filas y máximo 3 llamadas. Reejecuta cada referencia y aborta si ya no coincide con `datos/validacion/referencias_resultados.jsonl`. Guarda `resultados/evaluaciones/<nombre>/predicciones.jsonl` (SQL, categoría, latencia y llamadas por pregunta) y `resumen.json` (EX global, por nivel y por esquema, configuración, hash del prompt, entorno y commit).
+
+Reglas de acierto (`evaluacion/comparar.py`): los números se redondean a 2 decimales (half-up) en ambos lados y las fechas se comparan en ISO. El orden solo cuenta con `requiere_orden`; si no, se comparan multiconjuntos, así que los duplicados cuentan. Las columnas se alinean **por valores**, no por alias: cada columna esperada debe corresponder a una columna predicha distinta, y la proyección debe reproducir la referencia fila por fila. Las columnas adicionales no penalizan; las filas de más o de menos sí. Las categorías automáticas son sintaxis, columna/tabla inexistente, agregación, error de ejecución, resultado distinto, formato inválido y límite excedido (más de 30 s o más de 3 llamadas). La clasificación fina en JOIN y filtro corresponde al turno 4.
 
 Orden del equipo: **Jorge → Angel → Jorge → Angel**, con el alcance detallado en el plan fijo. No entrenar ni construir few-shot con las preguntas o esquemas de validación.
 
@@ -70,7 +86,7 @@ Orden del equipo: **Jorge → Angel → Jorge → Angel**, con el alcance detall
 
 Los esquemas, semillas y candidatos de entrenamiento son originales sintéticos preparados con asistencia de IA, sin datasets externos ni datos personales. Las preguntas originales se recibieron de Jorge con los autores declarados por grupo; el SQL de referencia, precisiones de redacción, scripts y documentación tienen asistencia de IA. Se preservan los originales. La revisión técnica por IA no se presenta como revisión humana ni como horas de trabajo de los integrantes.
 
-No se ha elegido una licencia de redistribución del repositorio. MySQL y las dependencias conservan sus licencias; las dependencias locales están registradas en `requirements-datos.lock.txt`. La licencia y condiciones del modelo base deberán documentarse al incorporarlo en el turno de Angel. El código de datos no invoca APIs externas de generación.
+No se ha elegido una licencia de redistribución del repositorio. MySQL y las dependencias conservan sus licencias; las dependencias locales están registradas en `requirements-datos.lock.txt`. El modelo base `Qwen/Qwen2.5-Coder-1.5B-Instruct` se distribuye con licencia **Apache-2.0** (archivo `LICENSE` del repositorio en Hugging Face). No se incluye en el repositorio: se descarga de Hugging Face al cargar. Las versiones de transformers, peft y accelerate están fijadas en `requirements.txt`; torch se toma del entorno de Colab. El código de datos no invoca APIs externas de generación.
 
 ## Entrega del curso
 

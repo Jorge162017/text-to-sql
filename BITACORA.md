@@ -52,3 +52,14 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Antes de publicar se comprobó la auditoría de cierre: 3,400 pares, quince esquemas, seis topologías y cuarenta preguntas propias, con evidencia vigente. `.env`, `.venv/` y cachés están excluidos.
 - División aprobada: entorno MySQL y dependencias; datos de entrenamiento validados; validación propia, pruebas, notebook y cierre documental. Los hashes y la subida se comprueban en el historial y en origin/main.
 - La publicación de código no confirma por sí misma acceso del docente o de Angel, ni ejecución del modelo en T4. Esas comprobaciones corresponden al relevo y siguientes turnos. No se imputan horas humanas no registradas.
+
+## 2026-10-22 — Turno 2: contrato de inferencia y evaluador ponderado
+
+- Autor del registro y ejecución: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente.
+- Trabajo: crear `config.json` con `usar_adapter: false` hasta que exista el adapter, y `solucion.py`. Este carga una sola vez al importar, usa un prompt congelado v1 compartido por base, adapter y entrenamiento, y genera en modo greedy, reemplazando el `generation_config.json` de Qwen que trae muestreo. Extrae una sola consulta y aplica un filtro de solo lectura con respaldo `SELECT 1`. La estrategia es directa, sin llamadas a `ejecutar`.
+- Evaluador: `evaluacion/comparar.py` y `evaluacion/evaluar.py` quedan fuera de `scripts/` para no alterar los hashes auditados del turno 1. Reglas: redondeo a 2 decimales, multiconjuntos con duplicados, orden solo cuando se exige y columnas alineadas por valores, con columnas adicionales permitidas. El callback de solo lectura admite 3 llamadas y devuelve 10 filas.
+- Resultado: el oráculo con las referencias como predicción da EX = 1.0 (76/76), y las 40 referencias reejecutadas coinciden con la evidencia del turno 1. Hay 46 pruebas aprobadas, 35 de ellas nuevas, incluidos controles negativos contra MySQL: DISTINCT que pierde duplicados, orden alterado y errores 1054/1064. `scripts.auditar_datos --exigir-cierre` sigue aprobando.
+- Prueba de humo local, no oficial: en macOS con MPS el modelo base cargó en unos 5–8 s y respondió en 0.5–2.5 s por pregunta, con salidas idénticas con y sin callback. Esa corrida parcial se eliminó; el baseline oficial se medirá en Colab T4.
+- Licencia del modelo base: Apache-2.0. Se fijaron transformers 5.20.2, peft 0.21.2 y accelerate 1.15.0; torch se toma de Colab (≥ 2.6).
+- Evidencia: `solucion.py`, `config.json`, `evaluacion/`, `tests/test_solucion.py`, `tests/test_evaluador.py`, `tests/test_evaluador_mysql.py` y `resultados/evaluaciones/oraculo/`.
+- Pendiente: baseline completo en T4 y congelación de la configuración experimental (commit 2); hipótesis y entrenamiento de LoRA A (commit 3). Tiempo humano no registrado; Angel lo completará.
