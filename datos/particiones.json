@@ -1,0 +1,25 @@
+{
+  "semilla": 2026,
+  "entrenamiento": [
+    "train_tienda",
+    "train_cafeteria",
+    "train_ferreteria",
+    "train_farmacia",
+    "train_libreria",
+    "train_repuestos",
+    "train_floreria",
+    "train_deportes",
+    "train_electronica",
+    "train_panaderia",
+    "train_academia",
+    "train_logistica",
+    "train_turismo",
+    "train_energia",
+    "train_manufactura"
+  ],
+  "validacion": [
+    "val_biblioteca",
+    "val_hospital"
+  ],
+  "regla": "Separación por esquema completo. Validación nunca alimenta entrenamiento."
+}
