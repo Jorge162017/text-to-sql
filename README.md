@@ -111,4 +111,13 @@ Se corrigió el corte de SQL por líneas vacías y se fijó la revisión `2e1fd3
 
 La limpieza se identifica como v2. Se preservó el congelado anterior en `resultados/configuracion_experimental_angel.json`; el vigente incluye revisión, limpieza y hashes de código/datos. El evaluador ahora rechaza configuraciones obsoletas aunque el texto del prompt coincida. Las evaluaciones históricas y los pesos de A no se sobrescribieron.
 
-**Pendiente antes de comparar con B:** ejecutar [04_verificacion_correcciones_t4.ipynb](notebooks/04_verificacion_correcciones_t4.ipynb) en T4 con estas correcciones, ya publicadas o subidas manualmente a Colab. Se repiten solo inferencia de baseline y A y sus pruebas de determinismo; no hace falta reentrenar A. Los resultados se guardan con sufijo `_corregido`. Las cifras históricas de arriba no se presentan como evaluaciones nuevas.
+**Verificación previa a B completada:** se recibió e integró la ejecución de [04_verificacion_correcciones_t4.ipynb](notebooks/04_verificacion_correcciones_t4.ipynb) en T4 con limpieza v2 y el snapshot fijado. Baseline corregido: **0.5658 (43/76)**; A corregido: **0.6974 (53/76)**; mejora **0.1316**. Ambas corridas repiten 40/40 consultas idénticas. Las cinco evaluaciones contienen cuarenta preguntas y reproducen sus aciertos al reejecutar sus 200 predicciones en MySQL 8.4.10. Ninguna carga superó cinco minutos y ninguna generación superó treinta segundos. La configuración adjunta coincide con la publicada. Informe: [verificacion_correcciones_t4.json](resultados/verificacion_correcciones_t4.json).
+
+Para comparar B usar `baseline_corregido` y `lora_a_corregido`; conservar las corridas originales como históricos. No se reentrenó A. La revisión e integración de este ZIP son locales, pendientes de publicación; LoRA B y el experimento de inferencia aún no se iniciaron.
+
+
+### Turno 3: preparar y ejecutar B
+
+Jorge Lopez tiene preparada la hipótesis B en `entrenamiento/lora_b.json` y el notebook `notebooks/05_lora_b_t4.ipynb`. B cambia solo el rango de 8 a 16. **Preparación local; entrenamiento pendiente.** Publicar la hipótesis y el notebook antes de entrenar; abrir el notebook 05 en una sesión nueva de Colab con GPU T4 y el secret `GITHUB_TOKEN`, ejecutar en orden y descargar `lora_b_t4.zip`. Enviar el ZIP para verificar e integrar pesos, pérdidas, métricas y las dos evaluaciones. El notebook conserva y restaura A. Reservar aproximadamente 60–90 minutos; el tiempo real de B aún no se conoce.
+
+Después se seleccionará A o B usando EX, latencia y memoria; se preparará otra ejecución en Colab para el experimento controlado de inferencia. Todavía no está seleccionado el adapter final ni completado el turno 3. No se debe modificar el congelado para el entrenamiento B.

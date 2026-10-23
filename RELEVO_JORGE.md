@@ -29,7 +29,7 @@ Se corrigió la limpieza SQL para conservar líneas vacías y se fijó en los ca
 
 La configuración histórica está preservada en `resultados/configuracion_experimental_angel.json`. El congelado vigente incluye limpieza v2, revisión fija y hashes completos; el evaluador comprueba toda la configuración.
 
-Antes de medir B, ejecutar `notebooks/04_verificacion_correcciones_t4.ipynb`: genera baseline y A de nuevo con limpieza v2 en carpetas `baseline_corregido*` y `lora_a_corregido*`, sin reentrenar ni sobrescribir A o las evaluaciones históricas. **Pendiente de ejecución en T4.** Las métricas 0.5658 y 0.6974 de arriba siguen siendo las históricas. No se pueden certificar las nuevas métricas reusando SQL ya limpiado, porque no se guardaron todas las respuestas crudas originales.
+**Verificación T4 completada el 23 de octubre.** Jorge entregó el ZIP producido por `notebooks/04_verificacion_correcciones_t4.ipynb`. Se integraron `baseline_corregido*`, `lora_a_corregido*` y `oraculo_corregido`, sin reentrenar ni sobrescribir A o sus históricos. Baseline corregido: 43/76 (EX 0.5658); A corregido: 53/76 (EX 0.6974), mejora 0.1316. Ambas repeticiones son idénticas en 40/40 consultas. La configuración coincide byte a byte con la publicada; las 200 predicciones también reproducen sus aciertos en el MySQL local. Evidencia: `resultados/verificacion_correcciones_t4.json`. Estas son las corridas de referencia para comparar B; la verificación previa a B ya está completa.
 
 ## Corrida B
 
@@ -48,3 +48,8 @@ Antes de medir B, ejecutar `notebooks/04_verificacion_correcciones_t4.ipynb`: ge
 ## Límites
 
 No usar `val_biblioteca`, `val_hospital`, sus preguntas ni sus resultados para entrenar, para few-shot ni para crear datos. La pérdida dev casi nula indica memorización de plantillas; no estima la generalización a la evaluación oculta.
+
+
+## Preparación B disponible
+
+Usar `notebooks/05_lora_b_t4.ipynb`, que reutiliza la instalación MySQL verificada del notebook 04. Hipótesis: `entrenamiento/lora_b.json`; debe publicarse antes de entrenar. El ZIP `lora_b_t4.zip` incluirá B y las dos evaluaciones, manteniendo A como adapter vigente hasta revisar la comparación. Tras integrar el ZIP, completar selección y experimento de inferencia antes del relevo a Angel. La preparación del notebook no representa una corrida T4 realizada.

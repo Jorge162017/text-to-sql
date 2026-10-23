@@ -17,4 +17,11 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | Relevo al turno 3 | Angel Herrarte, con asistencia de IA | `RELEVO_JORGE.md`, `BITACORA.md` | Entregado |
 | LoRA B e inferencia | Jorge Lopez | Se registrará en su turno | No iniciado |
 | Auditoría final y entrega | Angel Herrarte | Se registrará en su turno | No iniciado |
-| Correcciones previas al turno 3 | Jorge Lopez, con asistencia de IA | `solucion.py`, `entrenamiento/entrenar.py`, `tests/test_solucion.py`, `tests/test_configuracion_experimental.py`, notebook 04 | Código y regresiones comprobados; publicación autorizada por Jorge; reevaluación T4 pendiente |
+| Correcciones previas al turno 3 | Jorge Lopez, con asistencia de IA | `solucion.py`, `entrenamiento/entrenar.py`, `tests/test_solucion.py`, `tests/test_configuracion_experimental.py`, notebook 04 | Código y regresiones comprobados; correcciones publicadas en `23e7d8c`; reevaluación T4 recibida y verificada |
+| Verificación de correcciones en T4 previa a B | Jorge Lopez (entrega de ejecución en Colab), con asistencia de IA en revisión e integración | `notebooks/04_verificacion_correcciones_t4.ipynb`, `resultados/evaluaciones/*corregido*/`, `resultados/verificacion_correcciones_t4.json` | 43/76 baseline, 53/76 A; determinismo 40/40; 200 predicciones reproducidas en MySQL; integración local sin nuevos commits |
+
+
+| Turno 3: preparación local | Responsable | Evidencia | Estado |
+| --- | --- | --- | --- |
+| Hipótesis B previa y comparación de un factor | Jorge Lopez, asistido por IA | `entrenamiento/lora_b.json`, `BITACORA.md` | Preparado; publicación y entrenamiento pendientes |
+| Notebook T4 con preservación de A, repetición y exportación | Jorge Lopez, asistido por IA | `notebooks/05_lora_b_t4.ipynb` | Validado localmente; no ejecutado en T4 |

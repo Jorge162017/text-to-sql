@@ -1,0 +1,41 @@
+{
+  "nombre": "lora_b",
+  "hipotesis": "Antes de entrenar B: aumentar únicamente lora.r de 8 a 16, conservando alpha=16 y toda la configuración de A, podría mejorar la representación de consultas complejas. Predicción: EX ponderada de al menos 56/76 (0.7368), frente a 53/76 (0.6974) de A corregido, conservando 14/14 en fáciles, carga menor de 300 s y generación menor de 30 s por pregunta en T4. El rango duplica los parámetros entrenables esperados de 9,232,384 a 18,464,768; como consecuencia derivada, alpha/r baja de 2 a 1. Se medirán memoria, tiempo y pérdida sin cambiar otro hiperparámetro. Riesgo: mayor capacidad puede memorizar las plantillas y no mejorar la generalización; una pérdida dev menor no bastará para seleccionar B. La selección y el experimento de inferencia se decidirán después de medir, sin convertir la validación en entrenamiento.",
+  "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "datos": "datos/entrenamiento/pares.jsonl",
+  "fraccion_dev": 0.05,
+  "semilla": 2026,
+  "max_longitud": 1024,
+  "lora": {
+    "r": 16,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "bias": "none",
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "entrenamiento": {
+    "epocas": 1,
+    "tasa_aprendizaje": 0.0002,
+    "programador": "cosine",
+    "pasos_calentamiento": 10,
+    "batch_por_dispositivo": 2,
+    "acumulacion_gradiente": 8,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "optimizador": "adamw_torch",
+    "fp16": true,
+    "gradient_checkpointing": true,
+    "pasos_registro": 5,
+    "pasos_evaluacion": 40,
+    "pasos_guardado": 40
+  },
+  "salida_adapter": "adapters/lora_b/"
+}

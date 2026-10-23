@@ -139,3 +139,23 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Autor del registro y ejecución: asistente de IA por instrucción de Jorge Lopez de subir las correcciones antes de ejecutar Colab. Publicación desde su identidad Git configurada.
 - Incluye limpieza SQL v2, revisión fija del modelo/tokenizer, validación completa del congelado, regresiones y notebook 04. Se comprobó que el congelado está vigente y el control local de MySQL permanece en 76/76. No se modifican las evaluaciones históricas ni el adapter A.
 - Pendiente: ejecutar notebook 04 en Colab T4 para regenerar baseline/A y sus repeticiones. Publicar el código no equivale a completar esa evaluación.
+
+## 2026-10-23 — Recepción y verificación de las corridas corregidas de T4
+
+- Autor del registro e integración: asistente de IA durante el turno de Jorge. Jorge entregó `verificacion_correcciones_t4.zip`, con la ejecución del notebook 04 entre las 09:09 y 09:17 de Guatemala según los registros UTC adjuntos. Ese intervalo corresponde a las evaluaciones, no a horas de trabajo humano imputadas.
+- Se verificaron las trece entradas del ZIP antes de integrar: rutas esperadas, sin duplicados ni enlaces simbólicos; configuración byte a byte igual a la publicada, hashes, snapshot, limpieza v2, MySQL 8.4.10 y GPU T4. El congelado local se conservó y solo se incorporaron doce archivos nuevos de evaluaciones.
+- Baseline corregido: EX 0.5658 (43/76); A corregido: EX 0.6974 (53/76), mejora 0.1316. Oráculo: 76/76. Ambas repeticiones verifican 40/40 SQL y aciertos idénticos. Las cargas y latencias registradas respetan los límites.
+- Se reejecutaron las 200 consultas guardadas de las cinco corridas en MySQL local con lector temporal SELECT y transacciones READ ONLY. Los aciertos coinciden sin discrepancias. Esta reejecución verifica la evidencia entregada, no se presenta como otra generación en GPU.
+- Evidencia: `resultados/evaluaciones/oraculo_corregido/`, `baseline_corregido/`, `baseline_corregido_repeticion/`, `lora_a_corregido/`, `lora_a_corregido_repeticion/` e informe `resultados/verificacion_correcciones_t4.json` con hash del ZIP y archivos integrados. Los indicadores de checkout modificado en las corridas se conservan; el congelado acredita los hashes de los archivos experimentales.
+- Estado: verificación previa a B completa; no se han iniciado entrenamiento B ni experimento de inferencia. Integración local sin commits ni subidas.
+
+
+## Turno 3 — preparación de LoRA B (23 de octubre de 2026)
+
+Responsable: Jorge Lopez, con asistencia de IA. Se prepararon `entrenamiento/lora_b.json` y `notebooks/05_lora_b_t4.ipynb`; todavía no se ha entrenado B ni medido su resultado. Tiempo activo humano: pendiente de registrar por Jorge.
+
+**Hipótesis previa B:** cambiar únicamente `r=8` a `r=16` podría mejorar consultas complejas. Se predice al menos 56/76 (EX 0.7368), frente a 53/76 de A corregido, conservando 14/14 fáciles y los límites de 300 s de carga y 30 s por pregunta. Se mantienen alpha=16, datos, división, semilla, prompt y todos los demás hiperparámetros. Consecuencias derivadas: parámetros entrenables esperados de 9,232,384 a 18,464,768; escala alpha/r de 2 a 1. Mayor capacidad también puede aumentar memorización; se seleccionará con EX, latencia y memoria medidas, no solo pérdida dev.
+
+El notebook exige hipótesis registrada en Git, T4, congelado vigente y la misma división dev de A; guarda B en otra carpeta, evalúa dos veces con el evaluador congelado, restaura A y descarga `lora_b_t4.zip`. El README del adapter A cambió después de entrenarlo; sus pesos y configuración sí coinciden con los hashes de entrenamiento. Se preserva también el README recibido al restaurar A.
+
+Comprobación local: cinco pruebas de preparación de entrenamiento aprobadas; tokenización pendiente de Colab porque transformers no está instalado localmente. Notebook validado y celdas compiladas sin ejecutar GPU. Pendiente: publicar hipótesis antes de entrenar, ejecutar notebook en T4, verificar ZIP, seleccionar adapter y realizar experimento de inferencia. No se modifica el plan fijo ni se afirma que el turno 3 esté cerrado.
