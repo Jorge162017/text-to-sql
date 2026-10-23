@@ -3,5 +3,7 @@ PyMySQL[rsa]==1.1.2
 # Modelo e inferencia (solucion.py). torch NO se fija (transformers exige >= 2.6): se usa el preinstalado de
 # Colab con CUDA para la T4; reinstalarlo desde PyPI puede romper el soporte de GPU.
 transformers==5.20.2
-peft==0.21.2
+# peft 0.18.1: las versiones >= 0.19 lanzan ImportError si encuentran torchao < 0.16,
+# y Colab trae torchao 0.10 preinstalado (falla al crear o cargar la LoRA).
+peft==0.18.1
 accelerate==1.15.0

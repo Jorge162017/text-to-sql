@@ -94,3 +94,11 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Mediciones previas locales, no oficiales: los ejemplos ocupan como máximo 868 tokens (mediana 805), unos 2.7 M tokens por época. Una prueba de 2 pasos en macOS (MPS, fp32) registró **9,232,384 parámetros entrenables (0.59 %)** y una pérdida dev inicial de alrededor de 0.39. El adapter resultante (37 MB) cargó y se fusionó por `solucion.cargar`.
 - Estimación en T4: unos 203 pasos de optimización, 45–75 min. Se ejecutará con `notebooks/03_entrenamiento_t4.ipynb`, que entrena, evalúa con `--adapter si`, repite la evaluación para comprobar determinismo y compara con el baseline.
 - Tiempo humano no registrado; Angel lo completará.
+
+## 2026-10-22 — Turno 2: primer intento de LoRA A fallido por torchao en Colab
+
+- Ejecución en Colab T4 por Angel Herrarte; diagnóstico y corrección por el asistente de IA a su solicitud.
+- Fallo: al crear la LoRA, peft 0.21.2 lanzó `ImportError: Found an incompatible version of torchao. Found version 0.10.0, but only versions above 0.16.0 are supported`. Colab trae torchao 0.10 preinstalado y peft ≥ 0.19 exige ≥ 0.16 siempre que lo encuentra, aunque no se use. No se entrenó ningún paso, no se generó adapter y la configuración e hipótesis A no cambian.
+- Impacto en la entrega: el mismo error habría ocurrido en la evaluación del docente al cargar el adapter, porque instala `requirements.txt` sobre el mismo Colab.
+- Corrección: fijar `peft==0.18.1`, que acepta torchao ≥ 0.4. Se reprodujo localmente con torchao 0.10.0: con peft 0.21.2 se obtiene el mismo ImportError; con 0.18.1 el entrenamiento de prueba da la misma pérdida dev (0.377387) y `solucion.cargar` carga y fusiona el adapter. Las 53 pruebas aprueban. El baseline no usa peft, así que su medición sigue siendo válida.
+- Siguiente paso: reiniciar el entorno de Colab y volver a ejecutar `notebooks/03_entrenamiento_t4.ipynb` con el commit corregido.
