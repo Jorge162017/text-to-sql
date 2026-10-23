@@ -1,0 +1,9 @@
+{
+  "fecha_utc": "2026-10-23T18:53:22.821738+00:00",
+  "primera": "inferencia_a_correccion",
+  "segunda": "inferencia_a_correccion_repeticion",
+  "preguntas": 40,
+  "identicas": 40,
+  "distintas": [],
+  "determinista": true
+}

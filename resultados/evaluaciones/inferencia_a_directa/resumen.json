@@ -1,0 +1,112 @@
+{
+  "nombre": "inferencia_a_directa",
+  "fecha_utc": "2026-10-23T18:48:15.429512+00:00",
+  "modo": "modelo",
+  "completa": true,
+  "config": {
+    "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+    "adapter": "adapter/",
+    "usar_adapter": true,
+    "semilla": 2026
+  },
+  "adapter_cargado": "/content/text-to-sql/adapter",
+  "prompt_version": "v1",
+  "prompt_sha256": "1fb4d982a7a822464c15382daf16fe0b5813db15bdde3bf33b75a3d4db26a630",
+  "coincide_configuracion_congelada": true,
+  "configuracion_sha256": "2d1dc0bc6e052191a371cc1fb2e753372040cfef729ccada874d3c5a719f6e1d",
+  "limpieza_version": "v2",
+  "revision_modelo": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+  "generacion": {
+    "max_new_tokens": 320,
+    "max_time": 25.0,
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "pad_token_id": 151643,
+    "eos_token_id": [
+      151645,
+      151643
+    ],
+    "transformers_version": "5.20.2"
+  },
+  "estrategia": "directa",
+  "correccion_version": null,
+  "mysql": {
+    "version": "8.4.10",
+    "sql_mode": "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+  },
+  "tiempo_carga_s": 26.44,
+  "latencia_s": {
+    "media": 1.648,
+    "mediana": 1.526,
+    "max": 5.463,
+    "mayores_a_30s": 0
+  },
+  "llamadas_ejecutar": {
+    "total": 0,
+    "max_por_pregunta": 0
+  },
+  "git": {
+    "commit": "5dd77d945c535f8171341460b221f799f9253518",
+    "cambios_sin_commit": true
+  },
+  "entorno": {
+    "python": "3.13.16",
+    "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.18.1",
+    "gpu": "Tesla T4",
+    "dispositivo": "cuda"
+  },
+  "preguntas": 40,
+  "aciertos": 31,
+  "peso_aciertos": 53,
+  "peso_total": 76,
+  "ex": 0.6974,
+  "por_nivel": {
+    "facil": {
+      "preguntas": 14,
+      "aciertos": 14,
+      "peso_aciertos": 14,
+      "peso_total": 14,
+      "ex": 1.0
+    },
+    "media": {
+      "preguntas": 16,
+      "aciertos": 12,
+      "peso_aciertos": 24,
+      "peso_total": 32,
+      "ex": 0.75
+    },
+    "dificil": {
+      "preguntas": 10,
+      "aciertos": 5,
+      "peso_aciertos": 15,
+      "peso_total": 30,
+      "ex": 0.5
+    }
+  },
+  "por_esquema": {
+    "val_biblioteca": {
+      "preguntas": 20,
+      "aciertos": 15,
+      "peso_aciertos": 24,
+      "peso_total": 37,
+      "ex": 0.6486
+    },
+    "val_hospital": {
+      "preguntas": 20,
+      "aciertos": 16,
+      "peso_aciertos": 29,
+      "peso_total": 39,
+      "ex": 0.7436
+    }
+  },
+  "categorias": {
+    "correcto": 31,
+    "resultado_distinto": 5,
+    "columna_tabla_inexistente": 3,
+    "agregacion": 1
+  }
+}

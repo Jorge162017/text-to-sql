@@ -1,0 +1,331 @@
+{
+  "estado": "propuesta pendiente de auditoría e integración",
+  "commit": "5dd77d945c535f8171341460b221f799f9253518",
+  "adapter": "lora_a",
+  "estrategia_propuesta": "directa",
+  "limites_y_determinismo_validos": true,
+  "delta_ex_a": 0.0,
+  "corridas": [
+    {
+      "nombre": "inferencia_base_directa",
+      "estrategia": "directa",
+      "ex": 0.5658,
+      "peso_aciertos": 43,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 10,
+          "peso_aciertos": 20,
+          "peso_total": 32,
+          "ex": 0.625
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "tiempo_carga_s": 39.43,
+      "latencia_s": {
+        "media": 1.967,
+        "mediana": 1.994,
+        "max": 5.014,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      }
+    },
+    {
+      "nombre": "inferencia_base_directa_repeticion",
+      "estrategia": "directa",
+      "ex": 0.5658,
+      "peso_aciertos": 43,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 10,
+          "peso_aciertos": 20,
+          "peso_total": 32,
+          "ex": 0.625
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "tiempo_carga_s": 13.01,
+      "latencia_s": {
+        "media": 1.966,
+        "mediana": 1.998,
+        "max": 4.915,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      }
+    },
+    {
+      "nombre": "inferencia_base_correccion",
+      "estrategia": "correccion",
+      "ex": 0.6316,
+      "peso_aciertos": 48,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 11,
+          "peso_aciertos": 22,
+          "peso_total": 32,
+          "ex": 0.6875
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 4,
+          "peso_aciertos": 12,
+          "peso_total": 30,
+          "ex": 0.4
+        }
+      },
+      "tiempo_carga_s": 12.14,
+      "latencia_s": {
+        "media": 2.748,
+        "mediana": 2.114,
+        "max": 10.854,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 47,
+        "max_por_pregunta": 3
+      }
+    },
+    {
+      "nombre": "inferencia_base_correccion_repeticion",
+      "estrategia": "correccion",
+      "ex": 0.6316,
+      "peso_aciertos": 48,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 11,
+          "peso_aciertos": 22,
+          "peso_total": 32,
+          "ex": 0.6875
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 4,
+          "peso_aciertos": 12,
+          "peso_total": 30,
+          "ex": 0.4
+        }
+      },
+      "tiempo_carga_s": 12.34,
+      "latencia_s": {
+        "media": 2.796,
+        "mediana": 2.133,
+        "max": 10.821,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 47,
+        "max_por_pregunta": 3
+      }
+    },
+    {
+      "nombre": "inferencia_a_directa",
+      "estrategia": "directa",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "tiempo_carga_s": 26.44,
+      "latencia_s": {
+        "media": 1.648,
+        "mediana": 1.526,
+        "max": 5.463,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      }
+    },
+    {
+      "nombre": "inferencia_a_directa_repeticion",
+      "estrategia": "directa",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "tiempo_carga_s": 25.63,
+      "latencia_s": {
+        "media": 1.662,
+        "mediana": 1.541,
+        "max": 5.531,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      }
+    },
+    {
+      "nombre": "inferencia_a_correccion",
+      "estrategia": "correccion",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "tiempo_carga_s": 25.82,
+      "latencia_s": {
+        "media": 1.979,
+        "mediana": 1.542,
+        "max": 11.467,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 42,
+        "max_por_pregunta": 2
+      }
+    },
+    {
+      "nombre": "inferencia_a_correccion_repeticion",
+      "estrategia": "correccion",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "tiempo_carga_s": 25.72,
+      "latencia_s": {
+        "media": 1.95,
+        "mediana": 1.533,
+        "max": 11.216,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 42,
+        "max_por_pregunta": 2
+      }
+    }
+  ],
+  "nota": "Callback limitado a 10 s por el arnés propio; max_time de generación no es un corte duro. Revisar tiempos reales. No modifica solucion.py."
+}

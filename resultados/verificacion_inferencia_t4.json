@@ -1,0 +1,64 @@
+{
+  "fecha_utc": "2026-10-23T19:08:19.226862+00:00",
+  "archivo": "inferencia_t4.zip",
+  "zip_sha256": "6e5c870c24b893ef41abaf88d03c66f63d66ba14d750c892c3716823954fcf66",
+  "mysql": {
+    "version": "8.4.10",
+    "sql_mode": "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+  },
+  "verificacion": "Inventario seguro del ZIP, congelado idéntico, métricas recalculadas, trazas, cuatro repeticiones y reejecución SQL local; no nueva generación GPU.",
+  "corridas": [
+    {
+      "nombre": "inferencia_oraculo",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 76
+    },
+    {
+      "nombre": "inferencia_base_directa",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 43
+    },
+    {
+      "nombre": "inferencia_base_directa_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 43
+    },
+    {
+      "nombre": "inferencia_base_correccion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 48
+    },
+    {
+      "nombre": "inferencia_base_correccion_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 48
+    },
+    {
+      "nombre": "inferencia_a_directa",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 53
+    },
+    {
+      "nombre": "inferencia_a_directa_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 53
+    },
+    {
+      "nombre": "inferencia_a_correccion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 53
+    },
+    {
+      "nombre": "inferencia_a_correccion_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 53
+    }
+  ],
+  "adapter_seleccionado": "lora_a",
+  "estrategia_seleccionada": "directa",
+  "motivo": "A directa y corrección empatan 53/76; directa tiene menor latencia y no necesita callbacks.",
+  "hipotesis_inferencia_cumplida_en_a": false,
+  "experimento_inferencia": "completado; cuatro combinaciones deterministas 40/40 y límites T4 cumplidos",
+  "archivos_zip": 24,
+  "artefactos_nuevos_integrados": 23
+}
