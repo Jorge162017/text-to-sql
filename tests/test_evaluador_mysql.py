@@ -1,5 +1,9 @@
 """Controles negativos del evaluador contra MySQL real. Se omite si las bases no están disponibles."""
 import unittest
+import os
+
+os.environ['SOLUCION_CARGA_DIFERIDA'] = '1'
+import solucion
 
 from evaluacion.comparar import categoria_error_mysql, comparar_resultados
 from evaluacion.evaluar import ejecutar_sql
@@ -56,6 +60,20 @@ class EvaluadorMySQL(unittest.TestCase):
         self.assertEqual(self.evaluar('propia_21', 'SELECT nombre_completo FROM pacientes'),
                          (False, 'columna_tabla_inexistente'))
         self.assertEqual(self.evaluar('propia_21', 'SELEC nombre FROM pacientes'), (False, 'sintaxis'))
+
+    def test_limpieza_conserva_resultado_con_lineas_vacias(self):
+        for sql in [
+            'SELECT nombre\n\nFROM miembros',
+            'WITH c AS (\n SELECT nombre\n\n FROM miembros\n)\n\nSELECT nombre FROM c',
+            "SELECT 'primera\n\nEsto devuelve un literal' AS texto",
+            'SELECT nombre /* nota\n\nEsto devuelve un comentario */\n\nFROM miembros',
+        ]:
+            with self.subTest(sql=sql):
+                ref = ejecutar_sql(self.conexion, 'val_biblioteca', sql)
+                pred = ejecutar_sql(self.conexion, 'val_biblioteca', solucion.limpiar_sql(sql))
+                self.assertTrue(ref['ok'], ref['error'])
+                self.assertTrue(pred['ok'], pred['error'])
+                self.assertTrue(comparar_resultados(ref['columnas'], ref['filas'], pred['columnas'], pred['filas'], False)[0])
 
 
 if __name__ == '__main__':

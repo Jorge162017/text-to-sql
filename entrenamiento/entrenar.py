@@ -116,7 +116,7 @@ def main():
 
     import torch
     from peft import LoraConfig, get_peft_model
-    from transformers import (AutoModelForCausalLM, AutoTokenizer, DataCollatorForSeq2Seq, Trainer,
+    from transformers import (DataCollatorForSeq2Seq, Trainer,
                               TrainingArguments, set_seed)
 
     config = leer_config_entrenamiento(args.config)
@@ -136,7 +136,7 @@ def main():
     train, dev = dividir(pares, config['fraccion_dev'], config['semilla'])
     if args.prueba:
         train, dev = train[:16], dev[:4]
-    tokenizer = AutoTokenizer.from_pretrained(config['modelo_base'])
+    tokenizer = solucion.cargar_tokenizer(config['modelo_base'])
     datos_train = [tokenizar(tokenizer, p, config['max_longitud']) for p in train]
     datos_dev = [tokenizar(tokenizer, p, config['max_longitud']) for p in dev]
     tokens_respuesta = sum(sum(l != -100 for l in d['labels']) for d in datos_train)
@@ -144,7 +144,7 @@ def main():
           f'tokens_respuesta={tokens_respuesta}', flush=True)
 
     tipo = torch.float16 if cuda else torch.float32
-    modelo = AutoModelForCausalLM.from_pretrained(config['modelo_base'], dtype=tipo)
+    modelo = solucion.cargar_modelo_base(config['modelo_base'], dtype=tipo)
     modelo.config.use_cache = False
     l = config['lora']
     modelo = get_peft_model(modelo, LoraConfig(r=l['r'], lora_alpha=l['lora_alpha'], lora_dropout=l['lora_dropout'],

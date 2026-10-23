@@ -64,8 +64,8 @@ class Tokenizacion(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            from transformers import AutoTokenizer
-            cls.tokenizer = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-Coder-1.5B-Instruct', local_files_only=True)
+            import solucion
+            cls.tokenizer = solucion.cargar_tokenizer('Qwen/Qwen2.5-Coder-1.5B-Instruct', local_files_only=True)
         except Exception as exc:
             raise unittest.SkipTest(f'Tokenizer no disponible localmente: {exc}')
         cls.par = cargar_pares(leer_config_entrenamiento(CONFIG_A))[0]

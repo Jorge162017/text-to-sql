@@ -21,11 +21,13 @@ def huella_prompt(solucion):
 
 
 def configuracion(solucion):
-    archivos = ['solucion.py', 'evaluacion/comparar.py', 'evaluacion/evaluar.py',
+    archivos = ['solucion.py', 'entrenamiento/entrenar.py', 'evaluacion/comparar.py', 'evaluacion/evaluar.py',
                 'datos/particiones.json', 'datos/entrenamiento/pares.jsonl', 'datos/validacion/pares.jsonl',
                 'datos/validacion/referencias_resultados.jsonl']
     return {
         'modelo_base': solucion.leer_config()['modelo_base'],
+        'revision_modelo': solucion._revision_modelo(solucion.leer_config()['modelo_base']),
+        'limpieza_version': solucion.LIMPIEZA_VERSION,
         'semilla': solucion.leer_config()['semilla'],
         'prompt': {'version': solucion.PROMPT_VERSION, 'sha256': huella_prompt(solucion),
                    'instrucciones': solucion.INSTRUCCIONES,
@@ -43,6 +45,12 @@ def configuracion(solucion):
         'sha256': {a: hash_archivo(ROOT / a) for a in archivos},
         'regla': 'No cambiar prompt, generación, datos ni criterio entre baseline, LoRA A y LoRA B. '
                  'Si cambian, repetir todas las mediciones afectadas.'}
+
+
+def coincide_configuracion(congelada, solucion):
+    """La igualdad del prompt no basta si cambian carga, limpieza o datos."""
+    actual = configuracion(solucion)
+    return all(congelada.get(k) == actual[k] for k in actual)
 
 
 def main():

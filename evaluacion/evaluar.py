@@ -11,6 +11,7 @@ Ejemplos:
 """
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 import platform
@@ -20,7 +21,7 @@ import subprocess
 import sys
 import time
 
-from evaluacion.congelar import RUTA as RUTA_CONGELADA, huella_prompt
+from evaluacion.congelar import RUTA as RUTA_CONGELADA, huella_prompt, coincide_configuracion
 from evaluacion.comparar import categoria_error_mysql, comparar_resultados, rehidratar, resumir
 from scripts.comun import DATOS, ROOT, conectar, guardar_json, guardar_jsonl, leer_jsonl
 from scripts.validar_datos import cargar_particiones, comprobar_motor, importar, serializar
@@ -130,6 +131,11 @@ def main():
     os.environ['SOLUCION_CARGA_DIFERIDA'] = '1'
     sys.path.insert(0, str(ROOT))
     import solucion
+    congelada = json.loads(RUTA_CONGELADA.read_text()) if RUTA_CONGELADA.exists() else None
+    coincide = coincide_configuracion(congelada, solucion) if congelada else None
+    if congelada and not coincide:
+        raise SystemExit('La configuración experimental está desactualizada. Congela la nueva versión y repite '
+                         'las evaluaciones afectadas sin sobrescribir las históricas.')
     cargado, tiempo_carga = None, None
     if not args.oraculo:
         inicio = time.perf_counter()
@@ -219,13 +225,14 @@ def main():
     latencias = [r['latencia_s'] for r in registros]
     config = cargado['config'] if cargado else solucion.leer_config()
     huella = huella_prompt(solucion)
-    congelada = json.loads(RUTA_CONGELADA.read_text()) if RUTA_CONGELADA.exists() else None
     resumen = {
         'nombre': args.nombre, 'fecha_utc': datetime.now(timezone.utc).isoformat(),
         'modo': 'oraculo' if args.oraculo else 'modelo', 'completa': args.limite is None,
         'config': config, 'adapter_cargado': cargado['adapter'] if cargado else None,
         'prompt_version': solucion.PROMPT_VERSION, 'prompt_sha256': huella,
-        'coincide_configuracion_congelada': congelada['prompt']['sha256'] == huella if congelada else None,
+        'coincide_configuracion_congelada': coincide,
+        'configuracion_sha256': hashlib.sha256(RUTA_CONGELADA.read_bytes()).hexdigest() if congelada else None,
+        'limpieza_version': solucion.LIMPIEZA_VERSION,
         'revision_modelo': cargado['revision_modelo'] if cargado else None,
         'generacion': cargado['generacion'].to_diff_dict() if cargado else None,
         'estrategia': 'directa, sin llamadas a ejecutar',

@@ -4,6 +4,8 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 os.environ['SOLUCION_CARGA_DIFERIDA'] = '1'
 import solucion  # noqa: E402
@@ -52,6 +54,24 @@ class Prompt(unittest.TestCase):
         self.assertIn(self.par['pregunta'], a[1]['content'])
 
 
+class RevisionFijada(unittest.TestCase):
+    def test_cargadores_solicitan_snapshot_de_a(self):
+        nombre = solucion.leer_config()['modelo_base']
+        metricas = json.loads((DATOS.parent / 'resultados/entrenamientos/lora_a/metricas.json').read_text())
+        revision = metricas['revision_modelo']
+        tokenizer, modelo = Mock(), Mock()
+        falso = SimpleNamespace(AutoTokenizer=tokenizer, AutoModelForCausalLM=modelo)
+        with patch.dict('sys.modules', {'transformers': falso}):
+            self.assertIs(solucion.cargar_tokenizer(nombre, local_files_only=True), tokenizer.from_pretrained.return_value)
+            self.assertIs(solucion.cargar_modelo_base(nombre, dtype='fp16'), modelo.from_pretrained.return_value)
+        tokenizer.from_pretrained.assert_called_once_with(nombre, revision=revision, local_files_only=True)
+        modelo.from_pretrained.assert_called_once_with(nombre, revision=revision, dtype='fp16')
+
+    def test_no_descarga_otro_modelo_sin_revision(self):
+        with self.assertRaisesRegex(ValueError, 'Falta fijar'):
+            solucion._revision_modelo('Qwen/Qwen3-1.7B')
+
+
 class Limpieza(unittest.TestCase):
     def test_bloque_markdown(self):
         texto = 'Aquí está:\n```sql\nSELECT nombre\nFROM clientes;\n```\nEsta consulta...'
@@ -71,6 +91,25 @@ class Limpieza(unittest.TestCase):
     def test_with(self):
         sql = 'WITH c AS (SELECT a FROM t) SELECT a FROM c'
         self.assertEqual(solucion.limpiar_sql(sql), sql)
+
+    def test_lineas_vacias_dentro_del_sql(self):
+        consultas = [
+            'SELECT nombre\n\nFROM miembros',
+            'WITH c AS (\n SELECT id\n\n FROM miembros\n)\n\nSELECT id FROM c',
+            'SELECT 1 AS n\n\nUNION ALL\n\nSELECT 2 AS n',
+            "SELECT 'texto\n\nEsto devuelve un literal' AS nota\n\nFROM miembros",
+            'SELECT nombre /* nota\n\nEsto devuelve un comentario */\n\nFROM miembros',
+        ]
+        for sql in consultas:
+            with self.subTest(sql=sql):
+                self.assertEqual(solucion.limpiar_sql(sql), sql)
+                self.assertEqual(solucion.limpiar_sql('```sql\n' + sql + ';\n```'), sql)
+
+    def test_explicacion_solo_despues_de_la_consulta(self):
+        sql = 'WITH c AS (\n SELECT 1 AS n\n\n)\n\nSELECT n FROM c'
+        self.assertEqual(solucion.limpiar_sql(sql + '\n\nEsta consulta devuelve n.'), sql)
+        sql = 'SELECT 1 /* nota\n\ncomentario final */'
+        self.assertEqual(solucion.limpiar_sql(sql + '\n\nEsta consulta devuelve uno.'), sql)
 
     def test_escrituras_rechazadas(self):
         for sql in ['DELETE FROM t', 'UPDATE t SET a = 1', 'WITH c AS (SELECT 1) DELETE FROM t',

@@ -2,7 +2,7 @@
 
 Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
-**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) en curso: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados. Baseline sin adapter en Colab T4: **EX = 0.5658 (43/76)**. LoRA A (r=8): **EX = 0.6974 (53/76)**, +0.1316, determinista; queda en `adapter/` con `usar_adapter: true`. Relevo a Jorge en [`RELEVO_JORGE.md`](RELEVO_JORGE.md). Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
+**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) completado: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados. Baseline sin adapter en Colab T4: **EX = 0.5658 (43/76)**. LoRA A (r=8): **EX = 0.6974 (53/76)**, +0.1316, determinista; queda en `adapter/` con `usar_adapter: true`. Relevo a Jorge en [`RELEVO_JORGE.md`](RELEVO_JORGE.md). Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
 
 ## Documentación
 
@@ -51,7 +51,7 @@ Después se deben reconstruir las bases y repetir certificación y revisión. Lo
 
 Evidencia: [certificación SQL](resultados/reporte_datos.json), [revisión semántica](resultados/revision_semantica.json) y [entorno local](resultados/entorno_datos.json). La auditoría exige que los archivos, hashes y referencias estén completos; eliminar evidencia o dejarla obsoleta produce error.
 
-**Limitación:** los datos son sintéticos y usan plantillas. Haber revisado cada resultado en las semillas actuales no garantiza generalización ni certifica el rendimiento en la evaluación oculta. No se ejecutó todavía el modelo.
+**Limitación:** los datos son sintéticos y usan plantillas. Haber revisado cada resultado en las semillas actuales no garantiza generalización ni certifica el rendimiento en la evaluación oculta. Las métricas del modelo disponibles corresponden a las corridas históricas de Angel.
 
 ## Contrato y siguientes turnos
 
@@ -104,3 +104,11 @@ No se ha elegido una licencia de redistribución del repositorio. MySQL y las de
 **25 de octubre de 2026, 23:59**, según el enunciado; confirmar zona horaria en Canvas. Se requiere repositorio privado con acceso del docente y entrega en Canvas del repositorio comprimido y PDF de máximo doce diapositivas. No habrá presentación oral. La coevaluación individual es posterior.
 
 La privacidad, invitación del docente y disponibilidad de T4 deben confirmarse al publicar y comenzar el siguiente turno. Faltan los entregables de los turnos 2–4: modelo, entrenamientos, evaluador, experimentos, resultados del modelo, presentación e historial final. No son parte de esta implementación de datos.
+
+## Correcciones antes de LoRA B (23 de octubre de 2026)
+
+Se corrigió el corte de SQL por líneas vacías y se fijó la revisión `2e1fd397ee46e1388853d2af2c993145b0f1098a` para tokenizer y modelo, compartida por entrenamiento e inferencia. La revisión coincide con baseline y A originales. `config.json` conserva sus cuatro campos requeridos; no cambian el prompt ni los hiperparámetros de A.
+
+La limpieza se identifica como v2. Se preservó el congelado anterior en `resultados/configuracion_experimental_angel.json`; el vigente incluye revisión, limpieza y hashes de código/datos. El evaluador ahora rechaza configuraciones obsoletas aunque el texto del prompt coincida. Las evaluaciones históricas y los pesos de A no se sobrescribieron.
+
+**Pendiente antes de comparar con B:** ejecutar [04_verificacion_correcciones_t4.ipynb](notebooks/04_verificacion_correcciones_t4.ipynb) en T4 con estas correcciones, ya publicadas o subidas manualmente a Colab. Se repiten solo inferencia de baseline y A y sus pruebas de determinismo; no hace falta reentrenar A. Los resultados se guardan con sufijo `_corregido`. Las cifras históricas de arriba no se presentan como evaluaciones nuevas.

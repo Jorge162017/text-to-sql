@@ -23,6 +23,14 @@ Ambas corridas se hicieron en Colab T4, son deterministas (40/40 SQL idénticos 
 - **Prompt e inferencia:** `construir_mensajes` de `solucion.py` (v1, sha256 `1fb4d982…`); generación greedy con 320 tokens y estrategia directa.
 - **Evaluación:** `python -m evaluacion.evaluar`, con las reglas del README.
 
+## Correcciones previas al turno 3 (23 de octubre)
+
+Se corrigió la limpieza SQL para conservar líneas vacías y se fijó en los cargadores de entrenamiento e inferencia el snapshot de A (`2e1fd397ee46e1388853d2af2c993145b0f1098a`). El prompt v1, pesos de A e hiperparámetros permanecen iguales.
+
+La configuración histórica está preservada en `resultados/configuracion_experimental_angel.json`. El congelado vigente incluye limpieza v2, revisión fija y hashes completos; el evaluador comprueba toda la configuración.
+
+Antes de medir B, ejecutar `notebooks/04_verificacion_correcciones_t4.ipynb`: genera baseline y A de nuevo con limpieza v2 en carpetas `baseline_corregido*` y `lora_a_corregido*`, sin reentrenar ni sobrescribir A o las evaluaciones históricas. **Pendiente de ejecución en T4.** Las métricas 0.5658 y 0.6974 de arriba siguen siendo las históricas. No se pueden certificar las nuevas métricas reusando SQL ya limpiado, porque no se guardaron todas las respuestas crudas originales.
+
 ## Corrida B
 
 1. Escribir la hipótesis B en la bitácora **y** en `entrenamiento/lora_b.json` antes de entrenar, y publicarla en Git. Cambiar **solo** `lora.r` de 8 a 16. Además cambian `nombre` y `hipotesis`, y `salida_adapter` debe apuntar a otra carpeta, por ejemplo `adapters/lora_b/`, para no sobrescribir A. `python -m unittest tests.test_entrenamiento` falla si cambia cualquier otro valor.

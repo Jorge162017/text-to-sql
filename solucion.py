@@ -17,6 +17,12 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent
 MODELOS_PERMITIDOS = {'Qwen/Qwen2.5-Coder-1.5B-Instruct', 'Qwen/Qwen2.5-Coder-0.5B-Instruct', 'Qwen/Qwen3-1.7B'}
+# Snapshot registrado en baseline y entrenamiento A. Otros modelos requieren
+# fijar su propio commit antes de incorporarlos a una comparación experimental.
+REVISIONES_MODELOS = {
+    'Qwen/Qwen2.5-Coder-1.5B-Instruct': '2e1fd397ee46e1388853d2af2c993145b0f1098a',
+}
+LIMPIEZA_VERSION = 'v2'
 
 # --- Prompt congelado. Cualquier cambio exige repetir baseline y adapters. ---
 PROMPT_VERSION = 'v1'
@@ -136,25 +142,47 @@ def limpiar_sql(texto):
     fin = _enmascarar(candidato).find(';')
     if fin >= 0:
         candidato = candidato[:fin]
-    candidato = re.split(r'\n\s*\n', candidato, maxsplit=1)[0]  # texto explicativo tras línea vacía
+    # Una línea vacía es SQL válido, incluso dentro de CTE, literales y
+    # comentarios. Solo retirar prosa reconocible a nivel superior.
+    mascara = _enmascarar(candidato)
+    explicacion = re.compile(
+        r'(?:Esto\s+(?:devuelve|retorna|muestra|selecciona)\b|Esta\s+consulta\b|'
+        r'La\s+consulta\b|Explicaci[oó]n\s*:|Nota\s*:|This\s+query\b|'
+        r'Explanation\s*:|Note\s*:)', re.IGNORECASE)
+    for separador in re.finditer(r'\r?\n[ \t]*\r?\n', candidato):
+        if mascara[separador.start():separador.end()] != separador.group():
+            continue  # Separador dentro de un literal o comentario enmascarado.
+        prefijo = mascara[:separador.start()]
+        if prefijo.count('(') == prefijo.count(')') and explicacion.match(mascara[separador.end():].lstrip()):
+            candidato = candidato[:separador.start()]
+            break
     candidato = candidato.strip()
     return candidato if es_consulta_lectura(candidato) else CONSULTA_NEUTRA
 
 
 def _revision_modelo(nombre):
-    """Commit del snapshot de Hugging Face usado, leído de la caché local (sin red)."""
-    try:
-        from huggingface_hub import try_to_load_from_cache
-        ruta = try_to_load_from_cache(nombre, 'config.json')
-        return Path(ruta).parent.name if isinstance(ruta, str) else None
-    except Exception:
+    """Commit fijo que se solicita al cargar; no depende de la referencia main de la caché."""
+    if Path(nombre).is_dir():
         return None
+    if nombre not in REVISIONES_MODELOS:
+        raise ValueError(f'Falta fijar un commit de Hugging Face para {nombre}')
+    return REVISIONES_MODELOS[nombre]
+
+
+def cargar_tokenizer(nombre, **opciones):
+    from transformers import AutoTokenizer
+    return AutoTokenizer.from_pretrained(nombre, revision=_revision_modelo(nombre), **opciones)
+
+
+def cargar_modelo_base(nombre, **opciones):
+    from transformers import AutoModelForCausalLM
+    return AutoModelForCausalLM.from_pretrained(nombre, revision=_revision_modelo(nombre), **opciones)
 
 
 def cargar(usar_adapter=None, ruta_config=RAIZ / 'config.json'):
     """Carga tokenizer y modelo una sola vez. usar_adapter=None respeta config.json."""
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, set_seed
+    from transformers import GenerationConfig, set_seed
 
     config = leer_config(ruta_config)
     if usar_adapter is not None:
@@ -168,8 +196,8 @@ def cargar(usar_adapter=None, ruta_config=RAIZ / 'config.json'):
         dispositivo, tipo = 'mps', torch.float16
     else:
         dispositivo, tipo = 'cpu', torch.float32
-    tokenizer = AutoTokenizer.from_pretrained(config['modelo_base'])
-    modelo = AutoModelForCausalLM.from_pretrained(config['modelo_base'], dtype=tipo)
+    tokenizer = cargar_tokenizer(config['modelo_base'])
+    modelo = cargar_modelo_base(config['modelo_base'], dtype=tipo)
     ruta_adapter = None
     if config['usar_adapter']:
         from peft import PeftModel

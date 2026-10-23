@@ -1,0 +1,50 @@
+{
+  "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "semilla": 2026,
+  "prompt": {
+    "version": "v1",
+    "sha256": "1fb4d982a7a822464c15382daf16fe0b5813db15bdde3bf33b75a3d4db26a630",
+    "instrucciones": "Eres un experto en MySQL 8.4. Recibes el esquema de una base de datos como sentencias CREATE TABLE con comentarios y una pregunta en español. Responde únicamente con una consulta SQL de solo lectura (SELECT o WITH ... SELECT) que responda la pregunta, sin explicaciones.\nReglas:\n- Usa solo tablas y columnas que existan en el esquema; lee los comentarios.\n- Devuelve las columnas que pide la pregunta, en ese orden.\n- La consulta debe ser válida con ONLY_FULL_GROUP_BY: toda columna no agregada del SELECT va en GROUP BY.\n- Usa ORDER BY solo si la pregunta pide un orden o los primeros N resultados.\n- Nunca modifiques datos.",
+    "formato_usuario": "### Esquema\\n{compactar_esquema(esquema)}\\n\\n### Pregunta\\n{pregunta}",
+    "plantilla_chat": "apply_chat_template del tokenizer del modelo base, add_generation_prompt=True"
+  },
+  "generacion": {
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "max_new_tokens": 320,
+    "max_time_s": 25.0,
+    "consulta_neutra": "SELECT 1",
+    "estrategia": "directa, sin llamadas a ejecutar"
+  },
+  "evaluacion": {
+    "conjunto": "datos/validacion/pares.jsonl",
+    "preguntas": 40,
+    "peso_total": 76,
+    "pesos": {
+      "facil": 1,
+      "media": 2,
+      "dificil": 3
+    },
+    "redondeo": "2 decimales, ROUND_HALF_UP",
+    "duplicados": "multiconjunto",
+    "orden": "solo si requiere_orden",
+    "columnas": "alineación inyectiva por valores; columnas adicionales permitidas",
+    "limites": {
+      "segundos_por_pregunta": 30,
+      "llamadas_ejecutar": 3,
+      "filas_callback": 10,
+      "max_execution_time_ms": 10000
+    }
+  },
+  "sha256": {
+    "solucion.py": "364bc5faac5d73c563fe63cb1748389f95f58513cfab73c281b566defd93e891",
+    "evaluacion/comparar.py": "f2234b0ac460ab1855d1657e12523fcf7afc473f94f5cf1054e84c0e10fdded1",
+    "evaluacion/evaluar.py": "e18d0b0768e5b1aae06c85b46207e3be206b54b11e90e2606a992ce0284aec2f",
+    "datos/particiones.json": "9d116778cff9df62e7765be4f44b3ba33c56229c48481657b66c1e22b40db836",
+    "datos/entrenamiento/pares.jsonl": "655272f10280a67f2ef35bdb7f3432dbea7a88d794ae2e3278c1c4bfd33591ef",
+    "datos/validacion/pares.jsonl": "70669e91e046a6a1f649be7cc47e57aa691ed579649f0af4c43f35be3a1db40b",
+    "datos/validacion/referencias_resultados.jsonl": "66d5e9e52c0275d36d10202b2f43d495a922417239d65c5280ed29145edeba9b"
+  },
+  "regla": "No cambiar prompt, generación, datos ni criterio entre baseline, LoRA A y LoRA B. Si cambian, repetir todas las mediciones afectadas."
+}

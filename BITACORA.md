@@ -122,3 +122,20 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Autor del registro: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente.
 - Entregables del turno: contrato e inferencia (`6fb3547`), notebook T4 y configuración congelada (`72fd3cc`), baseline con EX 0.5658 (`18bb488`), hipótesis A previa (`26b9ab2`), corrección de dependencias (`bc2206d`) y LoRA A con EX 0.6974 en el commit de cierre.
 - Relevo completo en `RELEVO_JORGE.md`: hiperparámetros exactos, prompt congelado, regla de un solo factor, presupuesto de la corrida B y comandos.
+
+## 2026-10-23 — Correcciones locales previas al turno 3
+
+- Autor del registro y ejecución: asistente de IA por solicitud de Jorge Lopez. Sin commits ni subidas de estas correcciones.
+- Limpieza: conservar párrafos SQL válidos, CTE, comentarios y literales con líneas vacías; retirar solo prosa reconocible a nivel superior. Pruebas de regresión y MySQL comprueban resultados equivalentes.
+- Reproducibilidad: tokenizer y modelo comparten cargadores con el commit de Hugging Face registrado por baseline y A. No cambian el prompt ni la configuración de entrenamiento A; no se reentrenó el adapter.
+- Evidencia: conservar congelado histórico de Angel y crear congelado vigente con limpieza v2. Comprobar todos los hashes/configuración al evaluar, en lugar de comparar solo el texto del prompt.
+- Preparación: notebook 04 para repetir en T4 baseline/A y determinismo en carpetas nuevas. Esta ejecución en GPU está pendiente; no se inventan nuevas métricas ni se equipara reejecutar SQL guardado con regenerar respuestas del modelo.
+- No se han comenzado LoRA B ni el experimento de inferencia. No se imputan horas humanas no registradas.
+
+- Verificación local de las correcciones: suite de 58 pruebas OK con acceso a MySQL; el grupo de tokenización se omite porque transformers/tokenizer no está instalado en este entorno. Cargadores comprobados con dobles de prueba que exigen la revisión exacta de A. Control de referencias en MySQL: 76/76, guardado por separado en `oraculo_correcciones/`. Notebook 04 validado en formato y sintaxis, sin ejecutar GPU.
+
+## 2026-10-23 — Publicación autorizada de correcciones previas a B
+
+- Autor del registro y ejecución: asistente de IA por instrucción de Jorge Lopez de subir las correcciones antes de ejecutar Colab. Publicación desde su identidad Git configurada.
+- Incluye limpieza SQL v2, revisión fija del modelo/tokenizer, validación completa del congelado, regresiones y notebook 04. Se comprobó que el congelado está vigente y el control local de MySQL permanece en 76/76. No se modifican las evaluaciones históricas ni el adapter A.
+- Pendiente: ejecutar notebook 04 en Colab T4 para regenerar baseline/A y sus repeticiones. Publicar el código no equivale a completar esa evaluación.

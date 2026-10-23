@@ -1,5 +1,7 @@
 {
   "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "revision_modelo": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+  "limpieza_version": "v2",
   "semilla": 2026,
   "prompt": {
     "version": "v1",
@@ -38,9 +40,10 @@
     }
   },
   "sha256": {
-    "solucion.py": "364bc5faac5d73c563fe63cb1748389f95f58513cfab73c281b566defd93e891",
+    "solucion.py": "10e74f1669f9685762967328b404429980b52df11c7c1db082ed0bd11fb189cb",
+    "entrenamiento/entrenar.py": "8c8d5b1c36253a6506b4a47f86fd4803ebd4e0a483099e508e05b3e18eaa0f56",
     "evaluacion/comparar.py": "f2234b0ac460ab1855d1657e12523fcf7afc473f94f5cf1054e84c0e10fdded1",
-    "evaluacion/evaluar.py": "e18d0b0768e5b1aae06c85b46207e3be206b54b11e90e2606a992ce0284aec2f",
+    "evaluacion/evaluar.py": "6fdd9687b8a5c3f8b92a08f7bd22df0a0fa9dcefe56c6f20d25980f2220b0784",
     "datos/particiones.json": "9d116778cff9df62e7765be4f44b3ba33c56229c48481657b66c1e22b40db836",
     "datos/entrenamiento/pares.jsonl": "655272f10280a67f2ef35bdb7f3432dbea7a88d794ae2e3278c1c4bfd33591ef",
     "datos/validacion/pares.jsonl": "70669e91e046a6a1f649be7cc47e57aa691ed579649f0af4c43f35be3a1db40b",
