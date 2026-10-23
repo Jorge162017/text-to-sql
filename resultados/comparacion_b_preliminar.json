@@ -1,0 +1,158 @@
+{
+  "estado": "medido; selección y experimento de inferencia pendientes",
+  "commit": "b38e2bf2a1ad325a69e09218d55437577ccc932f",
+  "hipotesis_b": "Antes de entrenar B: aumentar únicamente lora.r de 8 a 16, conservando alpha=16 y toda la configuración de A, podría mejorar la representación de consultas complejas. Predicción: EX ponderada de al menos 56/76 (0.7368), frente a 53/76 (0.6974) de A corregido, conservando 14/14 en fáciles, carga menor de 300 s y generación menor de 30 s por pregunta en T4. El rango duplica los parámetros entrenables esperados de 9,232,384 a 18,464,768; como consecuencia derivada, alpha/r baja de 2 a 1. Se medirán memoria, tiempo y pérdida sin cambiar otro hiperparámetro. Riesgo: mayor capacidad puede memorizar las plantillas y no mejorar la generalización; una pérdida dev menor no bastará para seleccionar B. La selección y el experimento de inferencia se decidirán después de medir, sin convertir la validación en entrenamiento.",
+  "adapter_a_sha256": {
+    "README.md": "c385b954bcef0e8d1ae6130a01e3379da7bf228eca8b4e44eea69b723edb9230",
+    "adapter_config.json": "6509347c4c6918c13ba902d455892fe5c95c48215a3a787f1b0aa49bee4bb7f9",
+    "adapter_model.safetensors": "ccc0a99c3061041ffc8a18b8d974383d54608c4580c6e36f29311c1f8fe0d339"
+  },
+  "adapter_b_sha256": {
+    "README.md": "195d4ad83e7fbfa1fef4738e6858d3102e51ae47863b85cda45d3e95038e58f2",
+    "adapter_config.json": "624868ca29077a740cff73ba5ee70ffe427655b96776f1d9791aefb8e826ae08",
+    "adapter_model.safetensors": "afb1e69fe2214ba37300445a2117b725d9c3d56f494258e1df94613f1663a84d"
+  },
+  "comparacion": [
+    {
+      "nombre": "baseline_corregido",
+      "ex": 0.5658,
+      "peso_aciertos": 43,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 10,
+          "peso_aciertos": 20,
+          "peso_total": 32,
+          "ex": 0.625
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "latencia_s": {
+        "media": 2.158,
+        "mediana": 2.186,
+        "max": 5.44,
+        "mayores_a_30s": 0
+      },
+      "tiempo_carga_s": 37.0
+    },
+    {
+      "nombre": "lora_a_corregido",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "latencia_s": {
+        "media": 1.867,
+        "mediana": 1.742,
+        "max": 6.249,
+        "mayores_a_30s": 0
+      },
+      "tiempo_carga_s": 29.67
+    },
+    {
+      "nombre": "lora_b",
+      "ex": 0.6447,
+      "peso_aciertos": 49,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 13,
+          "peso_aciertos": 26,
+          "peso_total": 32,
+          "ex": 0.8125
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "latencia_s": {
+        "media": 1.764,
+        "mediana": 1.621,
+        "max": 4.024,
+        "mayores_a_30s": 0
+      },
+      "tiempo_carga_s": 32.35
+    },
+    {
+      "nombre": "lora_b_repeticion",
+      "ex": 0.6447,
+      "peso_aciertos": 49,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 13,
+          "peso_aciertos": 26,
+          "peso_total": 32,
+          "ex": 0.8125
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "latencia_s": {
+        "media": 1.73,
+        "mediana": 1.558,
+        "max": 3.991,
+        "mayores_a_30s": 0
+      },
+      "tiempo_carga_s": 28.04
+    }
+  ],
+  "limites_b_cumplidos": true
+}

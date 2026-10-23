@@ -1,0 +1,27 @@
+{
+  "fecha_utc": "2026-10-23T18:23:46.758460+00:00",
+  "archivo": "lora_b_t4.zip",
+  "zip_sha256": "cfaeec1a39b5d80d839ff4580546567af8ea07bbc6442c4b245662db123422a5",
+  "mysql": {
+    "version": "8.4.10",
+    "sql_mode": "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+  },
+  "verificacion": "Hashes, configuración, división dev, métricas, determinismo y reejecución SQL local; no nueva generación GPU.",
+  "corridas": [
+    {
+      "nombre": "lora_b",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 49
+    },
+    {
+      "nombre": "lora_b_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 49
+    }
+  ],
+  "adapter_seleccionado": "lora_a",
+  "motivo": "A logra 53/76 frente a 49/76 de B y usa menos memoria de entrenamiento.",
+  "diferencia_entorno": "Python 3.13.15 en A corregido frente a 3.13.16 en B; mismas versiones reportadas de torch, transformers y peft.",
+  "hipotesis_b_cumplida": false,
+  "experimento_inferencia": "pendiente"
+}

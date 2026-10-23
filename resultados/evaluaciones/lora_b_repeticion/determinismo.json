@@ -1,0 +1,9 @@
+{
+  "fecha_utc": "2026-10-23T18:16:12.234571+00:00",
+  "primera": "lora_b",
+  "segunda": "lora_b_repeticion",
+  "preguntas": 40,
+  "identicas": 40,
+  "distintas": [],
+  "determinista": true
+}
