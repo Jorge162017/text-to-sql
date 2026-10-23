@@ -1,0 +1,86 @@
+{
+  "fecha_revision_utc": "2026-10-23T15:20:38.441276+00:00",
+  "archivo_recibido": "verificacion_correcciones_t4.zip",
+  "zip_sha256": "5fb3d6bc25e0a5f2ae77e5de6b0995babdcc8a6ae6942d0550e4711ba1355524",
+  "revision": "Validación de evidencia recibida y reejecución SQL local; no nueva ejecución del modelo",
+  "configuracion_coincide": true,
+  "mysql_local": "8.4.10",
+  "corridas": {
+    "oraculo_corregido": {
+      "preguntas": 40,
+      "peso_aciertos": 76,
+      "peso_total": 76,
+      "ex": 1.0,
+      "carga_s": null,
+      "latencia_max_s": 0.0,
+      "gpu_reportada": "Tesla T4",
+      "revision_modelo": null,
+      "coincide_mysql_local": true
+    },
+    "baseline_corregido": {
+      "preguntas": 40,
+      "peso_aciertos": 43,
+      "peso_total": 76,
+      "ex": 0.5658,
+      "carga_s": 37.0,
+      "latencia_max_s": 5.44,
+      "gpu_reportada": "Tesla T4",
+      "revision_modelo": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "coincide_mysql_local": true
+    },
+    "baseline_corregido_repeticion": {
+      "preguntas": 40,
+      "peso_aciertos": 43,
+      "peso_total": 76,
+      "ex": 0.5658,
+      "carga_s": 15.09,
+      "latencia_max_s": 5.501,
+      "gpu_reportada": "Tesla T4",
+      "revision_modelo": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "coincide_mysql_local": true
+    },
+    "lora_a_corregido": {
+      "preguntas": 40,
+      "peso_aciertos": 53,
+      "peso_total": 76,
+      "ex": 0.6974,
+      "carga_s": 29.67,
+      "latencia_max_s": 6.249,
+      "gpu_reportada": "Tesla T4",
+      "revision_modelo": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "coincide_mysql_local": true
+    },
+    "lora_a_corregido_repeticion": {
+      "preguntas": 40,
+      "peso_aciertos": 53,
+      "peso_total": 76,
+      "ex": 0.6974,
+      "carga_s": 28.54,
+      "latencia_max_s": 6.409,
+      "gpu_reportada": "Tesla T4",
+      "revision_modelo": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "coincide_mysql_local": true
+    }
+  },
+  "determinismo": {
+    "baseline_corregido": "40/40",
+    "lora_a_corregido": "40/40"
+  },
+  "mejora_ex": 0.1316,
+  "verificacion_previa_a_b_completa": true,
+  "sha256": {
+    "resultados/configuracion_experimental.json": "10b7248cb97522c82c8708689a4835dff1173a0f4765e686636e3b690eb3efa5",
+    "resultados/evaluaciones/oraculo_corregido/predicciones.jsonl": "340eebda7b2aaeb1d1e168383ed9810c9bb7d0f347e6733eaac6c8ed4da80655",
+    "resultados/evaluaciones/oraculo_corregido/resumen.json": "26672f344ad41305e3e3246d5d576bc24df61bd0f0d043fe6367c62cc3a2dfb6",
+    "resultados/evaluaciones/baseline_corregido/predicciones.jsonl": "bfc02164fe7382f94e0fd766d3d2acd76058a9f52f943721e88b8a2fa6062f37",
+    "resultados/evaluaciones/baseline_corregido/resumen.json": "023e2318ddf427207e0999035feccf3838e785ff224719f48fd3902533aac79d",
+    "resultados/evaluaciones/baseline_corregido_repeticion/predicciones.jsonl": "1f95a90644d884d611e8540e73611a852dbedd50a3b248ee6a5c35867ccff517",
+    "resultados/evaluaciones/baseline_corregido_repeticion/resumen.json": "5ccd454248a2c0162bc6679cd574a47bac0ec249c6a92dcb2b424fd05bb0a4be",
+    "resultados/evaluaciones/baseline_corregido_repeticion/determinismo.json": "812e2cb9b3f470ab4cf9c7a11c1a3bcc9b8580e9f26b47b503cc16ee954e5cbe",
+    "resultados/evaluaciones/lora_a_corregido/predicciones.jsonl": "99a49e8d20309149532cc0f1033a348a0bb6b34315ee8d298d82686bbd6b4049",
+    "resultados/evaluaciones/lora_a_corregido/resumen.json": "0d71156288d2a5063734a549cc850a8ccf35e8f071e51f00214bfdc081ecc6de",
+    "resultados/evaluaciones/lora_a_corregido_repeticion/predicciones.jsonl": "b09c9472a6927a24e4d8cae3b602aae7daf02fe83869553b7755d1898b3b8d5b",
+    "resultados/evaluaciones/lora_a_corregido_repeticion/resumen.json": "3f8118c7acfaf11f20ff04a628d3c7c2239c157ca2dcfb9417a1adc9dd14b716",
+    "resultados/evaluaciones/lora_a_corregido_repeticion/determinismo.json": "f8c2426393db84ae3f549ba8d7974dedd7599c0cb08823dd364928cca294a723"
+  }
+}
