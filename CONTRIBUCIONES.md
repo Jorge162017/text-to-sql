@@ -25,3 +25,15 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | --- | --- | --- | --- |
 | Hipótesis B previa y comparación de un factor | Jorge Lopez, asistido por IA | `entrenamiento/lora_b.json`, `BITACORA.md` | Preparado; publicación y entrenamiento pendientes |
 | Notebook T4 con preservación de A, repetición y exportación | Jorge Lopez, asistido por IA | `notebooks/05_lora_b_t4.ipynb` | Validado localmente; no ejecutado en T4 |
+
+
+| Turno 3: resultados | Responsable | Evidencia | Estado |
+| --- | --- | --- | --- |
+| Ejecución T4 de B y entrega del ZIP | Jorge Lopez | `resultados/entrenamientos/lora_b/`, `adapters/lora_b/` | Completado |
+| Auditoría de hashes, determinismo y 80 consultas SQL; selección A | Jorge Lopez, asistido por IA | `resultados/verificacion_lora_b_t4.json`, `resultados/evaluaciones/lora_b*` | Completado; inferencia pendiente |
+
+
+| Turno 3: experimento de inferencia | Responsable | Evidencia | Estado |
+| --- | --- | --- | --- |
+| Política de corrección, trazas y pruebas de límites/fallback | Jorge Lopez, asistido por IA | `evaluacion/correccion.py`, `tests/test_correccion.py`, `evaluacion/evaluar.py` | Verificado localmente |
+| Comparación controlada base/A, repetición y exportación | Jorge Lopez, asistido por IA | `notebooks/06_inferencia_t4.ipynb`, `BITACORA.md` | Preparado; medición T4 pendiente |

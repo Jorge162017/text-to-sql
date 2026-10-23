@@ -159,3 +159,25 @@ Responsable: Jorge Lopez, con asistencia de IA. Se prepararon `entrenamiento/lor
 El notebook exige hipótesis registrada en Git, T4, congelado vigente y la misma división dev de A; guarda B en otra carpeta, evalúa dos veces con el evaluador congelado, restaura A y descarga `lora_b_t4.zip`. El README del adapter A cambió después de entrenarlo; sus pesos y configuración sí coinciden con los hashes de entrenamiento. Se preserva también el README recibido al restaurar A.
 
 Comprobación local: cinco pruebas de preparación de entrenamiento aprobadas; tokenización pendiente de Colab porque transformers no está instalado localmente. Notebook validado y celdas compiladas sin ejecutar GPU. Pendiente: publicar hipótesis antes de entrenar, ejecutar notebook en T4, verificar ZIP, seleccionar adapter y realizar experimento de inferencia. No se modifica el plan fijo ni se afirma que el turno 3 esté cerrado.
+
+
+## Turno 3 — LoRA B medida y selección de A (23 de octubre de 2026)
+
+Responsable: Jorge Lopez, con asistencia de IA para preparar el notebook, revisar e integrar el ZIP. Evidencia recibida: `lora_b_t4.zip`, ejecución T4 terminada a las 18:12 UTC (12:12 Guatemala). Tiempo de entrenamiento registrado: 2756.3 s; tiempo activo humano pendiente de registrar por Jorge.
+
+B completa 202 pasos con 3,230 ejemplos train y 170 dev, división y datos idénticos a A, revisión fija y solo r=16 como cambio de hiperparámetro. Parámetros entrenables: 18,464,768; memoria pico: 6.28 GiB; loss dev final: 0.0005404348485171795. EX: 49/76 (0.6447), 30/40 aciertos; repetición idéntica en 40/40 SQL y aciertos. Carga 32.35 s y latencia máxima 4.024 s (repetición: 28.04 s y 3.991 s). Hipótesis de 56/76 rechazada; no se elimina B. Python pasó de 3.13.15 en la evaluación A corregida a 3.13.16 en B; torch, transformers y peft reportan las mismas versiones. Esta diferencia de entorno queda registrada como limitación.
+
+Se selecciona **A**: 53/76 (0.6974), frente a 49/76 de B, y menor memoria de entrenamiento (6.15 frente a 6.28 GiB). B tardó aproximadamente 45.9 min, frente a 46.4 min de A; no se atribuye causalmente esta pequeña variación al rango. La menor loss dev de B no mejora EX. `adapter/` sigue conteniendo A original; B se conserva en `adapters/lora_b/`.
+
+Validación: 14 entradas del ZIP controladas, hashes de los archivos del adapter y configuración comprobados, congelado idéntico y métricas recalculadas desde las predicciones. Se reejecutaron las 80 consultas de B/repetición con un usuario temporal SELECT en MySQL 8.4.10: todos los aciertos y códigos coinciden. Informe: `resultados/verificacion_lora_b_t4.json`. Pendiente del turno 3: experimento controlado de inferencia sobre A, decisión de estrategia y relevo. No se han publicado estos resultados todavía.
+
+
+## Turno 3 — preparación del experimento de inferencia (23 de octubre de 2026)
+
+Responsable: Jorge Lopez, asistido por IA. Tiempo humano pendiente de registrar. **Hipótesis antes de medir:** reenviar al mismo modelo los errores de ejecución MySQL podría recuperar al menos una pregunta de A y aumentar EX; no se espera resolver automáticamente errores semánticos de consultas ejecutables. Control: directa; tratamiento: corrección de errores. Primer prompt, primera generación, pesos A, datos, semilla y reglas de puntuación iguales. No hay ejemplos de validación ni referencias en el feedback.
+
+Se implementa `evaluacion/correccion.py`: hasta 3 callbacks, hasta 2 reparaciones, sin callback conserva exactamente directa. No usa filas para inferir corrección semántica. Presupuesto interno 29 s, reserva 10.5 s por callback (timeout MySQL del arnés: 10 s), reparaciones entre 2 y 8 s según tiempo restante. max_time de Transformers se revisa entre pasos, por lo que no garantiza un corte duro; la admisión depende de los tiempos reales T4. Ante error de callback, falta de tiempo, repetición o respuesta no válida, devuelve la última consulta de lectura disponible. El contrato de entrega sigue en directa hasta evaluar.
+
+El evaluador incorpora `--estrategia directa|correccion`, guarda trazas y elimina la segunda generación diagnóstica fuera del cronómetro cuando la respuesta era SELECT 1. Se preservó byte a byte el congelado A/B en `resultados/configuracion_experimental_ab.json`; el vigente incluye los hashes del nuevo evaluador y módulo de corrección. No se reetiquetan mediciones históricas: el notebook 06 repite base/A × directa/corrección × dos corridas y un oráculo (360 preguntas en total) con el nuevo congelado. Se elegiría corrección solo si mejora EX de A, cumple los límites y es determinista en las corridas; en empate se conserva directa. La selección provisional no modifica el contrato automáticamente.
+
+Verificación local: 65 pruebas aprobadas, con una clase de tokenización omitida por faltar transformers local; incluye MySQL y siete pruebas de la política de corrección. Notebook 06 validado y celdas compiladas. No se ha ejecutado el experimento en GPU. Pendientes: publicación, ejecución T4, auditoría de `inferencia_t4.zip`, integración de la estrategia elegida y relevo.

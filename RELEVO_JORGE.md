@@ -53,3 +53,13 @@ No usar `val_biblioteca`, `val_hospital`, sus preguntas ni sus resultados para e
 ## Preparación B disponible
 
 Usar `notebooks/05_lora_b_t4.ipynb`, que reutiliza la instalación MySQL verificada del notebook 04. Hipótesis: `entrenamiento/lora_b.json`; debe publicarse antes de entrenar. El ZIP `lora_b_t4.zip` incluirá B y las dos evaluaciones, manteniendo A como adapter vigente hasta revisar la comparación. Tras integrar el ZIP, completar selección y experimento de inferencia antes del relevo a Angel. La preparación del notebook no representa una corrida T4 realizada.
+
+
+## B completada; A seleccionada
+
+ZIP B integrado y verificado: EX 49/76, repetición 40/40 idéntica, 80 consultas reejecutadas en MySQL local. A conserva mejor EX (53/76) y sigue en `adapter/`; B queda en `adapters/lora_b/`. Informe `resultados/verificacion_lora_b_t4.json`. No volver a entrenar B para intentar cumplir la hipótesis. Siguiente paso pendiente: experimento directo frente a corrección con callback sobre A; repetir también el baseline para la estrategia experimental. El turno 3 aún no está cerrado.
+
+
+## Experimento preparado, pendiente de T4
+
+Notebook `06_inferencia_t4.ipynb`: no entrena, mide ambas estrategias con y sin A y repite para determinismo. Entregar `inferencia_t4.zip` para auditoría antes de actualizar el contrato. Congelado histórico A/B preservado en `resultados/configuracion_experimental_ab.json`; usar el vigente para las nuevas corridas. Selección: mayor EX respetando límites y determinismo; empate favorece directa. Los notebooks 04/05 son históricos y no se deben ejecutar para esta etapa.

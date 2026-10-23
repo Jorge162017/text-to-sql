@@ -22,6 +22,7 @@ def huella_prompt(solucion):
 
 def configuracion(solucion):
     archivos = ['solucion.py', 'entrenamiento/entrenar.py', 'evaluacion/comparar.py', 'evaluacion/evaluar.py',
+                'evaluacion/correccion.py',
                 'datos/particiones.json', 'datos/entrenamiento/pares.jsonl', 'datos/validacion/pares.jsonl',
                 'datos/validacion/referencias_resultados.jsonl']
     return {
@@ -36,6 +37,13 @@ def configuracion(solucion):
         'generacion': {'do_sample': False, 'num_beams': 1, 'repetition_penalty': 1.0,
                        'max_new_tokens': solucion.MAX_TOKENS_NUEVOS, 'max_time_s': solucion.MAX_SEGUNDOS_GENERACION,
                        'consulta_neutra': solucion.CONSULTA_NEUTRA, 'estrategia': 'directa, sin llamadas a ejecutar'},
+        'experimento_inferencia': {'version': 'correccion_errores_v1',
+                                  'control': 'directa', 'tratamiento': 'correccion',
+                                  'mismo_prompt_inicial': True,
+                                  'reparaciones_maximas': 2, 'llamadas_maximas': 3,
+                                  'presupuesto_s': 29, 'reserva_callback_s': 10.5,
+                                  'min_reparacion_s': 2, 'max_reparacion_s': 8,
+                                  'seleccion': 'Mayor EX cumpliendo límites y determinismo; empate favorece directa'},
         'evaluacion': {'conjunto': 'datos/validacion/pares.jsonl', 'preguntas': 40, 'peso_total': 76,
                        'pesos': {'facil': 1, 'media': 2, 'dificil': 3}, 'redondeo': '2 decimales, ROUND_HALF_UP',
                        'duplicados': 'multiconjunto', 'orden': 'solo si requiere_orden',

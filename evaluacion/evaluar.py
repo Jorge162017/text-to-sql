@@ -114,6 +114,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--nombre', required=True, help='Carpeta de salida en resultados/evaluaciones/')
     parser.add_argument('--adapter', choices=['config', 'si', 'no'], default='config')
+    parser.add_argument('--estrategia', choices=['directa', 'correccion'], default='directa')
     parser.add_argument('--oraculo', action='store_true', help='Usa el SQL de referencia como predicción (control)')
     parser.add_argument('--limite', type=int, help='Evaluar solo las primeras N preguntas (pruebas rápidas)')
     parser.add_argument('--inicializar', action='store_true', help='Importa las bases de validación que falten')
@@ -172,14 +173,19 @@ def main():
             ejecutar, llamadas = crear_callback(lector, par['esquema_id'], solucion.es_consulta_lectura)
             inicio = time.perf_counter()
             excepcion = None
+            traza = []
             try:
-                sql = par['sql'] if args.oraculo else solucion.generar_sql(par['esquema'], par['pregunta'], ejecutar)
+                if args.oraculo:
+                    sql = par['sql']
+                elif args.estrategia == 'correccion':
+                    from evaluacion.correccion import generar_sql as corregir
+                    sql = corregir(solucion, par['esquema'], par['pregunta'], ejecutar, traza=traza)
+                else:
+                    sql = solucion.generar_sql(par['esquema'], par['pregunta'], ejecutar)
             except Exception as exc:  # el contrato no debe lanzar; se registra como fallo
                 sql, excepcion = '', f'{type(exc).__name__}: {exc}'
             latencia = round(time.perf_counter() - inicio, 3)
             respuesta_cruda = None
-            if not args.oraculo and sql == solucion.CONSULTA_NEUTRA:
-                respuesta_cruda = solucion.generar_respuesta(par['esquema'], par['pregunta'])  # solo diagnóstico
 
             pred, acierto, motivo = None, False, None
             if excepcion:
@@ -204,7 +210,7 @@ def main():
                 'id': par['id'], 'numero': par['numero'], 'esquema_id': par['esquema_id'], 'nivel': par['nivel'],
                 'peso': par['peso'], 'requiere_orden': par['requiere_orden'], 'pregunta': par['pregunta'],
                 'columnas_esperadas': par['columnas_esperadas'], 'sql_referencia': par['sql'], 'sql_generado': sql,
-                'respuesta_cruda': respuesta_cruda, 'acierto': acierto, 'categoria': categoria, 'motivo': motivo,
+                'respuesta_cruda': respuesta_cruda, 'traza_inferencia': traza, 'acierto': acierto, 'categoria': categoria, 'motivo': motivo,
                 'codigo_mysql': pred['codigo'] if pred else None,
                 'columnas_generadas': pred['columnas'] if pred else None,
                 'filas_generadas': len(pred['filas']) if pred and pred['ok'] else None,
@@ -235,7 +241,8 @@ def main():
         'limpieza_version': solucion.LIMPIEZA_VERSION,
         'revision_modelo': cargado['revision_modelo'] if cargado else None,
         'generacion': cargado['generacion'].to_diff_dict() if cargado else None,
-        'estrategia': 'directa, sin llamadas a ejecutar',
+        'estrategia': args.estrategia,
+        'correccion_version': __import__('evaluacion.correccion', fromlist=['VERSION']).VERSION if args.estrategia == 'correccion' else None,
         'mysql': {'version': version, 'sql_mode': modo},
         'tiempo_carga_s': tiempo_carga,
         'latencia_s': {'media': round(statistics.mean(latencias), 3), 'mediana': round(statistics.median(latencias), 3),

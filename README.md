@@ -121,3 +121,25 @@ Para comparar B usar `baseline_corregido` y `lora_a_corregido`; conservar las co
 Jorge Lopez tiene preparada la hipótesis B en `entrenamiento/lora_b.json` y el notebook `notebooks/05_lora_b_t4.ipynb`. B cambia solo el rango de 8 a 16. **Preparación local; entrenamiento pendiente.** Publicar la hipótesis y el notebook antes de entrenar; abrir el notebook 05 en una sesión nueva de Colab con GPU T4 y el secret `GITHUB_TOKEN`, ejecutar en orden y descargar `lora_b_t4.zip`. Enviar el ZIP para verificar e integrar pesos, pérdidas, métricas y las dos evaluaciones. El notebook conserva y restaura A. Reservar aproximadamente 60–90 minutos; el tiempo real de B aún no se conoce.
 
 Después se seleccionará A o B usando EX, latencia y memoria; se preparará otra ejecución en Colab para el experimento controlado de inferencia. Todavía no está seleccionado el adapter final ni completado el turno 3. No se debe modificar el congelado para el entrenamiento B.
+
+
+### Resultado B y adapter seleccionado
+
+B ya fue entrenado en T4 y su ZIP integrado y comprobado. La tabla siguiente corresponde a generación directa con el congelado vigente; las tres configuraciones son deterministas en 40/40 preguntas al repetir.
+
+| Modelo | EX ponderada | Aciertos | Memoria pico de entrenamiento |
+| --- | ---: | ---: | ---: |
+| Base corregido | 43/76 = 0.5658 | 27/40 | No aplica |
+| LoRA A corregido, r=8 | **53/76 = 0.6974** | 31/40 | 6.15 GiB |
+| LoRA B, r=16 | 49/76 = 0.6447 | 30/40 | 6.28 GiB |
+
+Se conserva **A en `adapter/`** por mayor EX y menor memoria; B está en `adapters/lora_b/`. Su hipótesis no se cumplió. Evidencia: `resultados/entrenamientos/lora_b/`, `resultados/evaluaciones/lora_b*` y `resultados/verificacion_lora_b_t4.json`. Las 80 predicciones de B y su repetición reprodujeron sus aciertos al reejecutarlas en MySQL local. Las versiones de Python reportadas difieren en un parche entre A corregido y B; las bibliotecas de ML reportan las mismas versiones. **Todavía falta el experimento de inferencia para completar el turno 3**; las instrucciones anteriores de ejecución B quedan como reproducción histórica.
+
+
+### Ejecutar el experimento de inferencia
+
+`notebooks/06_inferencia_t4.ipynb` prepara la comparación de generación directa frente a reparación de errores MySQL sobre **A**, con control adicional sin adapter y repetición de las cuatro combinaciones. No entrena. Después de publicar estos cambios, abrir en una sesión nueva de Colab T4 con el secret `GITHUB_TOKEN`, ejecutar en orden y descargar `inferencia_t4.zip`. Tiempo estimado: 25–40 minutos, según descargas. Si una celda falla, detenerse y compartir el error; no saltar controles.
+
+Las corridas nuevas se llaman `inferencia_base_directa`, `inferencia_base_correccion`, `inferencia_a_directa`, `inferencia_a_correccion`, sus repeticiones y `inferencia_oraculo`. El congelado A/B histórico está en `resultados/configuracion_experimental_ab.json`; el vigente incluye el experimento. El prompt inicial no cambia; el tratamiento añade SQL previo y error MySQL solo tras un fallo. Máximo tres callbacks y dos reparaciones. Sin callback se conserva directa. Los límites se comprobarán en T4: el timeout del callback es 10 s en nuestro arnés y max_time del modelo no constituye un corte duro.
+
+El contrato `solucion.py` aún usa directa. La propuesta del notebook no selecciona automáticamente la entrega: después de auditar el ZIP se integrará corrección solo si mejora EX y cumple tiempos y determinismo; en empate queda directa. Los notebooks 04/05 corresponden a la configuración histórica A/B y no deben usarse para reemplazar el congelado del experimento.

@@ -19,6 +19,19 @@
     "consulta_neutra": "SELECT 1",
     "estrategia": "directa, sin llamadas a ejecutar"
   },
+  "experimento_inferencia": {
+    "version": "correccion_errores_v1",
+    "control": "directa",
+    "tratamiento": "correccion",
+    "mismo_prompt_inicial": true,
+    "reparaciones_maximas": 2,
+    "llamadas_maximas": 3,
+    "presupuesto_s": 29,
+    "reserva_callback_s": 10.5,
+    "min_reparacion_s": 2,
+    "max_reparacion_s": 8,
+    "seleccion": "Mayor EX cumpliendo límites y determinismo; empate favorece directa"
+  },
   "evaluacion": {
     "conjunto": "datos/validacion/pares.jsonl",
     "preguntas": 40,
@@ -43,7 +56,8 @@
     "solucion.py": "10e74f1669f9685762967328b404429980b52df11c7c1db082ed0bd11fb189cb",
     "entrenamiento/entrenar.py": "8c8d5b1c36253a6506b4a47f86fd4803ebd4e0a483099e508e05b3e18eaa0f56",
     "evaluacion/comparar.py": "f2234b0ac460ab1855d1657e12523fcf7afc473f94f5cf1054e84c0e10fdded1",
-    "evaluacion/evaluar.py": "6fdd9687b8a5c3f8b92a08f7bd22df0a0fa9dcefe56c6f20d25980f2220b0784",
+    "evaluacion/evaluar.py": "1721cb0e7cb0a7ecc1d7903d4bc5a0dc9836522a324a83392f2ec12b1a609040",
+    "evaluacion/correccion.py": "a8fb72dfde5ff764308d90c6369f3ad326a55ceee8ae3efd103e674ea4251f4f",
     "datos/particiones.json": "9d116778cff9df62e7765be4f44b3ba33c56229c48481657b66c1e22b40db836",
     "datos/entrenamiento/pares.jsonl": "655272f10280a67f2ef35bdb7f3432dbea7a88d794ae2e3278c1c4bfd33591ef",
     "datos/validacion/pares.jsonl": "70669e91e046a6a1f649be7cc47e57aa691ed579649f0af4c43f35be3a1db40b",
