@@ -102,3 +102,23 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Impacto en la entrega: el mismo error habría ocurrido en la evaluación del docente al cargar el adapter, porque instala `requirements.txt` sobre el mismo Colab.
 - Corrección: fijar `peft==0.18.1`, que acepta torchao ≥ 0.4. Se reprodujo localmente con torchao 0.10.0: con peft 0.21.2 se obtiene el mismo ImportError; con 0.18.1 el entrenamiento de prueba da la misma pérdida dev (0.377387) y `solucion.cargar` carga y fusiona el adapter. Las 53 pruebas aprueban. El baseline no usa peft, así que su medición sigue siendo válida.
 - Siguiente paso: reiniciar el entorno de Colab y volver a ejecutar `notebooks/03_entrenamiento_t4.ipynb` con el commit corregido.
+
+## 2026-10-22 — Turno 2: LoRA A entrenada y evaluada en Colab T4
+
+- Ejecución: Angel Herrarte corrió `notebooks/03_entrenamiento_t4.ipynb` en Colab con Tesla T4 sobre el commit `bc2206d`. El entrenamiento terminó el 2026-10-23 a las 01:48 UTC. La integración y el análisis los hizo el asistente de IA a su solicitud.
+- Entorno: Python 3.13.15, torch 2.11.0+cu130, transformers 5.20.2, peft 0.18.1 y modelo con revisión `2e1fd397…`. La configuración `entrenamiento/lora_a.json` no cambió respecto del commit `26b9ab2` (sha256 `3bc9e141…`).
+- Entrenamiento: 202 pasos en una época, sin reanudar. **Duró 2,782 s (46.4 min)**, a 1.16 muestras/s, con memoria pico de 6.15 GiB. **9,232,384 parámetros entrenables (0.5945 % de 1,552,946,688).** Pérdida dev: 0.438 al inicio, 0.0258 en el paso 40, 0.0066 en el 80, 0.0020 en el 120 y 0.0006 al final. Pérdida de entrenamiento promedio 0.0348, sin NaN. Curvas en `resultados/entrenamientos/lora_a/curvas_loss.png`.
+- **Corrección de la entrada previa:** el dev tiene **170** pares y el entrenamiento **3,230**, no 150 y 3,250. Con `fraccion_dev=0.05` salen 12 por cada esquema comercial (240 pares) y 10 por cada esquema diverso (200 pares). La configuración no cambió; el error estaba solo en mi descripción.
+- **Evaluación con el mismo prompt v1: EX = 0.6974 (53/76)**, frente a 0.5658 del baseline: **+0.1316**. Fáciles 14/14 (igual), medias 12/16 con peso 24/32 (+4) y difíciles 5/10 con peso 15/30 (+6). La repetición en otro proceso dio 40/40 SQL idénticos. Carga de 30.5 s; latencia media de 1.70 s y máxima de 5.61 s; cero llamadas a `ejecutar`.
+- Respecto del baseline, ganó 9, 15, 25, 28 y 40, todas por conteos con ceros y ROW_NUMBER, y perdió 17. Fallan 7, 10, 17, 18, 20, 23, 29, 30 y 35. Por categoría: 5 resultados distintos, 3 columnas inexistentes y 1 de agregación.
+- **Veredicto de la hipótesis A: no se cumple la predicción cuantitativa.** Se predijo una EX de al menos 0.72 (mejora de 0.15 o más) y se obtuvo 0.6974 (+0.1316); faltaron 2 puntos de peso. Se confirma la dirección: mejoran medias y difíciles, se mantienen las fáciles y la latencia media queda por debajo de 5 s, aunque la máxima llegó a 5.6 s. Aprendió LEFT JOIN con COUNT(columna) y ROW_NUMBER().
+- **El riesgo declarado sí apareció.** La pérdida dev casi nula refleja que memorizó las plantillas sintéticas. El modelo omite la tabla intermedia `ejemplares` y une `prestamos.ejemplar_id` con `titulos.id` (7, 17, 18), aplica ROW_NUMBER sobre tablas equivocadas (20, 30) y omite el ordenamiento por grupo (10). Esto apunta a la poca diversidad estructural de los datos, no a un fallo del contrato.
+- Integración: `adapter/` (37 MB) queda como adapter vigente y `config.json` pasa a `usar_adapter: true`. Con esa configuración por defecto, `import solucion` carga y fusiona el adapter en local. Pasan las 53 pruebas.
+- Evidencia: `adapter/`, `resultados/entrenamientos/lora_a/` y `resultados/evaluaciones/lora_a/` y `lora_a_repeticion/`.
+- Tiempo humano no registrado; Angel lo completará.
+
+## 2026-10-22 — Cierre del turno 2 y relevo a Jorge
+
+- Autor del registro: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente.
+- Entregables del turno: contrato e inferencia (`6fb3547`), notebook T4 y configuración congelada (`72fd3cc`), baseline con EX 0.5658 (`18bb488`), hipótesis A previa (`26b9ab2`), corrección de dependencias (`bc2206d`) y LoRA A con EX 0.6974 en el commit de cierre.
+- Relevo completo en `RELEVO_JORGE.md`: hiperparámetros exactos, prompt congelado, regla de un solo factor, presupuesto de la corrida B y comandos.

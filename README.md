@@ -2,7 +2,7 @@
 
 Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
-**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) en curso: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados. Baseline sin adapter en Colab T4: **EX = 0.5658 (43/76)**, determinista. LoRA A pendiente. Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
+**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) en curso: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados. Baseline sin adapter en Colab T4: **EX = 0.5658 (43/76)**. LoRA A (r=8): **EX = 0.6974 (53/76)**, +0.1316, determinista; queda en `adapter/` con `usar_adapter: true`. Relevo a Jorge en [`RELEVO_JORGE.md`](RELEVO_JORGE.md). Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
 
 ## Documentación
 
@@ -62,7 +62,7 @@ def generar_sql(esquema: str, pregunta: str, ejecutar=None) -> str:
     ...
 ```
 
-- **Carga:** al importar `solucion` se lee `config.json` y se carga el modelo una sola vez (fp16 en CUDA/T4). Con `"usar_adapter": true` se aplica el adapter de `adapter/` y se fusiona; si falta, falla explícitamente en lugar de usar el base en silencio. `config.json` queda con `usar_adapter: false` hasta que exista el adapter entrenado.
+- **Carga:** al importar `solucion` se lee `config.json` y se carga el modelo una sola vez (fp16 en CUDA/T4). Con `"usar_adapter": true` se aplica el adapter de `adapter/` y se fusiona; si falta, falla explícitamente en lugar de usar el base en silencio. `config.json` usa `usar_adapter: true` con el adapter LoRA A de `adapter/`.
 - **Prompt congelado (`PROMPT_VERSION = "v1"`):** mensaje de sistema con reglas y mensaje de usuario con el esquema compactado y la pregunta. `compactar_esquema` quita índices simples y opciones físicas (`ENGINE`, `CHARSET`, `COLLATE`) y conserva columnas, PK, UNIQUE, FK y todos los `COMMENT`. Base, adapter y entrenamiento usan la misma función `construir_mensajes`.
 - **Generación determinista:** greedy (`do_sample=False`, `num_beams=1`, `repetition_penalty=1.0`), máximo 320 tokens y `max_time=25 s` como red de seguridad. Reemplaza el `generation_config.json` de Qwen, que trae muestreo activado.
 - **Salida:** se extrae una sola sentencia (bloque Markdown o texto libre, corte en el primer `;` fuera de literales). Si no es una única consulta `SELECT`/`WITH` de solo lectura (escrituras, `WITH ... DELETE`, `INTO OUTFILE`, `FOR UPDATE`, `SLEEP`...), devuelve `SELECT 1`.

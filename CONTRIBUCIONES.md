@@ -13,6 +13,7 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | Relevo y limpieza del primer turno | Jorge Lopez, con asistencia de IA | `RELEVO_ANGEL.md`, `README.md`, `datos/README.md` | Cierre técnico preparado; publicación autorizada por Jorge; evidencia en el historial de Git |
 | Contrato de inferencia y evaluador ponderado | Angel Herrarte, con asistencia de IA | `solucion.py`, `config.json`, `evaluacion/`, `tests/test_solucion.py`, `tests/test_evaluador*.py`, `resultados/evaluaciones/oraculo/` | Implementado; oráculo EX = 1.0 y 46 pruebas aprobadas; revisión de Angel pendiente |
 | Baseline sin adapter en Colab T4 | Angel Herrarte (ejecución en Colab), con asistencia de IA en integración y análisis | `notebooks/02_evaluacion_t4.ipynb`, `resultados/evaluaciones/baseline/`, `baseline_repeticion/`, `oraculo_t4/`, `resultados/configuracion_experimental.json` | EX = 0.5658 (43/76); determinismo 40/40; oráculo 76/76 |
-| LoRA A | Angel Herrarte | Se registrará en su turno | Pendiente |
+| Hipótesis, entrenamiento y evaluación de LoRA A | Angel Herrarte (ejecución en Colab), con asistencia de IA en implementación, integración y análisis | `entrenamiento/`, `notebooks/03_entrenamiento_t4.ipynb`, `adapter/`, `resultados/entrenamientos/lora_a/`, `resultados/evaluaciones/lora_a*/`, commit de la hipótesis `26b9ab2` | EX = 0.6974 (53/76), +0.1316 sobre el baseline; hipótesis cuantitativa (≥ 0.72) no cumplida |
+| Relevo al turno 3 | Angel Herrarte, con asistencia de IA | `RELEVO_JORGE.md`, `BITACORA.md` | Entregado |
 | LoRA B e inferencia | Jorge Lopez | Se registrará en su turno | No iniciado |
 | Auditoría final y entrega | Angel Herrarte | Se registrará en su turno | No iniciado |
