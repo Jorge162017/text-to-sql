@@ -1,0 +1,33 @@
+{
+  "nombre": "lora_a",
+  "hipotesis": "Con LoRA r=8 sobre todos los módulos lineales de atención y MLP, una época sobre los pares sintéticos de entrenamiento y el mismo prompt v1, el modelo aprenderá patrones de MySQL que el baseline falla: LEFT JOIN con COUNT(columna) para conservar ceros, ROW_NUMBER() para el primero o último por grupo y GROUP BY compatible con ONLY_FULL_GROUP_BY, además de usar solo columnas del esquema. Predicción: la EX de la validación propia sube de 0.5658 (43/76) a al menos 0.72 (mejora de 0.15 o más), principalmente en medias (baseline 20/32) y difíciles (9/30), con las fáciles en 14/14 y la latencia por debajo de 5 s. Riesgo: sobreajuste a la redacción y los alias de las plantillas sintéticas; si baja la EX de fáciles o aparecen columnas inventadas nuevas, se interpretará como pérdida de generalización.",
+  "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "datos": "datos/entrenamiento/pares.jsonl",
+  "fraccion_dev": 0.05,
+  "semilla": 2026,
+  "max_longitud": 1024,
+  "lora": {
+    "r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "bias": "none",
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  },
+  "entrenamiento": {
+    "epocas": 1,
+    "tasa_aprendizaje": 0.0002,
+    "programador": "cosine",
+    "pasos_calentamiento": 10,
+    "batch_por_dispositivo": 2,
+    "acumulacion_gradiente": 8,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "optimizador": "adamw_torch",
+    "fp16": true,
+    "gradient_checkpointing": true,
+    "pasos_registro": 5,
+    "pasos_evaluacion": 40,
+    "pasos_guardado": 40
+  },
+  "salida_adapter": "adapter/"
+}

@@ -78,3 +78,19 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Configuración congelada para A/B: prompt v1 (sha256 `1fb4d982…`), generación greedy con 320 tokens, semilla 2026 y el criterio de evaluación descrito en el README.
 - Evidencia: `resultados/evaluaciones/oraculo_t4/`, `baseline/` y `baseline_repeticion/`.
 - Pendiente: escribir la hipótesis A **antes** de entrenar, entrenar LoRA A en T4 y evaluarla con el mismo prompt. Tiempo humano no registrado; Angel lo completará.
+
+## 2026-10-22 — Turno 2: hipótesis y configuración de LoRA A (antes de entrenar)
+
+- Autor del registro y preparación: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente. Esta entrada y `entrenamiento/lora_a.json` se publican **antes** de iniciar el entrenamiento; la fecha del commit sirve como evidencia.
+- **Hipótesis A:** con LoRA r=8 sobre todos los módulos lineales de atención y MLP, una época sobre los pares sintéticos y el mismo prompt v1, el modelo aprenderá patrones de MySQL que el baseline falla: LEFT JOIN con COUNT(columna) para conservar ceros, ROW_NUMBER() para el primero o último por grupo, GROUP BY compatible con ONLY_FULL_GROUP_BY y uso exclusivo de columnas del esquema. **Predicción:** la EX de la validación propia sube de 0.5658 (43/76) a al menos 0.72 (mejora de 0.15 o más), sobre todo en medias (20/32) y difíciles (9/30), con las fáciles en 14/14 y la latencia por debajo de 5 s. **Riesgo:** sobreajuste a la redacción y los alias de las plantillas; si baja la EX de fáciles o aparecen columnas inventadas nuevas, se interpretará como pérdida de generalización.
+- **Configuración común para A/B** (`entrenamiento/lora_a.json`):
+  - LoRA: `lora_alpha=16`, `lora_dropout=0.05`, `bias=none`, módulos `q,k,v,o,gate,up,down_proj`.
+  - Entrenamiento: 1 época, AdamW (`adamw_torch`) con LR 2e-4 coseno y 10 pasos de calentamiento, `weight_decay=0`, `max_grad_norm=1.0`. Batch 2 × acumulación 8, equivalente a 16.
+  - Precisión y memoria: fp16 con el modelo base en fp16 y los pesos LoRA en fp32; gradient checkpointing activado; `max_longitud=1024` sin truncar.
+  - Semilla 2026 (también `data_seed`).
+  - Datos: 3,400 pares, de los que se apartan 150 para dev (10 por esquema, estratificado) y quedan 3,250 para entrenar. La pérdida se calcula solo sobre el SQL y `<|im_end|>`.
+  - Prompt: el mismo `construir_mensajes` de `solucion.py`.
+  - La B debe copiar este archivo y cambiar **solo** `lora.r` (de 8 a 16). `tests/test_entrenamiento.py` comprueba esa regla. Consecuencia del cambio: con `lora_alpha` fijo, la escala alpha/r pasa de 2.0 a 1.0.
+- Mediciones previas locales, no oficiales: los ejemplos ocupan como máximo 868 tokens (mediana 805), unos 2.7 M tokens por época. Una prueba de 2 pasos en macOS (MPS, fp32) registró **9,232,384 parámetros entrenables (0.59 %)** y una pérdida dev inicial de alrededor de 0.39. El adapter resultante (37 MB) cargó y se fusionó por `solucion.cargar`.
+- Estimación en T4: unos 203 pasos de optimización, 45–75 min. Se ejecutará con `notebooks/03_entrenamiento_t4.ipynb`, que entrena, evalúa con `--adapter si`, repite la evaluación para comprobar determinismo y compara con el baseline.
+- Tiempo humano no registrado; Angel lo completará.

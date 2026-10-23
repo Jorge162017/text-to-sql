@@ -82,6 +82,15 @@ En Colab T4, [`notebooks/02_evaluacion_t4.ipynb`](notebooks/02_evaluacion_t4.ipy
 
 Reglas de acierto (`evaluacion/comparar.py`): los números se redondean a 2 decimales (half-up) en ambos lados y las fechas se comparan en ISO. El orden solo cuenta con `requiere_orden`; si no, se comparan multiconjuntos, así que los duplicados cuentan. Las columnas se alinean **por valores**, no por alias: cada columna esperada debe corresponder a una columna predicha distinta, y la proyección debe reproducir la referencia fila por fila. Las columnas adicionales no penalizan; las filas de más o de menos sí. Las categorías automáticas son sintaxis, columna/tabla inexistente, agregación, error de ejecución, resultado distinto, formato inválido y límite excedido (más de 30 s o más de 3 llamadas). La clasificación fina en JOIN y filtro corresponde al turno 4.
 
+### Entrenamiento LoRA
+
+```bash
+python -m entrenamiento.entrenar --config entrenamiento/lora_a.json            # requiere CUDA (Colab T4)
+python -m entrenamiento.entrenar --config entrenamiento/lora_a.json --prueba   # 2 pasos, directorio temporal
+```
+
+`entrenamiento/lora_a.json` contiene la hipótesis y todos los hiperparámetros. Una configuración B debe ser una copia que cambie solo `lora.r`; `tests/test_entrenamiento.py` lo verifica. El entrenamiento usa el mismo `construir_mensajes` que la inferencia y calcula la pérdida solo sobre el SQL de respuesta. Aparta un 5 % por esquema como dev para la curva y rechaza esquemas o preguntas de validación. Guarda el adapter en `salida_adapter` y en `resultados/entrenamientos/<nombre>/` las métricas (parámetros entrenables, tiempo, memoria pico, pérdidas), el historial y `curvas_loss.png`. En Colab se ejecuta con [`notebooks/03_entrenamiento_t4.ipynb`](notebooks/03_entrenamiento_t4.ipynb), que además evalúa con `--adapter si`, comprueba determinismo y compara con el baseline.
+
 Orden del equipo: **Jorge → Angel → Jorge → Angel**, con el alcance detallado en el plan fijo. No entrenar ni construir few-shot con las preguntas o esquemas de validación.
 
 ## Licencias y uso de IA
