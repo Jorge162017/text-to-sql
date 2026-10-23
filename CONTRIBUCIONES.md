@@ -37,3 +37,10 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | --- | --- | --- | --- |
 | Política de corrección, trazas y pruebas de límites/fallback | Jorge Lopez, asistido por IA | `evaluacion/correccion.py`, `tests/test_correccion.py`, `evaluacion/evaluar.py` | Verificado localmente |
 | Comparación controlada base/A, repetición y exportación | Jorge Lopez, asistido por IA | `notebooks/06_inferencia_t4.ipynb`, `BITACORA.md` | Preparado; medición T4 pendiente |
+
+
+| Cierre técnico del turno 3 | Responsable | Evidencia | Estado |
+| --- | --- | --- | --- |
+| Ejecución T4 del experimento, entrega del ZIP | Jorge Lopez | `resultados/evaluaciones/inferencia_*` | Completado |
+| Auditoría de 360 consultas, comparación y selección A + directa | Jorge Lopez, asistido por IA | `resultados/verificacion_inferencia_t4.json`, `resultados/seleccion_final_turno3.json` | Completado localmente; publicación pendiente |
+| Relevo técnico a Angel | Jorge Lopez, asistido por IA | `RELEVO_ANGEL_TURNO4.md` | Preparado; horas humanas reales pendientes |

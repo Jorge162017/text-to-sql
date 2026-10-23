@@ -63,3 +63,8 @@ ZIP B integrado y verificado: EX 49/76, repetición 40/40 idéntica, 80 consulta
 ## Experimento preparado, pendiente de T4
 
 Notebook `06_inferencia_t4.ipynb`: no entrena, mide ambas estrategias con y sin A y repite para determinismo. Entregar `inferencia_t4.zip` para auditoría antes de actualizar el contrato. Congelado histórico A/B preservado en `resultados/configuracion_experimental_ab.json`; usar el vigente para las nuevas corridas. Selección: mayor EX respetando límites y determinismo; empate favorece directa. Los notebooks 04/05 son históricos y no se deben ejecutar para esta etapa.
+
+
+## Cierre técnico del turno 3
+
+Experimento T4 integrado y auditado: corrección empata 53/76 con A directa y aumenta latencia. Estrategia final: **A + directa**, sin modificar el contrato ya medido. Ver `resultados/seleccion_final_turno3.json`, `resultados/verificacion_inferencia_t4.json` y `RELEVO_ANGEL_TURNO4.md`. Las 360 predicciones reproducen los aciertos en MySQL local; cuatro combinaciones deterministas y dentro de límites. No hace falta otro entrenamiento para cerrar este turno. Jornada aproximada de Jorge documentada en la bitácora; publicación pendiente.

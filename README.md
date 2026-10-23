@@ -143,3 +143,17 @@ Se conserva **A en `adapter/`** por mayor EX y menor memoria; B está en `adapte
 Las corridas nuevas se llaman `inferencia_base_directa`, `inferencia_base_correccion`, `inferencia_a_directa`, `inferencia_a_correccion`, sus repeticiones y `inferencia_oraculo`. El congelado A/B histórico está en `resultados/configuracion_experimental_ab.json`; el vigente incluye el experimento. El prompt inicial no cambia; el tratamiento añade SQL previo y error MySQL solo tras un fallo. Máximo tres callbacks y dos reparaciones. Sin callback se conserva directa. Los límites se comprobarán en T4: el timeout del callback es 10 s en nuestro arnés y max_time del modelo no constituye un corte duro.
 
 El contrato `solucion.py` aún usa directa. La propuesta del notebook no selecciona automáticamente la entrega: después de auditar el ZIP se integrará corrección solo si mejora EX y cumple tiempos y determinismo; en empate queda directa. Los notebooks 04/05 corresponden a la configuración histórica A/B y no deben usarse para reemplazar el congelado del experimento.
+
+
+### Decisión final del turno 3 — experimento completado
+
+| Configuración | EX ponderada | Latencia media | Latencia máxima |
+| --- | ---: | ---: | ---: |
+| Base directa | 43/76 = 0.5658 | 1.967 s | 5.014 s |
+| Base con corrección | 48/76 = 0.6316 | 2.748 s | 10.854 s |
+| **A directa (entrega)** | **53/76 = 0.6974** | **1.648 s** | **5.463 s** |
+| A con corrección | 53/76 = 0.6974 | 1.979 s | 11.467 s |
+
+Todas las combinaciones repiten 40/40 SQL y aciertos idénticos, y cumplen límites en T4. La corrección no recuperó preguntas de A, por lo que se conserva **A + generación directa** en el contrato existente. Sin callback también genera directamente. B queda conservado como experimento de rango; el experimento de inferencia no requiere otro entrenamiento.
+
+Se reejecutaron las 360 predicciones del ZIP en MySQL local: todos los aciertos y códigos coinciden. Evidencia: `resultados/verificacion_inferencia_t4.json` y `resultados/seleccion_final_turno3.json`. Mejora final comparable sobre base directo: 10/76 = 0.1316. Las instrucciones previas que decían «pendiente T4» describen la preparación; el experimento ya fue integrado. El turno 4 y sus pendientes están en `RELEVO_ANGEL_TURNO4.md`.
