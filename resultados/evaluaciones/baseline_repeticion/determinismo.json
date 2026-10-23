@@ -1,0 +1,9 @@
+{
+  "fecha_utc": "2026-10-23T00:10:20.115559+00:00",
+  "primera": "baseline",
+  "segunda": "baseline_repeticion",
+  "preguntas": 40,
+  "identicas": 40,
+  "distintas": [],
+  "determinista": true
+}

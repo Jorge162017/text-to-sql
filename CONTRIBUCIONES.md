@@ -12,6 +12,7 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | Preguntas propias de validación recibidas por chat | Jorge Lopez (1–10 y 21–30) y Angel Herrarte (11–20 y 31–40), según lo indicado por Jorge | `datos/validacion/preguntas_propias.jsonl`, campo `pregunta_original` | 20 por integrante; Originales preservados; SQL y precisiones revisados con asistencia de IA a solicitud de Jorge |
 | Relevo y limpieza del primer turno | Jorge Lopez, con asistencia de IA | `RELEVO_ANGEL.md`, `README.md`, `datos/README.md` | Cierre técnico preparado; publicación autorizada por Jorge; evidencia en el historial de Git |
 | Contrato de inferencia y evaluador ponderado | Angel Herrarte, con asistencia de IA | `solucion.py`, `config.json`, `evaluacion/`, `tests/test_solucion.py`, `tests/test_evaluador*.py`, `resultados/evaluaciones/oraculo/` | Implementado; oráculo EX = 1.0 y 46 pruebas aprobadas; revisión de Angel pendiente |
-| Baseline y LoRA A | Angel Herrarte | Se registrará en su turno | Pendiente (requiere T4) |
+| Baseline sin adapter en Colab T4 | Angel Herrarte (ejecución en Colab), con asistencia de IA en integración y análisis | `notebooks/02_evaluacion_t4.ipynb`, `resultados/evaluaciones/baseline/`, `baseline_repeticion/`, `oraculo_t4/`, `resultados/configuracion_experimental.json` | EX = 0.5658 (43/76); determinismo 40/40; oráculo 76/76 |
+| LoRA A | Angel Herrarte | Se registrará en su turno | Pendiente |
 | LoRA B e inferencia | Jorge Lopez | Se registrará en su turno | No iniciado |
 | Auditoría final y entrega | Angel Herrarte | Se registrará en su turno | No iniciado |

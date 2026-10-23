@@ -2,7 +2,7 @@
 
 Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
-**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) en curso: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados; baseline en T4 y LoRA A pendientes. Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
+**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) en curso: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados. Baseline sin adapter en Colab T4: **EX = 0.5658 (43/76)**, determinista. LoRA A pendiente. Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
 
 ## Documentación
 

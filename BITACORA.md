@@ -63,3 +63,18 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 - Licencia del modelo base: Apache-2.0. Se fijaron transformers 5.20.2, peft 0.21.2 y accelerate 1.15.0; torch se toma de Colab (≥ 2.6).
 - Evidencia: `solucion.py`, `config.json`, `evaluacion/`, `tests/test_solucion.py`, `tests/test_evaluador.py`, `tests/test_evaluador_mysql.py` y `resultados/evaluaciones/oraculo/`.
 - Pendiente: baseline completo en T4 y congelación de la configuración experimental (commit 2); hipótesis y entrenamiento de LoRA A (commit 3). Tiempo humano no registrado; Angel lo completará.
+
+## 2026-10-22 — Turno 2: baseline sin adapter en Colab T4
+
+- Ejecución: Angel Herrarte corrió `notebooks/02_evaluacion_t4.ipynb` en Google Colab con Tesla T4, según indicó. Resultado de la corrida en UTC: 2026-10-23 00:10. La integración y el análisis los hizo el asistente de IA a su solicitud.
+- Entorno: Python 3.13.15, torch 2.11.0+cu130 (el de Colab), transformers 5.20.2 y peft 0.21.2. MySQL 8.4.10 instalado desde el binario oficial con `sql_mode` predeterminado, que incluye ONLY_FULL_GROUP_BY. Modelo `Qwen/Qwen2.5-Coder-1.5B-Instruct`, revisión `2e1fd397ee46e1388853d2af2c993145b0f1098a`, código del commit `72fd3cc`.
+- Oráculo en T4: EX = 1.0 (76/76). Las referencias reejecutadas coinciden con la evidencia del turno 1.
+- **Baseline sin adapter: EX = 0.5658 (43/76).** Fáciles 14/14 (peso 14/14); medias 10/16 (peso 20/32, EX 0.625); difíciles 3/10 (peso 9/30, EX 0.30). Biblioteca 0.5676 y hospital 0.5641.
+- Categorías automáticas: 27 correctas, 5 resultados distintos, 3 columnas o tablas inexistentes, 3 de agregación (ONLY_FULL_GROUP_BY) y 2 errores de ejecución (LIMIT dentro de IN; referencia a una función de grupo).
+- Patrones observados: `COUNT(*)` con LEFT JOIN, que cuenta 1 en lugar de 0 (15, 25); INNER JOIN donde se pedían ceros (28, 35); "primero/último por grupo" con GROUP BY en lugar de funciones de ventana (10, 20, 30, 40); columnas inventadas (7, 23); filtros añadidos sin pedirse (18, 40).
+- Límites: carga de 47.9 s con descarga del modelo y 12.9 s con caché, frente a un máximo de 5 min. Latencia media de 1.9 s y máxima de 4.9 s, frente a 30 s. Cero llamadas a `ejecutar`.
+- Determinismo: una segunda corrida en otro proceso dio 40/40 SQL idénticos (`baseline_repeticion/determinismo.json`).
+- `cambios_sin_commit: true` en baseline y repetición se debe a los archivos de resultados que el oráculo generó antes en el mismo checkout de Colab; el oráculo, ejecutado primero, registra `false` en el mismo commit. Los hashes de `resultados/configuracion_experimental.json` coinciden con `solucion.py`, el evaluador y los datos actuales.
+- Configuración congelada para A/B: prompt v1 (sha256 `1fb4d982…`), generación greedy con 320 tokens, semilla 2026 y el criterio de evaluación descrito en el README.
+- Evidencia: `resultados/evaluaciones/oraculo_t4/`, `baseline/` y `baseline_repeticion/`.
+- Pendiente: escribir la hipótesis A **antes** de entrenar, entrenar LoRA A en T4 y evaluarla con el mismo prompt. Tiempo humano no registrado; Angel lo completará.
