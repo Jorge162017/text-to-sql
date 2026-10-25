@@ -46,7 +46,7 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | --- | --- | --- | --- |
 | Ejecución T4 del experimento, entrega del ZIP | Jorge Lopez | `resultados/evaluaciones/inferencia_*` | Completado |
 | Auditoría de 360 consultas, comparación y selección A + directa | Jorge Lopez, asistido por IA | `resultados/verificacion_inferencia_t4.json`, `resultados/seleccion_final_turno3.json` | Completado y publicado |
-| Relevo técnico a Angel | Jorge Lopez, asistido por IA | `RELEVO_ANGEL_TURNO4.md` | Preparado; horas humanas reales pendientes |
+| Relevo técnico a Angel | Jorge Lopez, asistido por IA | `RELEVO_ANGEL_TURNO4.md` | Preparado; horas en la tabla final |
 
 
 ## Horas de trabajo humano
@@ -54,6 +54,6 @@ Registrar hechos y evidencia reales. Jorge encargó al asistente completar la re
 | Integrante | Horas | Base del registro |
 | --- | ---: | --- |
 | Angel Herrarte | ~12 h (turno 1: ~1, turno 2: ~6, turno 4: ~5) | Estimación aproximada a partir de las marcas de tiempo de commits y ejecuciones en Colab; ver `BITACORA.md` |
-| Jorge Lopez | Pendiente de registrar por Jorge | Jornada del 23 de octubre descrita en `BITACORA.md`, sin cifra exacta |
+| Jorge Lopez | ~14 h (turno 1: ~7, turno 3: ~7) | Estimación aproximada con el mismo método, a partir de sus commits y de la bitácora; Jorge puede corregirla |
 
 Los tiempos de GPU (entrenamiento y evaluación) se registran en `resultados/` y no cuentan como horas humanas.

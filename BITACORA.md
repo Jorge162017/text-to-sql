@@ -224,4 +224,9 @@ Responsable: Angel Herrarte, con asistencia de IA (Claude Code). Se generó `pre
 - Turno 2: ~6 h el 22 de octubre, entre la implementación previa al primer commit (16:20) y el último (20:03, hora de Guatemala), con esperas de GPU.
 - Turno 4: ~5 h el 25 de octubre, desde unas 10:30 hasta la entrega.
 
-Las horas se reconstruyeron a partir de las marcas de tiempo de los commits y de las ejecuciones en Colab; no son un registro cronometrado. Los tiempos de GPU (por ejemplo, 2782 s de entrenamiento de A) están en las métricas y no se suman como trabajo humano. Las horas de Jorge Lopez quedan pendientes de que él las registre; su jornada del 23 de octubre está descrita en la entrada correspondiente.
+Las horas se reconstruyeron a partir de las marcas de tiempo de los commits y de las ejecuciones en Colab; no son un registro cronometrado. Los tiempos de GPU (por ejemplo, 2782 s de entrenamiento de A) están en las métricas y no se suman como trabajo humano. **Horas de Jorge Lopez (estimación aproximada, mismo método):** unas **14 h** en total.
+
+- Turno 1: ~7 h entre el 21 y el 22 de octubre. Incluye el plan de trabajo (commit del 21 a las 23:29), la preparación, la revisión e integración de los 15 esquemas y los 3,400 pares, y la redacción de sus 20 preguntas de validación, hasta la publicación del 22 a las 12:23.
+- Turno 3: ~7 h el 23 de octubre, entre las correcciones previas al primer commit (08:54) y el cierre (14:35). Incluye el entrenamiento de B, el experimento en Colab y las esperas de GPU, coherente con la jornada que Jorge describió.
+
+Registradas por Angel a partir de las marcas de tiempo de los commits de Jorge y de esta bitácora. Jorge puede corregirlas.
