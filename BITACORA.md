@@ -55,7 +55,7 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 
 ## 2026-10-22 — Turno 2: contrato de inferencia y evaluador ponderado
 
-- Autor del registro y ejecución: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente.
+- Autor del registro y ejecución: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisada por Angel el 25 de octubre de 2026.
 - Trabajo: crear `config.json` con `usar_adapter: false` hasta que exista el adapter, y `solucion.py`. Este carga una sola vez al importar, usa un prompt congelado v1 compartido por base, adapter y entrenamiento, y genera en modo greedy, reemplazando el `generation_config.json` de Qwen que trae muestreo. Extrae una sola consulta y aplica un filtro de solo lectura con respaldo `SELECT 1`. La estrategia es directa, sin llamadas a `ejecutar`.
 - Evaluador: `evaluacion/comparar.py` y `evaluacion/evaluar.py` quedan fuera de `scripts/` para no alterar los hashes auditados del turno 1. Reglas: redondeo a 2 decimales, multiconjuntos con duplicados, orden solo cuando se exige y columnas alineadas por valores, con columnas adicionales permitidas. El callback de solo lectura admite 3 llamadas y devuelve 10 filas.
 - Resultado: el oráculo con las referencias como predicción da EX = 1.0 (76/76), y las 40 referencias reejecutadas coinciden con la evidencia del turno 1. Hay 46 pruebas aprobadas, 35 de ellas nuevas, incluidos controles negativos contra MySQL: DISTINCT que pierde duplicados, orden alterado y errores 1054/1064. `scripts.auditar_datos --exigir-cierre` sigue aprobando.
@@ -81,7 +81,7 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 
 ## 2026-10-22 — Turno 2: hipótesis y configuración de LoRA A (antes de entrenar)
 
-- Autor del registro y preparación: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente. Esta entrada y `entrenamiento/lora_a.json` se publican **antes** de iniciar el entrenamiento; la fecha del commit sirve como evidencia.
+- Autor del registro y preparación: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisada por Angel el 25 de octubre de 2026. Esta entrada y `entrenamiento/lora_a.json` se publican **antes** de iniciar el entrenamiento; la fecha del commit sirve como evidencia.
 - **Hipótesis A:** con LoRA r=8 sobre todos los módulos lineales de atención y MLP, una época sobre los pares sintéticos y el mismo prompt v1, el modelo aprenderá patrones de MySQL que el baseline falla: LEFT JOIN con COUNT(columna) para conservar ceros, ROW_NUMBER() para el primero o último por grupo, GROUP BY compatible con ONLY_FULL_GROUP_BY y uso exclusivo de columnas del esquema. **Predicción:** la EX de la validación propia sube de 0.5658 (43/76) a al menos 0.72 (mejora de 0.15 o más), sobre todo en medias (20/32) y difíciles (9/30), con las fáciles en 14/14 y la latencia por debajo de 5 s. **Riesgo:** sobreajuste a la redacción y los alias de las plantillas; si baja la EX de fáciles o aparecen columnas inventadas nuevas, se interpretará como pérdida de generalización.
 - **Configuración común para A/B** (`entrenamiento/lora_a.json`):
   - LoRA: `lora_alpha=16`, `lora_dropout=0.05`, `bias=none`, módulos `q,k,v,o,gate,up,down_proj`.
@@ -119,7 +119,7 @@ Fechas expresadas en America/Guatemala, salvo los campos `fecha_utc` de reportes
 
 ## 2026-10-22 — Cierre del turno 2 y relevo a Jorge
 
-- Autor del registro: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisión de Angel: pendiente.
+- Autor del registro: asistente de IA durante el turno de Angel Herrarte, a su solicitud. Revisada por Angel el 25 de octubre de 2026.
 - Entregables del turno: contrato e inferencia (`6fb3547`), notebook T4 y configuración congelada (`72fd3cc`), baseline con EX 0.5658 (`18bb488`), hipótesis A previa (`26b9ab2`), corrección de dependencias (`bc2206d`) y LoRA A con EX 0.6974 en el commit de cierre.
 - Relevo completo en `RELEVO_JORGE.md`: hiperparámetros exactos, prompt congelado, regla de un solo factor, presupuesto de la corrida B y comandos.
 
@@ -200,7 +200,7 @@ A solicitud de Jorge, se retiraron de los seis notebooks los comentarios convers
 
 ## Turno 4 — auditoría final de la entrega en Colab T4 limpio (25 de octubre de 2026)
 
-Responsable: Angel Herrarte (ejecución en Colab), con asistencia de IA para preparar el notebook, auditar el ZIP e integrar. Tiempo activo humano: pendiente de registrar por Angel. Notebook `notebooks/07_auditoria_final_t4.ipynb`, publicado en `5df3e5d` antes de ejecutar; sesión limpia con Tesla T4, Python 3.13.16, torch 2.11.0+cu130, transformers 5.20.2, peft 0.18.1, instalando solo `requirements.txt`. No se entrenó ni se cambió prompt, generación, adapter ni contrato.
+Responsable: Angel Herrarte (ejecución en Colab), con asistencia de IA para preparar el notebook, auditar el ZIP e integrar. Tiempo activo humano: ver el registro de horas al cierre del turno 4. Notebook `notebooks/07_auditoria_final_t4.ipynb`, publicado en `5df3e5d` antes de ejecutar; sesión limpia con Tesla T4, Python 3.13.16, torch 2.11.0+cu130, transformers 5.20.2, peft 0.18.1, instalando solo `requirements.txt`. No se entrenó ni se cambió prompt, generación, adapter ni contrato.
 
 Resultados: integridad del congelado, revisión del modelo, pesos y configuración de A (r=8) correctos; sin esquemas, preguntas ni SQL de validación en entrenamiento; 59 pruebas aprobadas (2 omitidas). Contrato en proceso nuevo, sin carga diferida: `import solucion` con A en 52.94 s; seis preguntas (una por esquema y nivel) con salida idéntica sin callback, con `ejecutar=None` y con callback, 0 llamadas, máximo 2.58 s; esquema vacío, pregunta vacía y petición de borrado devuelven una consulta de lectura sin excepción (la de borrado, `SELECT 1`). Oráculo 76/76. Base 43/76 y A 53/76, ambas con repetición 40/40 idéntica; carga máxima 25.24 s, latencia máxima 5.331 s, 0 callbacks, todas las consultas de lectura. El SQL coincide 40/40 con `inferencia_base_directa` e `inferencia_a_directa` del turno 3.
 
@@ -208,8 +208,20 @@ Verificación local: las 200 predicciones del ZIP se reejecutaron en MySQL 8.4.1
 
 ## Turno 4 — validación consolidada y análisis de errores (25 de octubre de 2026)
 
-Responsable: Angel Herrarte, con asistencia de IA para la consolidación y la primera clasificación; revisión de Angel sobre las causas. Tiempo activo humano: pendiente de registrar. `python -m evaluacion.consolidar` genera `resultados/validacion_propia.csv` (200 filas: base, A, B, base con corrección y A con corrección × 40) y `resultados/analisis_errores.json`, a partir de las predicciones guardadas y de la clasificación manual `resultados/clasificacion_errores.json`. Base y A usan la auditoría final; B y las variantes con corrección, las corridas del turno 3. La regla está documentada: si hay error de ejecución manda el código MySQL; si la consulta se ejecuta, la prioridad es JOIN > agregación > filtro > resultado distinto. Los pesos se comprueban contra cada `resumen.json` (`tests/test_consolidar.py`; 70 pruebas aprobadas).
+Responsable: Angel Herrarte, con asistencia de IA para la consolidación y la primera clasificación; clasificación revisada por Angel. Tiempo activo humano: ver el registro de horas al cierre del turno 4. `python -m evaluacion.consolidar` genera `resultados/validacion_propia.csv` (200 filas: base, A, B, base con corrección y A con corrección × 40) y `resultados/analisis_errores.json`, a partir de las predicciones guardadas y de la clasificación manual `resultados/clasificacion_errores.json`. Base y A usan la auditoría final; B y las variantes con corrección, las corridas del turno 3. La regla está documentada: si hay error de ejecución manda el código MySQL; si la consulta se ejecuta, la prioridad es JOIN > agregación > filtro > resultado distinto. Los pesos se comprueban contra cada `resumen.json` (`tests/test_consolidar.py`; 70 pruebas aprobadas).
 
 Hallazgos (`resultados/ANALISIS_ERRORES.md`): A falla 9 preguntas (23 de 76 puntos): 4 de JOIN, 3 de columna/tabla inexistente y 2 de agregación. El base falla 13 (33 puntos), sobre todo de agregación (6). El fine-tuning corrige `COUNT(*)` con `LEFT JOIN` y `GROUP BY` incompatibles con `ONLY_FULL_GROUP_BY`; el error dominante que queda son las relaciones indirectas (préstamo → ejemplar → título) y las columnas inventadas en lugar de un JOIN. La corrección con callback solo recupera errores de ejecución del base, no los semánticos de A. Pendientes: predicción de EX oculto, presentación, documentación y entrega.
 
 Predicción de EX oculto (`resultados/PREDICCION_EX_OCULTO.md`): estimación, no medición. Para A: 0.60, con rango de 0.50 a 0.68; para el base, 0.48; mejora esperada de unos +0.12. Parte del 0.6974 medido (bootstrap del 95 %: 0.54–0.86) y se ajusta por la composición por dificultad, los nombres en inglés o abreviados del enunciado, los esquemas de 5 a 10 tablas, la poca cobertura de fechas en la validación y la redacción más explícita de nuestras preguntas. No se usó el conjunto reservado para ajustar nada.
+
+## Turno 4 — presentación, documentación y cierre (25 de octubre de 2026)
+
+Responsable: Angel Herrarte, con asistencia de IA (Claude Code). Se generó `presentacion.pdf` con 12 diapositivas siguiendo el guion del plan. La genera `python -m scripts.crear_presentacion`, que lee las cifras de `resultados/*.json`. El README incluye ahora la tabla de entregables, cómo ejecutar la entrega en Colab T4, la descarga del modelo base con su revisión fija, licencias y uso de IA. Angel revisó y dio por buenas las entradas de su turno 2 y la clasificación de errores. Las tres hipótesis cuantitativas (A ≥ 0.72, B ≥ 0.7368 y la corrección recuperando preguntas de A) no se cumplieron y se reportan tal cual.
+
+**Horas de Angel Herrarte (estimación aproximada):** unas **12 h** en total.
+
+- Turno 1: ~1 h, para redactar sus 20 preguntas de validación.
+- Turno 2: ~6 h el 22 de octubre, entre la implementación previa al primer commit (16:20) y el último (20:03, hora de Guatemala), con esperas de GPU.
+- Turno 4: ~5 h el 25 de octubre, desde unas 10:30 hasta la entrega.
+
+Las horas se reconstruyeron a partir de las marcas de tiempo de los commits y de las ejecuciones en Colab; no son un registro cronometrado. Los tiempos de GPU (por ejemplo, 2782 s de entrenamiento de A) están en las métricas y no se suman como trabajo humano. Las horas de Jorge Lopez quedan pendientes de que él las registre; su jornada del 23 de octubre está descrita en la entrada correspondiente.

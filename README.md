@@ -2,7 +2,41 @@
 
 Deep Learning 2026 · Universidad del Valle · **Jorge Lopez y Angel Herrarte**.
 
-**Estado:** primera parte de Jorge implementada y revisada técnicamente con asistencia de IA. Hay **3,400 pares de entrenamiento**, **15 esquemas propios** y **40 preguntas propias** sobre dos esquemas reservados. Los datos se certifican en MySQL 8.4.10 y se contrastan con algoritmos Python independientes. Turno 2 (Angel) completado: contrato de inferencia (`solucion.py`, `config.json`) y evaluador por ejecución implementados y probados. Baseline sin adapter en Colab T4: **EX = 0.5658 (43/76)**. LoRA A (r=8): **EX = 0.6974 (53/76)**, +0.1316, determinista; queda en `adapter/` con `usar_adapter: true`. Relevo a Jorge en [`RELEVO_JORGE.md`](RELEVO_JORGE.md). Jorge autorizó publicar esta etapa en tres commits; consultar el historial de Git para su evidencia.
+**Estado: entrega final (turno 4 cerrado técnicamente).** Modelo `Qwen/Qwen2.5-Coder-1.5B-Instruct` con el adapter **LoRA A (r=8)** en `adapter/` y generación directa. En la validación propia (2 esquemas reservados, 40 preguntas, peso 76): **EX = 0.6974 (53/76)** con adapter frente a **0.5658 (43/76)** sin adapter, una mejora de +0.1316. Es determinista y la auditoría desde un Colab T4 limpio cumple todos los límites. La predicción para la evaluación oculta es **0.60 (rango 0.50–0.68)**: una estimación, no una medición. Ver [`resultados/PREDICCION_EX_OCULTO.md`](resultados/PREDICCION_EX_OCULTO.md).
+
+## Entrega final
+
+| Entregable | Ruta |
+| --- | --- |
+| Contrato, configuración y dependencias | [`solucion.py`](solucion.py), [`config.json`](config.json), [`requirements.txt`](requirements.txt) |
+| Adapter entregado (A, r=8) y adapter alternativo (B, r=16) | [`adapter/`](adapter/), [`adapters/lora_b/`](adapters/lora_b/) |
+| Datos: entrenamiento, validación propia, descartes | [`datos/`](datos/README.md) |
+| Notebooks: datos, evaluación, entrenamiento, experimento, auditoría | [`notebooks/`](notebooks/) (01 a 07) |
+| Validación por pregunta y configuración | [`resultados/validacion_propia.csv`](resultados/validacion_propia.csv) |
+| Análisis de errores por categoría | [`resultados/ANALISIS_ERRORES.md`](resultados/ANALISIS_ERRORES.md) |
+| Predicción de EX oculto | [`resultados/PREDICCION_EX_OCULTO.md`](resultados/PREDICCION_EX_OCULTO.md) |
+| Auditoría final en Colab T4 | [`resultados/auditoria_final_t4.json`](resultados/auditoria_final_t4.json) |
+| Presentación (12 diapositivas) | [`presentacion.pdf`](presentacion.pdf), generada con `python -m scripts.crear_presentacion` |
+| Bitácora, contribuciones e historial | [`BITACORA.md`](BITACORA.md), [`CONTRIBUCIONES.md`](CONTRIBUCIONES.md), `historial_git.txt` |
+
+### Ejecutar la entrega en Colab T4
+
+```bash
+pip install -r requirements.txt
+```
+
+```python
+import solucion  # lee config.json, descarga el modelo base y aplica adapter/ (unos 25–55 s en T4)
+sql = solucion.generar_sql(esquema, pregunta)            # o generar_sql(esquema, pregunta, ejecutar)
+```
+
+- **Modelo base:** no está en el repositorio. Al importar `solucion`, transformers lo descarga de Hugging Face (unos 3 GB) en la revisión fija `2e1fd397ee46e1388853d2af2c993145b0f1098a` y lo guarda en la caché. No hace falta token.
+- **Sin adapter:** con `"usar_adapter": false` en `config.json` se usa el mismo prompt y la misma generación sin el adapter.
+- **Torch:** se usa el preinstalado en Colab con CUDA. peft queda fijado en 0.18.1 por compatibilidad con el torchao de Colab.
+- **Auditoría reproducible:** [`notebooks/07_auditoria_final_t4.ipynb`](notebooks/07_auditoria_final_t4.ipynb). Instala MySQL 8.4.10 y comprueba el contrato, los límites, el determinismo y la separación de esquemas.
+- **Validación propia en local:** se necesitan Docker y la sección siguiente. Luego `python -m evaluacion.evaluar --nombre <corrida> --adapter si` y `python -m evaluacion.consolidar`.
+
+Las secciones siguientes conservan el registro de cada turno.
 
 ## Documentación
 
@@ -80,7 +114,7 @@ En Colab T4, [`notebooks/02_evaluacion_t4.ipynb`](notebooks/02_evaluacion_t4.ipy
 
 `--inicializar` solo importa las bases de validación que falten. El evaluador reproduce el arnés del enunciado: usuario temporal con `SELECT` sobre los esquemas `val_*`, transacciones `READ ONLY`, `MAX_EXECUTION_TIME` de 10 s y callback `ejecutar` con 10 filas y máximo 3 llamadas. Reejecuta cada referencia y aborta si ya no coincide con `datos/validacion/referencias_resultados.jsonl`. Guarda `resultados/evaluaciones/<nombre>/predicciones.jsonl` (SQL, categoría, latencia y llamadas por pregunta) y `resumen.json` (EX global, por nivel y por esquema, configuración, hash del prompt, entorno y commit).
 
-Reglas de acierto (`evaluacion/comparar.py`): los números se redondean a 2 decimales (half-up) en ambos lados y las fechas se comparan en ISO. El orden solo cuenta con `requiere_orden`; si no, se comparan multiconjuntos, así que los duplicados cuentan. Las columnas se alinean **por valores**, no por alias: cada columna esperada debe corresponder a una columna predicha distinta, y la proyección debe reproducir la referencia fila por fila. Las columnas adicionales no penalizan; las filas de más o de menos sí. Las categorías automáticas son sintaxis, columna/tabla inexistente, agregación, error de ejecución, resultado distinto, formato inválido y límite excedido (más de 30 s o más de 3 llamadas). La clasificación fina en JOIN y filtro corresponde al turno 4.
+Reglas de acierto (`evaluacion/comparar.py`): los números se redondean a 2 decimales (half-up) en ambos lados y las fechas se comparan en ISO. El orden solo cuenta con `requiere_orden`; si no, se comparan multiconjuntos, así que los duplicados cuentan. Las columnas se alinean **por valores**, no por alias: cada columna esperada debe corresponder a una columna predicha distinta, y la proyección debe reproducir la referencia fila por fila. Las columnas adicionales no penalizan; las filas de más o de menos sí. Las categorías automáticas son sintaxis, columna/tabla inexistente, agregación, error de ejecución, resultado distinto, formato inválido y límite excedido (más de 30 s o más de 3 llamadas). La clasificación fina en JOIN y filtro está en [`resultados/ANALISIS_ERRORES.md`](resultados/ANALISIS_ERRORES.md).
 
 ### Entrenamiento LoRA
 
@@ -97,13 +131,15 @@ Orden del equipo: **Jorge → Angel → Jorge → Angel**, con el alcance detall
 
 Los esquemas, semillas y candidatos de entrenamiento son originales sintéticos preparados con asistencia de IA, sin datasets externos ni datos personales. Las preguntas originales se recibieron de Jorge con los autores declarados por grupo; el SQL de referencia, precisiones de redacción, scripts y documentación tienen asistencia de IA. Se preservan los originales. La revisión técnica por IA no se presenta como revisión humana ni como horas de trabajo de los integrantes.
 
-No se ha elegido una licencia de redistribución del repositorio. MySQL y las dependencias conservan sus licencias; las dependencias locales están registradas en `requirements-datos.lock.txt`. El modelo base `Qwen/Qwen2.5-Coder-1.5B-Instruct` se distribuye con licencia **Apache-2.0** (archivo `LICENSE` del repositorio en Hugging Face). No se incluye en el repositorio: se descarga de Hugging Face al cargar. Las versiones de transformers, peft y accelerate están fijadas en `requirements.txt`; torch se toma del entorno de Colab. peft queda en 0.18.1 porque desde la 0.19 falla con el torchao 0.10 preinstalado en Colab. El código de datos no invoca APIs externas de generación.
+No se ha elegido una licencia de redistribución del repositorio. MySQL y las dependencias conservan sus licencias; las dependencias locales están registradas en `requirements-datos.lock.txt`. El modelo base `Qwen/Qwen2.5-Coder-1.5B-Instruct` se distribuye con licencia **Apache-2.0** (archivo `LICENSE` del repositorio en Hugging Face). No se incluye en el repositorio: se descarga de Hugging Face al cargar. Las versiones de transformers, peft y accelerate están fijadas en `requirements.txt`; torch se toma del entorno de Colab. peft queda en 0.18.1 porque desde la 0.19 falla con el torchao 0.10 preinstalado en Colab. El código de datos no invoca APIs externas de generación. Los adapters son pesos LoRA derivados de ese modelo y entrenados por la pareja con los datos propios.
+
+**Uso de IA.** Los integrantes usaron asistentes de IA para diseñar los datos sintéticos y escribir código, pruebas, notebooks, auditorías y documentación. En el turno 4 se usó Claude Code (Anthropic) para preparar el notebook de auditoría, verificar los ZIP de Colab, consolidar la validación, hacer una primera clasificación de errores, estimar la predicción y generar la presentación. Los integrantes ejecutaron Colab, revisaron los resultados y aprobaron cada commit. **La inferencia entregada no usa ninguna API ni modelo externo:** solo el modelo base permitido y el adapter, en local.
 
 ## Entrega del curso
 
 **25 de octubre de 2026, 23:59**, según el enunciado; confirmar zona horaria en Canvas. Se requiere repositorio privado con acceso del docente y entrega en Canvas del repositorio comprimido y PDF de máximo doce diapositivas. No habrá presentación oral. La coevaluación individual es posterior.
 
-La privacidad, invitación del docente y disponibilidad de T4 deben confirmarse al publicar y comenzar el siguiente turno. Faltan los entregables de los turnos 2–4: modelo, entrenamientos, evaluador, experimentos, resultados del modelo, presentación e historial final. No son parte de esta implementación de datos.
+Antes de entregar, confirmar que el repositorio es privado y que el docente tiene acceso. Después, generar `historial_git.txt` y subir a Canvas el repositorio comprimido (incluye `adapter/`, `adapters/lora_b/` y `datos/`) y `presentacion.pdf`.
 
 ## Correcciones antes de LoRA B (23 de octubre de 2026)
 
