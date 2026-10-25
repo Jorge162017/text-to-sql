@@ -1,0 +1,499 @@
+commit 03e263b5c701603ab4f022b52aa58aa0a4ee21b5
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-25 14:57:06 -0600
+
+    docs: completar presentacion README bitacora y contribuciones
+
+ BITACORA.md                   |  22 +++-
+ CONTRIBUCIONES.md             |  23 +++-
+ README.md                     |  44 ++++++-
+ presentacion.pdf              | Bin 0 -> 396020 bytes
+ scripts/crear_presentacion.py | 299 ++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 373 insertions(+), 15 deletions(-)
+
+commit b76d7419fca88b1d03548eadb0914a3b77785341
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-25 12:09:24 -0600
+
+    eval: consolidar validacion analisis de errores y prediccion de EX
+
+ BITACORA.md                           |   8 +
+ CONTRIBUCIONES.md                     |   2 +
+ evaluacion/consolidar.py              |  98 ++++++++
+ resultados/ANALISIS_ERRORES.md        |  53 ++++
+ resultados/PREDICCION_EX_OCULTO.md    |  45 ++++
+ resultados/analisis_errores.json      | 410 +++++++++++++++++++++++++++++++
+ resultados/clasificacion_errores.json |  88 +++++++
+ resultados/validacion_propia.csv      | 449 ++++++++++++++++++++++++++++++++++
+ tests/test_consolidar.py              |  35 +++
+ 9 files changed, 1188 insertions(+)
+
+commit c141f736d0a0c417743b7ac52f57be2e627b8871
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-25 11:55:09 -0600
+
+    fix: verificar entrega reproducible en Colab T4 y limites de inferencia
+
+ BITACORA.md                                        |   8 +
+ CONTRIBUCIONES.md                                  |   2 +-
+ README.md                                          |   4 +
+ resultados/auditoria_final/contrato.json           | 114 ++++
+ resultados/auditoria_final/pip_freeze.txt          | 722 +++++++++++++++++++++
+ resultados/auditoria_final/pruebas.txt             |  67 ++
+ resultados/auditoria_final_t4.json                 | 330 ++++++++++
+ .../auditoria_final_a/predicciones.jsonl           |  40 ++
+ .../evaluaciones/auditoria_final_a/resumen.json    | 112 ++++
+ .../auditoria_final_a_repeticion/determinismo.json |   9 +
+ .../predicciones.jsonl                             |  40 ++
+ .../auditoria_final_a_repeticion/resumen.json      | 112 ++++
+ .../auditoria_final_base/predicciones.jsonl        |  40 ++
+ .../evaluaciones/auditoria_final_base/resumen.json | 113 ++++
+ .../determinismo.json                              |   9 +
+ .../predicciones.jsonl                             |  40 ++
+ .../auditoria_final_base_repeticion/resumen.json   | 113 ++++
+ .../auditoria_final_oraculo/predicciones.jsonl     |  40 ++
+ .../auditoria_final_oraculo/resumen.json           |  96 +++
+ resultados/verificacion_auditoria_final_t4.json    |  42 ++
+ 20 files changed, 2052 insertions(+), 1 deletion(-)
+
+commit 5df3e5d137185c14ef21881ae117433b233cd016
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-25 11:18:03 -0600
+
+    chore(auditoria): preparar notebook 07 de auditoria final en Colab T4
+
+ notebooks/07_auditoria_final_t4.ipynb | 138 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 138 insertions(+)
+
+commit bf0f454521dc1d9dfa00352c9085ef03a891a27f
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 14:35:23 -0600
+
+    docs: cerrar turno 3 y limpiar comentarios de notebooks
+
+ BITACORA.md                                     | 16 +++++++++
+ CONTRIBUCIONES.md                               |  7 ++++
+ README.md                                       | 14 ++++++++
+ RELEVO_ANGEL_TURNO4.md                          | 47 +++++++++++++++++++++++++
+ RELEVO_JORGE.md                                 |  5 +++
+ notebooks/01_datos.ipynb                        | 16 ++++-----
+ notebooks/02_evaluacion_t4.ipynb                |  8 ++---
+ notebooks/03_entrenamiento_t4.ipynb             | 10 +++---
+ notebooks/04_verificacion_correcciones_t4.ipynb | 22 ++++++------
+ notebooks/05_lora_b_t4.ipynb                    | 18 +++++-----
+ notebooks/06_inferencia_t4.ipynb                | 14 ++++----
+ 11 files changed, 129 insertions(+), 48 deletions(-)
+
+commit 1b82a48aa4a774283064d4d61e248c4726ffebdd
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 14:35:23 -0600
+
+    eval: registrar experimento T4 y seleccionar generacion directa
+
+ resultados/comparacion_inferencia.json             | 331 +++++++++++++++++++++
+ .../inferencia_a_correccion/predicciones.jsonl     |  40 +++
+ .../inferencia_a_correccion/resumen.json           | 112 +++++++
+ .../determinismo.json                              |   9 +
+ .../predicciones.jsonl                             |  40 +++
+ .../resumen.json                                   | 112 +++++++
+ .../inferencia_a_directa/predicciones.jsonl        |  40 +++
+ .../evaluaciones/inferencia_a_directa/resumen.json | 112 +++++++
+ .../determinismo.json                              |   9 +
+ .../predicciones.jsonl                             |  40 +++
+ .../inferencia_a_directa_repeticion/resumen.json   | 112 +++++++
+ .../inferencia_base_correccion/predicciones.jsonl  |  40 +++
+ .../inferencia_base_correccion/resumen.json        | 113 +++++++
+ .../determinismo.json                              |   9 +
+ .../predicciones.jsonl                             |  40 +++
+ .../resumen.json                                   | 113 +++++++
+ .../inferencia_base_directa/predicciones.jsonl     |  40 +++
+ .../inferencia_base_directa/resumen.json           | 113 +++++++
+ .../determinismo.json                              |   9 +
+ .../predicciones.jsonl                             |  40 +++
+ .../resumen.json                                   | 113 +++++++
+ .../inferencia_oraculo/predicciones.jsonl          |  40 +++
+ .../evaluaciones/inferencia_oraculo/resumen.json   |  96 ++++++
+ resultados/seleccion_final_turno3.json             | 222 ++++++++++++++
+ resultados/verificacion_inferencia_t4.json         |  64 ++++
+ 25 files changed, 2009 insertions(+)
+
+commit 5dd77d945c535f8171341460b221f799f9253518
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 12:28:48 -0600
+
+    feat(inferencia): preparar experimento controlado de correccion SQL
+
+ BITACORA.md                                   |  22 ++
+ CONTRIBUCIONES.md                             |  12 +
+ README.md                                     |  22 ++
+ RELEVO_JORGE.md                               |  10 +
+ evaluacion/congelar.py                        |   8 +
+ evaluacion/correccion.py                      |  83 +++++++
+ evaluacion/evaluar.py                         |  17 +-
+ notebooks/05_lora_b_t4.ipynb                  |   8 +-
+ notebooks/06_inferencia_t4.ipynb              | 324 ++++++++++++++++++++++++++
+ resultados/configuracion_experimental.json    |  16 +-
+ resultados/configuracion_experimental_ab.json |  53 +++++
+ tests/test_correccion.py                      |  55 +++++
+ 12 files changed, 623 insertions(+), 7 deletions(-)
+
+commit e56f785218cd224a6229e5bbcce71d4a23cab0fa
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 12:28:42 -0600
+
+    eval: registrar LoRA B y seleccionar A por mayor exactitud
+
+ adapters/lora_b/README.md                          | 207 ++++++++++++
+ adapters/lora_b/adapter_config.json                |  46 +++
+ adapters/lora_b/adapter_model.safetensors          | Bin 0 -> 73911112 bytes
+ resultados/comparacion_b_preliminar.json           | 158 +++++++++
+ resultados/entrenamientos/lora_b/curvas_loss.png   | Bin 0 -> 56834 bytes
+ resultados/entrenamientos/lora_b/historial.json    | 358 +++++++++++++++++++++
+ resultados/entrenamientos/lora_b/metricas.json     | 252 +++++++++++++++
+ resultados/evaluaciones/lora_b/predicciones.jsonl  |  40 +++
+ resultados/evaluaciones/lora_b/resumen.json        | 111 +++++++
+ .../lora_b_repeticion/determinismo.json            |   9 +
+ .../lora_b_repeticion/predicciones.jsonl           |  40 +++
+ .../evaluaciones/lora_b_repeticion/resumen.json    | 111 +++++++
+ resultados/verificacion_lora_b_t4.json             |  27 ++
+ 13 files changed, 1359 insertions(+)
+
+commit b38e2bf2a1ad325a69e09218d55437577ccc932f
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 10:28:40 -0600
+
+    train: registrar hipotesis B y preparar entrenamiento en Colab T4
+
+ BITACORA.md                  |  20 +++
+ CONTRIBUCIONES.md            |   9 +-
+ README.md                    |  11 +-
+ RELEVO_JORGE.md              |   7 +-
+ entrenamiento/lora_b.json    |  41 +++++
+ notebooks/05_lora_b_t4.ipynb | 377 +++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 462 insertions(+), 3 deletions(-)
+
+commit 9745332bc4bbb71f19bcb2cfef00b3db52f862a4
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 10:28:33 -0600
+
+    eval: registrar verificacion T4 de baseline y LoRA A corregidos
+
+ .../baseline_corregido/predicciones.jsonl          |  40 ++++++++
+ .../evaluaciones/baseline_corregido/resumen.json   | 112 +++++++++++++++++++++
+ .../determinismo.json                              |   9 ++
+ .../predicciones.jsonl                             |  40 ++++++++
+ .../baseline_corregido_repeticion/resumen.json     | 112 +++++++++++++++++++++
+ .../lora_a_corregido/predicciones.jsonl            |  40 ++++++++
+ .../evaluaciones/lora_a_corregido/resumen.json     | 111 ++++++++++++++++++++
+ .../lora_a_corregido_repeticion/determinismo.json  |   9 ++
+ .../lora_a_corregido_repeticion/predicciones.jsonl |  40 ++++++++
+ .../lora_a_corregido_repeticion/resumen.json       | 111 ++++++++++++++++++++
+ .../oraculo_corregido/predicciones.jsonl           |  40 ++++++++
+ .../evaluaciones/oraculo_corregido/resumen.json    |  95 +++++++++++++++++
+ resultados/verificacion_correcciones_t4.json       |  86 ++++++++++++++++
+ 13 files changed, 845 insertions(+)
+
+commit 23e7d8ce9974ebf27fc44113d36611848f0dd6c9
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-23 08:54:38 -0600
+
+    fix: conservar SQL multilinea y fijar revision del modelo base
+
+ BITACORA.md                                        |  17 ++
+ CONTRIBUCIONES.md                                  |   3 +-
+ README.md                                          |  12 +-
+ RELEVO_JORGE.md                                    |   8 +
+ entrenamiento/entrenar.py                          |   6 +-
+ evaluacion/congelar.py                             |  10 +-
+ evaluacion/evaluar.py                              |  13 +-
+ notebooks/04_verificacion_correcciones_t4.ipynb    | 295 +++++++++++++++++++++
+ resultados/configuracion_experimental.json         |   7 +-
+ resultados/configuracion_experimental_angel.json   |  50 ++++
+ .../oraculo_correcciones/predicciones.jsonl        |  40 +++
+ .../evaluaciones/oraculo_correcciones/resumen.json |  91 +++++++
+ solucion.py                                        |  48 +++-
+ tests/test_configuracion_experimental.py           |  29 ++
+ tests/test_entrenamiento.py                        |   4 +-
+ tests/test_evaluador_mysql.py                      |  18 ++
+ tests/test_solucion.py                             |  39 +++
+ 17 files changed, 666 insertions(+), 24 deletions(-)
+
+commit d39878b1420ada502afc88cfeeca80c22bcb7005
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-22 20:03:58 -0600
+
+    train: entrenar y evaluar LoRA A con hipotesis y curvas
+    
+    - LoRA A (r=8, alpha 16, 7 módulos lineales, 1 época) entrenada en Colab T4:
+      202 pasos en 46.4 min, 9,232,384 parámetros entrenables (0.59 %), memoria
+      pico 6.15 GiB; pérdida dev de 0.438 a 0.0006.
+    - Evaluación con el prompt v1: EX = 0.6974 (53/76), +0.1316 sobre el baseline;
+      medias 24/32, difíciles 15/30, fáciles 14/14. Determinismo 40/40.
+    - Hipótesis A (>= 0.72) no cumplida; registrado el sobreajuste a plantillas.
+    - adapter/ queda como adapter vigente y config.json pasa a usar_adapter=true.
+    - RELEVO_JORGE.md con hiperparámetros, prompt congelado y plan de la corrida B.
+
+ BITACORA.md                                        |  20 ++
+ CONTRIBUCIONES.md                                  |   3 +-
+ README.md                                          |   4 +-
+ RELEVO_JORGE.md                                    |  42 +++
+ adapter/README.md                                  |   8 +
+ adapter/adapter_config.json                        |  46 +++
+ adapter/adapter_model.safetensors                  | Bin 0 -> 36981072 bytes
+ config.json                                        |   2 +-
+ resultados/entrenamientos/lora_a/curvas_loss.png   | Bin 0 -> 56681 bytes
+ resultados/entrenamientos/lora_a/historial.json    | 358 +++++++++++++++++++++
+ resultados/entrenamientos/lora_a/metricas.json     | 252 +++++++++++++++
+ resultados/evaluaciones/lora_a/predicciones.jsonl  |  40 +++
+ resultados/evaluaciones/lora_a/resumen.json        | 109 +++++++
+ .../lora_a_repeticion/determinismo.json            |   9 +
+ .../lora_a_repeticion/predicciones.jsonl           |  40 +++
+ .../evaluaciones/lora_a_repeticion/resumen.json    | 109 +++++++
+ 16 files changed, 1038 insertions(+), 4 deletions(-)
+
+commit bc2206d272816c94a3cf98606b0237b43fdf56ed
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-22 18:57:56 -0600
+
+    fix(deps): fijar peft 0.18.1 por torchao 0.10 de Colab
+    
+    peft >= 0.19 lanza ImportError al crear o cargar una LoRA si encuentra
+    torchao < 0.16, y Colab trae torchao 0.10 preinstalado. El primer intento de
+    LoRA A falló por eso antes de entrenar; habría fallado también al cargar el
+    adapter en la evaluación del docente. Reproducido localmente con torchao
+    0.10.0: con 0.18.1 el entrenamiento de prueba y la carga del adapter vía
+    solucion.py funcionan y las 53 pruebas aprueban.
+
+ BITACORA.md      | 8 ++++++++
+ README.md        | 2 +-
+ requirements.txt | 4 +++-
+ 3 files changed, 12 insertions(+), 2 deletions(-)
+
+commit 26b9ab2a17df1840ef3f00aa6afa940413c065a1
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-22 18:43:37 -0600
+
+    train: registrar hipotesis y configuracion de LoRA A
+    
+    - Hipótesis A registrada antes de entrenar: r=8 sobre todos los módulos
+      lineales debería subir la EX de 0.5658 a >= 0.72 (+0.15), sobre todo en
+      medias y difíciles.
+    - entrenamiento/lora_a.json: configuración común completa; la B debe cambiar
+      solo lora.r (verificado por tests/test_entrenamiento.py).
+    - entrenamiento/entrenar.py: mismo prompt que la inferencia, pérdida solo en el
+      SQL, dev 5 % por esquema, rechazo de datos de validación, métricas, curvas y
+      reanudación desde checkpoints.
+    - notebooks/03_entrenamiento_t4.ipynb: entrenar, evaluar con --adapter si,
+      comprobar determinismo y comparar con el baseline en Colab T4.
+
+ BITACORA.md                         |  16 ++
+ README.md                           |   9 ++
+ entrenamiento/__init__.py           |   1 +
+ entrenamiento/entrenar.py           | 228 ++++++++++++++++++++++++++++
+ entrenamiento/lora_a.json           |  33 +++++
+ notebooks/03_entrenamiento_t4.ipynb | 288 ++++++++++++++++++++++++++++++++++++
+ tests/test_entrenamiento.py         |  89 +++++++++++
+ 7 files changed, 664 insertions(+)
+
+commit 18bb488277204683f456095b4fd9763a9cca9d30
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-22 18:26:46 -0600
+
+    eval: registrar baseline sin adapter y configuracion experimental
+    
+    - Baseline en Colab T4 (Qwen2.5-Coder-1.5B-Instruct, rev 2e1fd39, prompt v1):
+      EX = 0.5658 (43/76); fácil 14/14, media 10/16, difícil 3/10.
+    - Repetición en otro proceso: 40/40 SQL idénticos.
+    - Oráculo en T4 con MySQL 8.4.10 del binario oficial: EX = 1.0 (76/76).
+    - Carga 47.9 s con descarga; latencia media 1.9 s, máxima 4.9 s.
+    - Bitácora, contribuciones y README actualizados con resultados y patrones
+      de error.
+
+ BITACORA.md                                        |  15 +++
+ CONTRIBUCIONES.md                                  |   3 +-
+ README.md                                          |   2 +-
+ .../evaluaciones/baseline/predicciones.jsonl       |  40 ++++++++
+ resultados/evaluaciones/baseline/resumen.json      | 110 +++++++++++++++++++++
+ .../baseline_repeticion/determinismo.json          |   9 ++
+ .../baseline_repeticion/predicciones.jsonl         |  40 ++++++++
+ .../evaluaciones/baseline_repeticion/resumen.json  | 110 +++++++++++++++++++++
+ .../evaluaciones/oraculo_t4/predicciones.jsonl     |  40 ++++++++
+ resultados/evaluaciones/oraculo_t4/resumen.json    |  93 +++++++++++++++++
+ 10 files changed, 460 insertions(+), 2 deletions(-)
+
+commit 72fd3ccd3fa61418e2ff998b977e951430b40c65
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-22 16:27:00 -0600
+
+    chore(eval): preparar notebook T4 y congelar configuracion experimental
+    
+    - notebooks/02_evaluacion_t4.ipynb: Colab T4 con MySQL 8.4.10 desde el binario
+      oficial, oráculo, baseline sin adapter, repetición y descarga de evidencia.
+    - evaluacion/congelar.py: prompt, generación, semilla, criterio y hashes de
+      datos en resultados/configuracion_experimental.json.
+    - evaluacion/determinismo.py: exige SQL idéntico entre dos corridas.
+    - El resumen registra la revisión del modelo y si el prompt coincide con la
+      configuración congelada.
+
+ README.md                                  |   4 +-
+ evaluacion/congelar.py                     |  57 +++++++
+ evaluacion/determinismo.py                 |  32 ++++
+ evaluacion/evaluar.py                      |  10 +-
+ notebooks/02_evaluacion_t4.ipynb           | 257 +++++++++++++++++++++++++++++
+ resultados/configuracion_experimental.json |  50 ++++++
+ solucion.py                                |  13 +-
+ 7 files changed, 417 insertions(+), 6 deletions(-)
+
+commit 6fb3547cb7a45d9dead179a8048e6afb9f8c4575
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-22 16:20:20 -0600
+
+    feat: implementar contrato de inferencia y evaluador ponderado
+    
+    - solucion.py: carga única desde config.json, prompt congelado v1 compartido
+      por base/adapter/entrenamiento, generación greedy determinista que reemplaza
+      el generation_config de Qwen, extracción de una sola consulta y filtro de
+      solo lectura con respaldo SELECT 1. Estrategia directa sin usar ejecutar.
+    - config.json con usar_adapter=false hasta entrenar LoRA A.
+    - evaluacion/: comparación por ejecución (redondeo a 2 decimales, duplicados,
+      orden solo si se exige, alineación de columnas por valores) y CLI que imita
+      el arnés oficial (usuario SELECT, READ ONLY, callback con 3 llamadas/10 filas).
+    - Oráculo EX = 1.0 (76/76); 46 pruebas aprobadas; auditoría de datos intacta.
+    - requirements: transformers 5.20.2, peft 0.21.2, accelerate 1.15.0.
+
+ BITACORA.md                                        |  11 +
+ CONTRIBUCIONES.md                                  |   3 +-
+ README.md                                          |  26 ++-
+ config.json                                        |   6 +
+ evaluacion/__init__.py                             |   1 +
+ evaluacion/comparar.py                             | 130 +++++++++++
+ evaluacion/evaluar.py                              | 246 +++++++++++++++++++++
+ requirements.txt                                   |   7 +-
+ resultados/evaluaciones/oraculo/predicciones.jsonl |  40 ++++
+ resultados/evaluaciones/oraculo/resumen.json       |  91 ++++++++
+ solucion.py                                        | 207 +++++++++++++++++
+ tests/test_evaluador.py                            | 100 +++++++++
+ tests/test_evaluador_mysql.py                      |  62 ++++++
+ tests/test_solucion.py                             | 101 +++++++++
+ 14 files changed, 1024 insertions(+), 7 deletions(-)
+
+commit ec2c246123673e3da87b3b4e39202a1abbc813e4
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-22 12:23:47 -0600
+
+    feat(validacion): incorporar 40 preguntas propias y cerrar la etapa de datos
+
+ BITACORA.md                                   |    54 +
+ CONTRIBUCIONES.md                             |    16 +
+ README.md                                     |    79 +-
+ RELEVO_ANGEL.md                               |    42 +
+ datos/README.md                               |    63 +
+ datos/descartes/validacion_propia.jsonl       |     0
+ datos/esquemas/val_biblioteca/schema.sql      |    45 +
+ datos/esquemas/val_biblioteca/seed.sql        |   174 +
+ datos/esquemas/val_biblioteca/show_create.sql |    56 +
+ datos/esquemas/val_hospital/schema.sql        |    43 +
+ datos/esquemas/val_hospital/seed.sql          |   197 +
+ datos/esquemas/val_hospital/show_create.sql   |    54 +
+ datos/validacion/PREGUNTAS.md                 |   580 +
+ datos/validacion/pares.jsonl                  |    40 +
+ datos/validacion/preguntas_propias.jsonl      |    40 +
+ datos/validacion/referencias_resultados.jsonl |    40 +
+ notebooks/01_datos.ipynb                      |   318 +
+ resultados/reporte_datos.json                 |   123 +
+ resultados/revision_semantica.json            | 20636 ++++++++++++++++++++++++
+ scripts/auditar_datos.py                      |   114 +
+ scripts/oraculos.py                           |   211 +
+ scripts/preparar_validacion.py                |   105 +
+ scripts/revisar_muestra.py                    |   102 +
+ tests/test_auditoria.py                       |    52 +
+ tests/test_integridad_datos.py                |    50 +
+ 25 files changed, 23206 insertions(+), 28 deletions(-)
+
+commit 61de09fe13725062c2770231632bafa5d4ed47b0
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-22 12:23:33 -0600
+
+    feat(datos): agregar 3400 pares validados en 15 esquemas propios
+
+ datos/candidatos/entrenamiento.jsonl             | 3400 ++++++++++++++++++++++
+ datos/descartes/entrenamiento.jsonl              |    0
+ datos/entrenamiento/pares.jsonl                  | 3400 ++++++++++++++++++++++
+ datos/esquemas/train_academia/schema.sql         |   44 +
+ datos/esquemas/train_academia/seed.sql           |  198 ++
+ datos/esquemas/train_academia/show_create.sql    |   56 +
+ datos/esquemas/train_cafeteria/schema.sql        |   48 +
+ datos/esquemas/train_cafeteria/seed.sql          |  585 ++++
+ datos/esquemas/train_cafeteria/show_create.sql   |   59 +
+ datos/esquemas/train_deportes/schema.sql         |   48 +
+ datos/esquemas/train_deportes/seed.sql           |  585 ++++
+ datos/esquemas/train_deportes/show_create.sql    |   59 +
+ datos/esquemas/train_electronica/schema.sql      |   48 +
+ datos/esquemas/train_electronica/seed.sql        |  585 ++++
+ datos/esquemas/train_electronica/show_create.sql |   59 +
+ datos/esquemas/train_energia/schema.sql          |   44 +
+ datos/esquemas/train_energia/seed.sql            |  241 ++
+ datos/esquemas/train_energia/show_create.sql     |   55 +
+ datos/esquemas/train_farmacia/schema.sql         |   48 +
+ datos/esquemas/train_farmacia/seed.sql           |  585 ++++
+ datos/esquemas/train_farmacia/show_create.sql    |   59 +
+ datos/esquemas/train_ferreteria/schema.sql       |   48 +
+ datos/esquemas/train_ferreteria/seed.sql         |  585 ++++
+ datos/esquemas/train_ferreteria/show_create.sql  |   59 +
+ datos/esquemas/train_floreria/schema.sql         |   48 +
+ datos/esquemas/train_floreria/seed.sql           |  585 ++++
+ datos/esquemas/train_floreria/show_create.sql    |   59 +
+ datos/esquemas/train_libreria/schema.sql         |   48 +
+ datos/esquemas/train_libreria/seed.sql           |  585 ++++
+ datos/esquemas/train_libreria/show_create.sql    |   59 +
+ datos/esquemas/train_logistica/schema.sql        |   46 +
+ datos/esquemas/train_logistica/seed.sql          |  259 ++
+ datos/esquemas/train_logistica/show_create.sql   |   58 +
+ datos/esquemas/train_manufactura/schema.sql      |   43 +
+ datos/esquemas/train_manufactura/seed.sql        |  239 ++
+ datos/esquemas/train_manufactura/show_create.sql |   54 +
+ datos/esquemas/train_panaderia/schema.sql        |   48 +
+ datos/esquemas/train_panaderia/seed.sql          |  585 ++++
+ datos/esquemas/train_panaderia/show_create.sql   |   59 +
+ datos/esquemas/train_repuestos/schema.sql        |   48 +
+ datos/esquemas/train_repuestos/seed.sql          |  585 ++++
+ datos/esquemas/train_repuestos/show_create.sql   |   59 +
+ datos/esquemas/train_tienda/schema.sql           |   48 +
+ datos/esquemas/train_tienda/seed.sql             |  585 ++++
+ datos/esquemas/train_tienda/show_create.sql      |   59 +
+ datos/esquemas/train_turismo/schema.sql          |   45 +
+ datos/esquemas/train_turismo/seed.sql            |  275 ++
+ datos/esquemas/train_turismo/show_create.sql     |   57 +
+ datos/particiones.json                           |   25 +
+ resultados/ejecucion_entrenamiento.jsonl         | 3400 ++++++++++++++++++++++
+ resultados/entorno_datos.json                    |    9 +
+ scripts/dominios_diversos.py                     |  157 +
+ scripts/generar_datos.py                         |  156 +
+ scripts/validar_datos.py                         |  246 ++
+ 54 files changed, 19427 insertions(+)
+
+commit 561b0bfbe152a59a69eed81cf1372e794fc632f6
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-22 12:23:15 -0600
+
+    chore: configurar entorno MySQL 8.4.10 y dependencias de datos
+
+ .env.example                |  6 ++++++
+ .gitignore                  |  8 ++++++++
+ compose.yaml                | 19 +++++++++++++++++++
+ requirements-datos.lock.txt |  5 +++++
+ requirements.txt            |  2 ++
+ scripts/__init__.py         |  1 +
+ scripts/comun.py            | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 83 insertions(+)
+
+commit 44ec069c0cd82a0f916cca25cad622a681782672
+Author: Jorge162017 <lop221038@uvg.edu.gt>
+Date:   2026-10-21 23:29:14 -0600
+
+    docs: agregar plan de trabajo para Jorge Lopez y Angel Herrarte
+
+ Instrucciones/PLAN_DE_TRABAJO.md         | 205 +++++++++++++++++++++++++++++++
+ Instrucciones/Proyecto_3_Texto_a_SQL.pdf | Bin 0 -> 44195 bytes
+ README.md                                |  56 +++++++++
+ 3 files changed, 261 insertions(+)
