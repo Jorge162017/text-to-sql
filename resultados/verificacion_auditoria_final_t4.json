@@ -1,0 +1,42 @@
+{
+  "fecha_utc": "2026-10-25T17:45:28.368610+00:00",
+  "archivo": "auditoria_final_t4.zip",
+  "zip_sha256": "fcdda578a687bde75b84cbc6b4531d6b0010244334cddc19d46a49ba9213fff0",
+  "mysql": {
+    "version": "8.4.10",
+    "sql_mode": "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+  },
+  "verificacion": "Inventario seguro del ZIP, congelado idéntico, métricas recalculadas desde predicciones y reejecución SQL local (MySQL Docker) de las 200 consultas; no es nueva generación GPU.",
+  "corridas": [
+    {
+      "nombre": "auditoria_final_oraculo",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 76,
+      "diferencias": 0
+    },
+    {
+      "nombre": "auditoria_final_base",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 43,
+      "diferencias": 0
+    },
+    {
+      "nombre": "auditoria_final_base_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 43,
+      "diferencias": 0
+    },
+    {
+      "nombre": "auditoria_final_a",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 53,
+      "diferencias": 0
+    },
+    {
+      "nombre": "auditoria_final_a_repeticion",
+      "consultas_verificadas": 40,
+      "peso_aciertos": 53,
+      "diferencias": 0
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "tiempo_import_s": 52.94,
+  "adapter_cargado": "/content/text-to-sql/adapter",
+  "usar_adapter": true,
+  "casos": [
+    {
+      "id": "propia_01",
+      "esquema_id": "val_biblioteca",
+      "nivel": "facil",
+      "sql": "SELECT nombre, anio FROM titulos",
+      "identicas": true,
+      "tipo_str": true,
+      "lectura": true,
+      "latencias_s": [
+        2.111,
+        0.452,
+        0.439
+      ],
+      "llamadas_ejecutar": 0
+    },
+    {
+      "id": "propia_05",
+      "esquema_id": "val_biblioteca",
+      "nivel": "media",
+      "sql": "SELECT a.nombre, COUNT(t.id) AS total FROM autores a LEFT JOIN titulos t ON t.autor_id = a.id GROUP BY a.id, a.nombre",
+      "identicas": true,
+      "tipo_str": true,
+      "lectura": true,
+      "latencias_s": [
+        1.361,
+        1.363,
+        1.372
+      ],
+      "llamadas_ejecutar": 0
+    },
+    {
+      "id": "propia_09",
+      "esquema_id": "val_biblioteca",
+      "nivel": "dificil",
+      "sql": "SELECT m.nombre, COUNT(p.id) AS total FROM miembros m LEFT JOIN prestamos p ON p.miembro_id = m.id GROUP BY m.id, m.nombre HAVING COUNT(p.id) > (SELECT AVG(total) FROM (SELECT COUNT(id) AS total FROM prestamos GROUP BY miembro_id) t)",
+      "identicas": true,
+      "tipo_str": true,
+      "lectura": true,
+      "latencias_s": [
+        2.489,
+        2.58,
+        2.494
+      ],
+      "llamadas_ejecutar": 0
+    },
+    {
+      "id": "propia_21",
+      "esquema_id": "val_hospital",
+      "nivel": "facil",
+      "sql": "SELECT nombre FROM personas",
+      "identicas": true,
+      "tipo_str": true,
+      "lectura": true,
+      "latencias_s": [
+        0.292,
+        0.294,
+        0.302
+      ],
+      "llamadas_ejecutar": 0
+    },
+    {
+      "id": "propia_23",
+      "esquema_id": "val_hospital",
+      "nivel": "media",
+      "sql": "SELECT nombre, especialidad FROM medicos",
+      "identicas": true,
+      "tipo_str": true,
+      "lectura": true,
+      "latencias_s": [
+        0.437,
+        0.439,
+        0.43
+      ],
+      "llamadas_ejecutar": 0
+    },
+    {
+      "id": "propia_29",
+      "esquema_id": "val_hospital",
+      "nivel": "dificil",
+      "sql": "SELECT p.nombre, COUNT(c.id) AS total FROM personas p LEFT JOIN citas c ON c.persona_id = p.id GROUP BY p.id, p.nombre HAVING COUNT(c.id) > AVG(COUNT(c.id))",
+      "identicas": true,
+      "tipo_str": true,
+      "lectura": true,
+      "latencias_s": [
+        1.814,
+        1.817,
+        1.814
+      ],
+      "llamadas_ejecutar": 0
+    }
+  ],
+  "entradas_raras": {
+    "esquema_vacio": {
+      "sql": "SELECT COUNT(*) AS total FROM your_table",
+      "lectura": true,
+      "excepcion": null
+    },
+    "pregunta_vacia": {
+      "sql": "SELECT a.nombre FROM autores a WHERE a.id = (SELECT autor_id FROM titulos WHERE id = 1)",
+      "lectura": true,
+      "excepcion": null
+    },
+    "pide_borrar": {
+      "sql": "SELECT 1",
+      "lectura": true,
+      "excepcion": null
+    }
+  }
+}

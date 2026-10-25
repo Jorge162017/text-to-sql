@@ -1,0 +1,67 @@
+test_diversidad_estructural_real (test_auditoria.Auditoria.test_diversidad_estructural_real) ... ok
+test_editar_o_borrar_evidencia_se_detecta (test_auditoria.Auditoria.test_editar_o_borrar_evidencia_se_detecta) ... ok
+test_hash_obligatorio_no_puede_omitirse (test_auditoria.Auditoria.test_hash_obligatorio_no_puede_omitirse) ... ok
+test_resultados_conservan_duplicados_y_orden (test_auditoria.Auditoria.test_resultados_conservan_duplicados_y_orden) ... ok
+test_sql_no_puede_usar_validacion_desde_train (test_auditoria.Auditoria.test_sql_no_puede_usar_validacion_desde_train) ... ok
+test_configuracion_vigente (test_configuracion_experimental.ConfiguracionExperimental.test_configuracion_vigente) ... ok
+test_mismo_prompt_no_oculta_cambio_de_codigo_o_revision (test_configuracion_experimental.ConfiguracionExperimental.test_mismo_prompt_no_oculta_cambio_de_codigo_o_revision) ... ok
+test_error_callback_conserva_consulta (test_correccion.Correccion.test_error_callback_conserva_consulta) ... ok
+test_error_se_envia_al_modelo_y_para_en_exito (test_correccion.Correccion.test_error_se_envia_al_modelo_y_para_en_exito) ... ok
+test_exito_no_repara_ni_usa_filas_para_cambiar_sql (test_correccion.Correccion.test_exito_no_repara_ni_usa_filas_para_cambiar_sql) ... ok
+test_maximo_tres_llamadas_y_dos_reparaciones (test_correccion.Correccion.test_maximo_tres_llamadas_y_dos_reparaciones) ... ok
+test_no_callback_si_no_quedan_diez_segundos_y_medio (test_correccion.Correccion.test_no_callback_si_no_quedan_diez_segundos_y_medio) ... ok
+test_rechaza_escritura_y_detiene_ciclo (test_correccion.Correccion.test_rechaza_escritura_y_detiene_ciclo) ... ok
+test_sin_callback_equivale_a_directa (test_correccion.Correccion.test_sin_callback_equivale_a_directa) ... ok
+test_config_a_con_hipotesis (test_entrenamiento.ConfiguracionLoRA.test_config_a_con_hipotesis) ... ok
+test_otras_configuraciones_cambian_un_solo_factor (test_entrenamiento.ConfiguracionLoRA.test_otras_configuraciones_cambian_un_solo_factor)
+Cualquier lora_*.json adicional (p. ej. B) solo puede diferir de A en lora.r, nombre, hipótesis y salida. ... ok
+test_sin_hipotesis_rechazada (test_entrenamiento.ConfiguracionLoRA.test_sin_hipotesis_rechazada) ... ok
+test_division_reproducible_estratificada_y_disjunta (test_entrenamiento.Datos.test_division_reproducible_estratificada_y_disjunta) ... ok
+test_sin_esquemas_de_validacion (test_entrenamiento.Datos.test_sin_esquemas_de_validacion) ... ok
+setUpClass (test_entrenamiento.Tokenizacion) ... skipped "Tokenizer no disponible localmente: We couldn't connect to 'https://huggingface.co' to load the files, and couldn't find them in the cached files.\nCheck your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'."
+test_columna_adicional_no_penaliza (test_evaluador.Comparacion.test_columna_adicional_no_penaliza) ... ok
+test_columnas_con_mismos_valores_eligen_la_correcta (test_evaluador.Comparacion.test_columnas_con_mismos_valores_eligen_la_correcta) ... ok
+test_columnas_permutadas_y_alias_distintos (test_evaluador.Comparacion.test_columnas_permutadas_y_alias_distintos) ... ok
+test_duplicados_conservados (test_evaluador.Comparacion.test_duplicados_conservados) ... ok
+test_falta_columna (test_evaluador.Comparacion.test_falta_columna) ... ok
+test_identicos (test_evaluador.Comparacion.test_identicos) ... ok
+test_motivo_orden (test_evaluador.Comparacion.test_motivo_orden) ... ok
+test_null_y_fechas (test_evaluador.Comparacion.test_null_y_fechas) ... ok
+test_orden_exigido (test_evaluador.Comparacion.test_orden_exigido) ... ok
+test_orden_ignorado_si_no_se_exige (test_evaluador.Comparacion.test_orden_ignorado_si_no_se_exige) ... ok
+test_redondeo_dos_decimales (test_evaluador.Comparacion.test_redondeo_dos_decimales) ... ok
+test_rehidratar_evidencia_json (test_evaluador.Comparacion.test_rehidratar_evidencia_json) ... ok
+test_vacio (test_evaluador.Comparacion.test_vacio) ... ok
+test_valores_cruzados_entre_filas_fallan (test_evaluador.Comparacion.test_valores_cruzados_entre_filas_fallan) ... ok
+test_categorias_mysql (test_evaluador.Puntuacion.test_categorias_mysql) ... ok
+test_ex_ponderado (test_evaluador.Puntuacion.test_ex_ponderado) ... ok
+setUpClass (test_evaluador_mysql.EvaluadorMySQL) ... skipped 'Bases de validación no importadas'
+test_borradores_no_son_autoria_humana (test_integridad_datos.IntegridadDatos.test_borradores_no_son_autoria_humana) ... ok
+test_cobertura_y_duplicados (test_integridad_datos.IntegridadDatos.test_cobertura_y_duplicados) ... ok
+test_fuga_rechazada (test_integridad_datos.IntegridadDatos.test_fuga_rechazada) ... ok
+test_no_escritura_ni_multisentencia (test_integridad_datos.IntegridadDatos.test_no_escritura_ni_multisentencia) ... ok
+test_particion_disjunta (test_integridad_datos.IntegridadDatos.test_particion_disjunta) ... ok
+test_peso_incorrecto_rechazado (test_integridad_datos.IntegridadDatos.test_peso_incorrecto_rechazado) ... ok
+test_config_entregada (test_solucion.Config.test_config_entregada) ... ok
+test_modelo_no_permitido (test_solucion.Config.test_modelo_no_permitido) ... ok
+test_bloque_markdown (test_solucion.Limpieza.test_bloque_markdown) ... ok
+test_comentarios (test_solucion.Limpieza.test_comentarios) ... ok
+test_escrituras_rechazadas (test_solucion.Limpieza.test_escrituras_rechazadas) ... ok
+test_explicacion_solo_despues_de_la_consulta (test_solucion.Limpieza.test_explicacion_solo_despues_de_la_consulta) ... ok
+test_funciones_de_texto_permitidas (test_solucion.Limpieza.test_funciones_de_texto_permitidas) ... ok
+test_lineas_vacias_dentro_del_sql (test_solucion.Limpieza.test_lineas_vacias_dentro_del_sql) ... ok
+test_punto_y_coma_dentro_de_literal (test_solucion.Limpieza.test_punto_y_coma_dentro_de_literal) ... ok
+test_referencias_propias_son_lectura (test_solucion.Limpieza.test_referencias_propias_son_lectura) ... ok
+test_solo_primera_sentencia (test_solucion.Limpieza.test_solo_primera_sentencia) ... ok
+test_texto_sin_bloque (test_solucion.Limpieza.test_texto_sin_bloque) ... ok
+test_with (test_solucion.Limpieza.test_with) ... ok
+test_compactar_conserva_semantica (test_solucion.Prompt.test_compactar_conserva_semantica) ... ok
+test_compactar_tolera_formato_desconocido (test_solucion.Prompt.test_compactar_tolera_formato_desconocido) ... ok
+test_mensajes_iguales_para_base_y_adapter (test_solucion.Prompt.test_mensajes_iguales_para_base_y_adapter) ... ok
+test_cargadores_solicitan_snapshot_de_a (test_solucion.RevisionFijada.test_cargadores_solicitan_snapshot_de_a) ... ok
+test_no_descarga_otro_modelo_sin_revision (test_solucion.RevisionFijada.test_no_descarga_otro_modelo_sin_revision) ... ok
+
+----------------------------------------------------------------------
+Ran 59 tests in 7.458s
+
+OK (skipped=2)

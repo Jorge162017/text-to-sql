@@ -1,0 +1,330 @@
+{
+  "fecha_utc": "2026-10-25T17:30:53.137943+00:00",
+  "responsable": "Angel Herrarte",
+  "commit": "5df3e5d137185c14ef21881ae117433b233cd016",
+  "gpu": "Tesla T4",
+  "entorno": {
+    "python": "3.13.16",
+    "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.18.1",
+    "gpu": "Tesla T4",
+    "dispositivo": "cuda"
+  },
+  "integridad": {
+    "config": {
+      "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+      "adapter": "adapter/",
+      "usar_adapter": true,
+      "semilla": 2026
+    },
+    "config_entrega_a": true,
+    "revision_modelo": true,
+    "congelado": true,
+    "adapter_sha256": true,
+    "adapter_r": 8,
+    "separacion": {
+      "esquemas_validacion": [
+        "val_biblioteca",
+        "val_hospital"
+      ],
+      "esquemas_compartidos": [],
+      "preguntas_compartidas": 0,
+      "sql_compartido": 0
+    }
+  },
+  "pruebas_unitarias": "aprobadas",
+  "contrato": {
+    "tiempo_import_s": 52.94,
+    "casos": 6,
+    "latencia_max_s": 2.58,
+    "con_y_sin_callback_identicas": true,
+    "llamadas_ejecutar": 0,
+    "entradas_raras": {
+      "esquema_vacio": {
+        "sql": "SELECT COUNT(*) AS total FROM your_table",
+        "lectura": true,
+        "excepcion": null
+      },
+      "pregunta_vacia": {
+        "sql": "SELECT a.nombre FROM autores a WHERE a.id = (SELECT autor_id FROM titulos WHERE id = 1)",
+        "lectura": true,
+        "excepcion": null
+      },
+      "pide_borrar": {
+        "sql": "SELECT 1",
+        "lectura": true,
+        "excepcion": null
+      }
+    }
+  },
+  "oraculo": {
+    "ex": 1.0,
+    "peso_aciertos": 76
+  },
+  "corridas": {
+    "auditoria_final_base": {
+      "adapter": null,
+      "ex": 0.5658,
+      "peso_aciertos": 43,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 10,
+          "peso_aciertos": 20,
+          "peso_total": 32,
+          "ex": 0.625
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "categorias": {
+        "correcto": 27,
+        "columna_tabla_inexistente": 3,
+        "error_ejecucion": 2,
+        "resultado_distinto": 5,
+        "agregacion": 3
+      },
+      "tiempo_carga_s": 12.39,
+      "latencia_s": {
+        "media": 1.96,
+        "mediana": 1.903,
+        "max": 4.918,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      },
+      "todas_lectura": true,
+      "consultas_neutras": 0,
+      "limites_ok": true,
+      "entorno": {
+        "python": "3.13.16",
+        "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.20.2",
+        "peft": "0.18.1",
+        "gpu": "Tesla T4",
+        "dispositivo": "cuda"
+      }
+    },
+    "auditoria_final_base_repeticion": {
+      "adapter": null,
+      "ex": 0.5658,
+      "peso_aciertos": 43,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 10,
+          "peso_aciertos": 20,
+          "peso_total": 32,
+          "ex": 0.625
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "categorias": {
+        "correcto": 27,
+        "columna_tabla_inexistente": 3,
+        "error_ejecucion": 2,
+        "resultado_distinto": 5,
+        "agregacion": 3
+      },
+      "tiempo_carga_s": 11.98,
+      "latencia_s": {
+        "media": 1.919,
+        "mediana": 1.939,
+        "max": 4.959,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      },
+      "todas_lectura": true,
+      "consultas_neutras": 0,
+      "limites_ok": true,
+      "entorno": {
+        "python": "3.13.16",
+        "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.20.2",
+        "peft": "0.18.1",
+        "gpu": "Tesla T4",
+        "dispositivo": "cuda"
+      }
+    },
+    "auditoria_final_a": {
+      "adapter": "/content/text-to-sql/adapter",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "categorias": {
+        "correcto": 31,
+        "resultado_distinto": 5,
+        "columna_tabla_inexistente": 3,
+        "agregacion": 1
+      },
+      "tiempo_carga_s": 25.24,
+      "latencia_s": {
+        "media": 1.576,
+        "mediana": 1.451,
+        "max": 5.253,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      },
+      "todas_lectura": true,
+      "consultas_neutras": 0,
+      "limites_ok": true,
+      "entorno": {
+        "python": "3.13.16",
+        "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.20.2",
+        "peft": "0.18.1",
+        "gpu": "Tesla T4",
+        "dispositivo": "cuda"
+      }
+    },
+    "auditoria_final_a_repeticion": {
+      "adapter": "/content/text-to-sql/adapter",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "categorias": {
+        "correcto": 31,
+        "resultado_distinto": 5,
+        "columna_tabla_inexistente": 3,
+        "agregacion": 1
+      },
+      "tiempo_carga_s": 25.23,
+      "latencia_s": {
+        "media": 1.577,
+        "mediana": 1.456,
+        "max": 5.331,
+        "mayores_a_30s": 0
+      },
+      "llamadas_ejecutar": {
+        "total": 0,
+        "max_por_pregunta": 0
+      },
+      "todas_lectura": true,
+      "consultas_neutras": 0,
+      "limites_ok": true,
+      "entorno": {
+        "python": "3.13.16",
+        "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.20.2",
+        "peft": "0.18.1",
+        "gpu": "Tesla T4",
+        "dispositivo": "cuda"
+      }
+    }
+  },
+  "limites_ok": true,
+  "determinismo": {
+    "base": {
+      "identicas": 40,
+      "preguntas": 40,
+      "distintas": [],
+      "determinista": true
+    },
+    "a": {
+      "identicas": 40,
+      "preguntas": 40,
+      "distintas": [],
+      "determinista": true
+    }
+  },
+  "reproduccion_turno3": {
+    "base": {
+      "historica": "inferencia_base_directa",
+      "peso_historico": 43,
+      "peso_actual": 43,
+      "identicas": 40,
+      "distintas": []
+    },
+    "a": {
+      "historica": "inferencia_a_directa",
+      "peso_historico": 53,
+      "peso_actual": 53,
+      "identicas": 40,
+      "distintas": []
+    }
+  },
+  "nota": "Auditoría de la entrega vigente (A, directa). No se entrenó ni se cambió configuración. Resultados sobre la validación propia; no es una medición del conjunto oculto."
+}

@@ -157,3 +157,7 @@ El contrato `solucion.py` aún usa directa. La propuesta del notebook no selecci
 Todas las combinaciones repiten 40/40 SQL y aciertos idénticos, y cumplen límites en T4. La corrección no recuperó preguntas de A, por lo que se conserva **A + generación directa** en el contrato existente. Sin callback también genera directamente. B queda conservado como experimento de rango; el experimento de inferencia no requiere otro entrenamiento.
 
 Se reejecutaron las 360 predicciones del ZIP en MySQL local: todos los aciertos y códigos coinciden. Evidencia: `resultados/verificacion_inferencia_t4.json` y `resultados/seleccion_final_turno3.json`. Mejora final comparable sobre base directo: 10/76 = 0.1316. Las instrucciones previas que decían «pendiente T4» describen la preparación; el experimento ya fue integrado. El turno 4 y sus pendientes están en `RELEVO_ANGEL_TURNO4.md`.
+
+### Auditoría final del turno 4 — Colab T4 limpio
+
+`notebooks/07_auditoria_final_t4.ipynb` instala solo `requirements.txt` y comprueba la entrega sin cambiarla. Resultado (`resultados/auditoria_final_t4.json`): `import solucion` con A en 52.94 s; con y sin callback la salida es idéntica y no se llama a `ejecutar`; base 43/76 y A 53/76, deterministas e idénticas al turno 3; latencia máxima 5.331 s; todas las consultas de lectura; sin fuga de esquemas de validación. Las 200 predicciones se reejecutaron en MySQL local sin diferencias (`resultados/verificacion_auditoria_final_t4.json`).

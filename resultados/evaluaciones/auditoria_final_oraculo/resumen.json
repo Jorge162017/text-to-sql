@@ -1,0 +1,96 @@
+{
+  "nombre": "auditoria_final_oraculo",
+  "fecha_utc": "2026-10-25T17:24:41.397698+00:00",
+  "modo": "oraculo",
+  "completa": true,
+  "config": {
+    "modelo_base": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+    "adapter": "adapter/",
+    "usar_adapter": true,
+    "semilla": 2026
+  },
+  "adapter_cargado": null,
+  "prompt_version": "v1",
+  "prompt_sha256": "1fb4d982a7a822464c15382daf16fe0b5813db15bdde3bf33b75a3d4db26a630",
+  "coincide_configuracion_congelada": true,
+  "configuracion_sha256": "2d1dc0bc6e052191a371cc1fb2e753372040cfef729ccada874d3c5a719f6e1d",
+  "limpieza_version": "v2",
+  "revision_modelo": null,
+  "generacion": null,
+  "estrategia": "directa",
+  "correccion_version": null,
+  "mysql": {
+    "version": "8.4.10",
+    "sql_mode": "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+  },
+  "tiempo_carga_s": null,
+  "latencia_s": {
+    "media": 0.0,
+    "mediana": 0.0,
+    "max": 0.0,
+    "mayores_a_30s": 0
+  },
+  "llamadas_ejecutar": {
+    "total": 0,
+    "max_por_pregunta": 0
+  },
+  "git": {
+    "commit": "5df3e5d137185c14ef21881ae117433b233cd016",
+    "cambios_sin_commit": true
+  },
+  "entorno": {
+    "python": "3.13.16",
+    "plataforma": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.18.1",
+    "gpu": "Tesla T4"
+  },
+  "preguntas": 40,
+  "aciertos": 40,
+  "peso_aciertos": 76,
+  "peso_total": 76,
+  "ex": 1.0,
+  "por_nivel": {
+    "facil": {
+      "preguntas": 14,
+      "aciertos": 14,
+      "peso_aciertos": 14,
+      "peso_total": 14,
+      "ex": 1.0
+    },
+    "media": {
+      "preguntas": 16,
+      "aciertos": 16,
+      "peso_aciertos": 32,
+      "peso_total": 32,
+      "ex": 1.0
+    },
+    "dificil": {
+      "preguntas": 10,
+      "aciertos": 10,
+      "peso_aciertos": 30,
+      "peso_total": 30,
+      "ex": 1.0
+    }
+  },
+  "por_esquema": {
+    "val_biblioteca": {
+      "preguntas": 20,
+      "aciertos": 20,
+      "peso_aciertos": 37,
+      "peso_total": 37,
+      "ex": 1.0
+    },
+    "val_hospital": {
+      "preguntas": 20,
+      "aciertos": 20,
+      "peso_aciertos": 39,
+      "peso_total": 39,
+      "ex": 1.0
+    }
+  },
+  "categorias": {
+    "correcto": 40
+  }
+}

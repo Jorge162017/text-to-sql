@@ -1,0 +1,9 @@
+{
+  "fecha_utc": "2026-10-25T17:30:53.008549+00:00",
+  "primera": "auditoria_final_base",
+  "segunda": "auditoria_final_base_repeticion",
+  "preguntas": 40,
+  "identicas": 40,
+  "distintas": [],
+  "determinista": true
+}
