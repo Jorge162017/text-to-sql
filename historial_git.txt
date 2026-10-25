@@ -1,3 +1,22 @@
+commit 5001c26dd80ff383dddcde313f1af8de78cffa54
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-25 15:11:12 -0600
+
+    docs: registrar horas estimadas de ambos integrantes
+
+ BITACORA.md       | 7 ++++++-
+ CONTRIBUCIONES.md | 4 ++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+commit 7c3c658e61308c63f1f28e9e0e54214c6f590eaa
+Author: Angel Herrarte <angel@corgi.insure>
+Date:   2026-10-25 14:58:15 -0600
+
+    docs: agregar historial git para entrega
+
+ historial_git.txt | 499 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 499 insertions(+)
+
 commit 03e263b5c701603ab4f022b52aa58aa0a4ee21b5
 Author: Angel Herrarte <angel@corgi.insure>
 Date:   2026-10-25 14:57:06 -0600
