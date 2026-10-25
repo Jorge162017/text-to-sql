@@ -1,0 +1,88 @@
+{
+  "descripcion": "Clasificación manual de los fallos de la validación propia (turno 4, Angel Herrarte, con asistencia de IA). Clave: id de pregunta y configuración (base, a, b, base_correccion, a_correccion).",
+  "regla": "Si la consulta falla al ejecutarse, manda el error de MySQL: 1064 o construcción no soportada (1235) = sintaxis; 1054/1146 = columna_tabla_inexistente; 1055/1111/1247 = agregacion. Si se ejecuta y el resultado difiere, se asigna la primera causa estructural en este orden: join (tablas o tipo de unión incorrectos), agregacion (conteo, agrupación o selección por grupo), filtro (condición WHERE/HAVING de más o de menos) y resultado_distinto (resto). La causa textual registra las causas secundarias.",
+  "fallos": {
+    "propia_07": {
+      "base": ["columna_tabla_inexistente", "Une prestamos con titulos por P.titulo_id, que no existe; falta pasar por ejemplares."],
+      "base_correccion": ["columna_tabla_inexistente", "Igual que base: P.titulo_id no existe."],
+      "a": ["join", "Une prestamos.ejemplar_id con titulos.id sin pasar por ejemplares: 46 filas en vez de 66."],
+      "b": ["join", "Igual que A: omite ejemplares."],
+      "a_correccion": ["join", "Igual que A; sin error de ejecución no hay callback que corregir."]
+    },
+    "propia_09": {
+      "base": ["columna_tabla_inexistente", "Selecciona u.nombre de un CTE sin nombre; además el promedio usa AVG(prestamos.id)."],
+      "base_correccion": ["agregacion", "Tras la reparación ejecuta, pero el promedio es AVG(prestamos.id) y el JOIN interno excluye usuarios sin préstamos: 0 filas."]
+    },
+    "propia_10": {
+      "base": ["sintaxis", "MySQL 8.4 no admite LIMIT dentro de una subconsulta IN (1235)."],
+      "a": ["agregacion", "No selecciona el título más reciente por autor: devuelve los 23 títulos ordenados."],
+      "a_correccion": ["agregacion", "Igual que A."],
+      "b": ["columna_tabla_inexistente", "Usa titulo_id en titulos, que no existe; la estructura con ROW_NUMBER es correcta."]
+    },
+    "propia_15": {
+      "base": ["agregacion", "COUNT(*) con LEFT JOIN cuenta 1 para usuarios sin préstamos."],
+      "base_correccion": ["agregacion", "Igual que base."]
+    },
+    "propia_17": {
+      "a": ["join", "Une titulos.id = prestamos.ejemplar_id sin pasar por ejemplares: 11 filas en vez de 19."],
+      "a_correccion": ["join", "Igual que A."]
+    },
+    "propia_18": {
+      "base": ["filtro", "Excluye solo títulos con préstamos pendientes (devolucion IS NULL) en vez de cualquier préstamo."],
+      "base_correccion": ["filtro", "Igual que base."],
+      "a": ["join", "LEFT JOIN de prestamos.ejemplar_id contra titulos.id sin ejemplares: 0 filas en vez de 2."],
+      "b": ["join", "Igual que A."],
+      "a_correccion": ["join", "Igual que A."]
+    },
+    "propia_20": {
+      "base": ["agregacion", "GROUP BY incompatible con ONLY_FULL_GROUP_BY; además filtra devolucion IS NULL sin que se pida."],
+      "base_correccion": ["agregacion", "Igual que base; la reparación no cambió la consulta final."],
+      "a": ["columna_tabla_inexistente", "Supone prestamos.titulo_id; falta unir ejemplares. La ventana por usuario es correcta."],
+      "b": ["columna_tabla_inexistente", "Igual que A."],
+      "a_correccion": ["columna_tabla_inexistente", "La reparación elimina la ventana y conserva titulo_id inexistente."]
+    },
+    "propia_23": {
+      "base": ["columna_tabla_inexistente", "Inventa medicos.nombre_especialidad; falta unir especialidades."],
+      "a": ["columna_tabla_inexistente", "Inventa medicos.especialidad; falta unir especialidades."],
+      "b": ["columna_tabla_inexistente", "Igual que A."],
+      "a_correccion": ["columna_tabla_inexistente", "Igual que A; las reparaciones no agregaron el JOIN."]
+    },
+    "propia_25": {
+      "base": ["agregacion", "COUNT(*) con LEFT JOIN cuenta 1 para médicos sin citas."],
+      "base_correccion": ["agregacion", "Igual que base."]
+    },
+    "propia_28": {
+      "base": ["join", "Agrega un JOIN a atenciones y cuenta atenciones en lugar de citas."],
+      "base_correccion": ["join", "Igual que base."]
+    },
+    "propia_29": {
+      "base": ["agregacion", "Usa el alias agregado citas dentro de AVG (1247); el promedio no es por paciente."],
+      "base_correccion": ["agregacion", "Igual que base."],
+      "a": ["agregacion", "Anida AVG(COUNT(...)) en HAVING (1111); falta un CTE de conteos."],
+      "b": ["agregacion", "Igual que A."],
+      "a_correccion": ["agregacion", "Igual que A; la reparación no la resolvió."]
+    },
+    "propia_30": {
+      "base": ["agregacion", "GROUP BY incompatible con ONLY_FULL_GROUP_BY; une atenciones sin necesidad."],
+      "base_correccion": ["columna_tabla_inexistente", "La reparación referencia c.id en HAVING sin agruparlo."],
+      "a": ["columna_tabla_inexistente", "Rankea atenciones (sin fecha) en vez de citas; columnas inventadas."],
+      "b": ["columna_tabla_inexistente", "Usa citas.cita_id, que no existe."],
+      "a_correccion": ["columna_tabla_inexistente", "La reparación pierde la estructura y consulta columnas inexistentes de atenciones."]
+    },
+    "propia_35": {
+      "base": ["join", "JOIN interno con filtro en WHERE excluye al médico sin pacientes (9 de 10); además cuenta DISTINCT c.id."],
+      "base_correccion": ["join", "Igual que base."],
+      "a": ["join", "JOIN interno con filtro en WHERE excluye al médico sin pacientes; además COUNT(c.id) no cuenta pacientes distintos."],
+      "b": ["join", "Igual que A, con un JOIN adicional a personas."],
+      "a_correccion": ["join", "Igual que A."]
+    },
+    "propia_38": {
+      "b": ["join", "Devuelve especialidad_id sin unir especialidades para obtener el nombre."]
+    },
+    "propia_40": {
+      "base": ["agregacion", "GROUP BY incompatible con ONLY_FULL_GROUP_BY; filtra estado atendida sin que se pida."],
+      "base_correccion": ["columna_tabla_inexistente", "La reparación referencia c.id en HAVING sin agruparlo."],
+      "b": ["columna_tabla_inexistente", "Usa citas.cita_id, que no existe; la ventana es correcta."]
+    }
+  }
+}

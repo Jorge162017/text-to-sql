@@ -1,0 +1,410 @@
+{
+  "fuente": "resultados/validacion_propia.csv",
+  "categorias": [
+    "sintaxis",
+    "columna_tabla_inexistente",
+    "join",
+    "agregacion",
+    "filtro",
+    "resultado_distinto"
+  ],
+  "configuraciones": {
+    "base": {
+      "corrida": "auditoria_final_base",
+      "adapter": "ninguno",
+      "estrategia": "directa",
+      "entrega": false
+    },
+    "a": {
+      "corrida": "auditoria_final_a",
+      "adapter": "lora_a_r8",
+      "estrategia": "directa",
+      "entrega": true
+    },
+    "b": {
+      "corrida": "lora_b",
+      "adapter": "lora_b_r16",
+      "estrategia": "directa",
+      "entrega": false
+    },
+    "base_correccion": {
+      "corrida": "inferencia_base_correccion",
+      "adapter": "ninguno",
+      "estrategia": "correccion",
+      "entrega": false
+    },
+    "a_correccion": {
+      "corrida": "inferencia_a_correccion",
+      "adapter": "lora_a_r8",
+      "estrategia": "correccion",
+      "entrega": false
+    }
+  },
+  "analisis": {
+    "base": {
+      "corrida": "auditoria_final_base",
+      "ex": 0.5658,
+      "peso_aciertos": 43,
+      "peso_total": 76,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 10,
+          "peso_aciertos": 20,
+          "peso_total": 32,
+          "ex": 0.625
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "por_esquema": {
+        "val_biblioteca": {
+          "preguntas": 20,
+          "aciertos": 14,
+          "peso_aciertos": 21,
+          "peso_total": 37,
+          "ex": 0.5676
+        },
+        "val_hospital": {
+          "preguntas": 20,
+          "aciertos": 13,
+          "peso_aciertos": 22,
+          "peso_total": 39,
+          "ex": 0.5641
+        }
+      },
+      "fallos": 13,
+      "peso_fallado": 33,
+      "categorias": {
+        "agregacion": 6,
+        "columna_tabla_inexistente": 3,
+        "join": 2,
+        "sintaxis": 1,
+        "filtro": 1
+      },
+      "peso_por_categoria": {
+        "sintaxis": 3,
+        "columna_tabla_inexistente": 7,
+        "join": 4,
+        "agregacion": 16,
+        "filtro": 3,
+        "resultado_distinto": 0
+      },
+      "ids_fallados": [
+        "propia_07",
+        "propia_09",
+        "propia_10",
+        "propia_15",
+        "propia_18",
+        "propia_20",
+        "propia_23",
+        "propia_25",
+        "propia_28",
+        "propia_29",
+        "propia_30",
+        "propia_35",
+        "propia_40"
+      ]
+    },
+    "a": {
+      "corrida": "auditoria_final_a",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "peso_total": 76,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "por_esquema": {
+        "val_biblioteca": {
+          "preguntas": 20,
+          "aciertos": 15,
+          "peso_aciertos": 24,
+          "peso_total": 37,
+          "ex": 0.6486
+        },
+        "val_hospital": {
+          "preguntas": 20,
+          "aciertos": 16,
+          "peso_aciertos": 29,
+          "peso_total": 39,
+          "ex": 0.7436
+        }
+      },
+      "fallos": 9,
+      "peso_fallado": 23,
+      "categorias": {
+        "join": 4,
+        "columna_tabla_inexistente": 3,
+        "agregacion": 2
+      },
+      "peso_por_categoria": {
+        "sintaxis": 0,
+        "columna_tabla_inexistente": 8,
+        "join": 9,
+        "agregacion": 6,
+        "filtro": 0,
+        "resultado_distinto": 0
+      },
+      "ids_fallados": [
+        "propia_07",
+        "propia_10",
+        "propia_17",
+        "propia_18",
+        "propia_20",
+        "propia_23",
+        "propia_29",
+        "propia_30",
+        "propia_35"
+      ]
+    },
+    "b": {
+      "corrida": "lora_b",
+      "ex": 0.6447,
+      "peso_aciertos": 49,
+      "peso_total": 76,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 13,
+          "peso_aciertos": 26,
+          "peso_total": 32,
+          "ex": 0.8125
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 3,
+          "peso_aciertos": 9,
+          "peso_total": 30,
+          "ex": 0.3
+        }
+      },
+      "por_esquema": {
+        "val_biblioteca": {
+          "preguntas": 20,
+          "aciertos": 16,
+          "peso_aciertos": 26,
+          "peso_total": 37,
+          "ex": 0.7027
+        },
+        "val_hospital": {
+          "preguntas": 20,
+          "aciertos": 14,
+          "peso_aciertos": 23,
+          "peso_total": 39,
+          "ex": 0.5897
+        }
+      },
+      "fallos": 10,
+      "peso_fallado": 27,
+      "categorias": {
+        "columna_tabla_inexistente": 5,
+        "join": 4,
+        "agregacion": 1
+      },
+      "peso_por_categoria": {
+        "sintaxis": 0,
+        "columna_tabla_inexistente": 14,
+        "join": 10,
+        "agregacion": 3,
+        "filtro": 0,
+        "resultado_distinto": 0
+      },
+      "ids_fallados": [
+        "propia_07",
+        "propia_10",
+        "propia_18",
+        "propia_20",
+        "propia_23",
+        "propia_29",
+        "propia_30",
+        "propia_35",
+        "propia_38",
+        "propia_40"
+      ]
+    },
+    "base_correccion": {
+      "corrida": "inferencia_base_correccion",
+      "ex": 0.6316,
+      "peso_aciertos": 48,
+      "peso_total": 76,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 11,
+          "peso_aciertos": 22,
+          "peso_total": 32,
+          "ex": 0.6875
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 4,
+          "peso_aciertos": 12,
+          "peso_total": 30,
+          "ex": 0.4
+        }
+      },
+      "por_esquema": {
+        "val_biblioteca": {
+          "preguntas": 20,
+          "aciertos": 15,
+          "peso_aciertos": 24,
+          "peso_total": 37,
+          "ex": 0.6486
+        },
+        "val_hospital": {
+          "preguntas": 20,
+          "aciertos": 14,
+          "peso_aciertos": 24,
+          "peso_total": 39,
+          "ex": 0.6154
+        }
+      },
+      "fallos": 11,
+      "peso_fallado": 28,
+      "categorias": {
+        "agregacion": 5,
+        "columna_tabla_inexistente": 3,
+        "join": 2,
+        "filtro": 1
+      },
+      "peso_por_categoria": {
+        "sintaxis": 0,
+        "columna_tabla_inexistente": 8,
+        "join": 4,
+        "agregacion": 13,
+        "filtro": 3,
+        "resultado_distinto": 0
+      },
+      "ids_fallados": [
+        "propia_07",
+        "propia_09",
+        "propia_15",
+        "propia_18",
+        "propia_20",
+        "propia_25",
+        "propia_28",
+        "propia_29",
+        "propia_30",
+        "propia_35",
+        "propia_40"
+      ]
+    },
+    "a_correccion": {
+      "corrida": "inferencia_a_correccion",
+      "ex": 0.6974,
+      "peso_aciertos": 53,
+      "peso_total": 76,
+      "por_nivel": {
+        "facil": {
+          "preguntas": 14,
+          "aciertos": 14,
+          "peso_aciertos": 14,
+          "peso_total": 14,
+          "ex": 1.0
+        },
+        "media": {
+          "preguntas": 16,
+          "aciertos": 12,
+          "peso_aciertos": 24,
+          "peso_total": 32,
+          "ex": 0.75
+        },
+        "dificil": {
+          "preguntas": 10,
+          "aciertos": 5,
+          "peso_aciertos": 15,
+          "peso_total": 30,
+          "ex": 0.5
+        }
+      },
+      "por_esquema": {
+        "val_biblioteca": {
+          "preguntas": 20,
+          "aciertos": 15,
+          "peso_aciertos": 24,
+          "peso_total": 37,
+          "ex": 0.6486
+        },
+        "val_hospital": {
+          "preguntas": 20,
+          "aciertos": 16,
+          "peso_aciertos": 29,
+          "peso_total": 39,
+          "ex": 0.7436
+        }
+      },
+      "fallos": 9,
+      "peso_fallado": 23,
+      "categorias": {
+        "join": 4,
+        "columna_tabla_inexistente": 3,
+        "agregacion": 2
+      },
+      "peso_por_categoria": {
+        "sintaxis": 0,
+        "columna_tabla_inexistente": 8,
+        "join": 9,
+        "agregacion": 6,
+        "filtro": 0,
+        "resultado_distinto": 0
+      },
+      "ids_fallados": [
+        "propia_07",
+        "propia_10",
+        "propia_17",
+        "propia_18",
+        "propia_20",
+        "propia_23",
+        "propia_29",
+        "propia_30",
+        "propia_35"
+      ]
+    }
+  }
+}
